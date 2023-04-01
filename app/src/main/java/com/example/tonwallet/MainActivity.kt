@@ -3,23 +3,30 @@ package com.example.tonwallet
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight.Companion.W400
+import androidx.compose.ui.text.font.FontWeight.Companion.W500
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
+
+private const val TAG = "StartPage"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android", "Emma")
+                    StartPage()
                 }
             }
         }
@@ -39,25 +46,91 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, from: String, modifier: Modifier = Modifier) {
+fun StartPage(modifier: Modifier = Modifier) {
     val image = painterResource(R.drawable.tonimage)    // drawable.tonimage ???
-    Column(modifier) {
-        Row(
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.SpaceBetween,
+    val fontFamily = FontFamily(Font(R.font.roboto))
+
+    Column(
+        modifier
+            .fillMaxWidth()
+            .offset(y = (-60).dp),    // "Apply changes and restart activity" doesn't apply changes
+        Arrangement.Center,
+        Alignment.CenterHorizontally,
+    ) {
+        Image(
+            image, "tonImage",
+            Modifier
+                .width(100.dp)
+                .height(100.dp)
+        )
+        Text(
+            "TON Wallet",
+            Modifier.padding(vertical = 12.dp),
+            fontSize = 24.sp,
+            fontWeight = W500,
+            fontFamily = fontFamily,
+            lineHeight = 28.sp,
+        )
+        Text(
+            "TON Wallet allows you to make fast and " +
+                    "secure blockchain-based payments " +
+                    "without intermediaries.",
+            Modifier.padding(horizontal = 40.dp),
+            textAlign = TextAlign.Center,
+            fontSize = 15.sp,
+            fontWeight = W400,
+            fontFamily = fontFamily,
+            lineHeight = 20.sp,
+        )
+    }
+    Column(
+        modifier.fillMaxWidth(),
+        Arrangement.Bottom,
+        Alignment.CenterHorizontally,
+    ) {
+        Button(
+            { /*TODO*/ Log.v(TAG, "Create my wallet clicked!") },
+            Modifier.fillMaxWidth(0.5555556F),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color(0xFF339CEC),
+                contentColor = Color(0xFFFFFFFF),
+            ),
+            shape = RoundedCornerShape(8.dp),
+            contentPadding = PaddingValues(14.dp),
         ) {
-            Text("Hello", fontSize = 18.sp)
-            Text("$name!", fontSize = 24.sp)
+            Text(
+                "Create my wallet",
+                Modifier.height(20.dp),
+                fontSize = 15.sp,
+                fontWeight = W500,
+                fontFamily = fontFamily,
+                lineHeight = 20.sp,
+            )
         }
-        Row {
-            Image(image, "tonImage", Modifier.width(100.dp).height(100.dp))
-        }
-        Row(
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.SpaceEvenly,
+        Button(
+            { /*TODO*/ Log.v(TAG, "Import existing wallet clicked!") },
+            Modifier
+                .padding(
+                    top = 8.dp,
+                    bottom = (44 + 20).dp
+                )    // TODO: get size of unused bottom part of the screen
+                .fillMaxWidth(0.5555556F), // FIXME: 200/360
+            border = null,
+            elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color(0x00FFFFFF),
+                contentColor = Color(0xFF339CEC),
+            ),
+            contentPadding = PaddingValues(14.dp),
         ) {
-            Text("-from", fontSize = 6.em)
-            Text(from, fontSize = 8.em)
+            Text(
+                "Import existing wallet",
+                Modifier.height(20.dp),
+                fontSize = 15.sp,
+                fontWeight = W400,
+                fontFamily = fontFamily,
+                lineHeight = 20.sp,
+            )
         }
     }
 }
@@ -72,7 +145,7 @@ fun Greeting(name: String, from: String, modifier: Modifier = Modifier) {
 @Composable
 fun DefaultPreview() {
     TONWalletTheme {
-        Greeting("World", "Emma")
+        StartPage()
     }
 }
 
@@ -84,6 +157,6 @@ fun DefaultPreview() {
 @Composable
 fun DefaultPreview2() {
     TONWalletTheme {
-        Greeting("World", "Emma")
+        StartPage()
     }
 }
