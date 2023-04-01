@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight.Companion.W400
@@ -58,13 +59,13 @@ fun StartPage(modifier: Modifier = Modifier) {
         Alignment.CenterHorizontally,
     ) {
         Image(
-            image, "tonImage",
+            image, stringResource(R.string.crystal_image),
             Modifier
                 .width(100.dp)
                 .height(100.dp)
         )
         Text(
-            "TON Wallet",
+            stringResource(R.string.ton_wallet),
             Modifier.padding(vertical = 12.dp),
             fontSize = 24.sp,
             fontWeight = W500,
@@ -72,9 +73,7 @@ fun StartPage(modifier: Modifier = Modifier) {
             lineHeight = 28.sp,
         )
         Text(
-            "TON Wallet allows you to make fast and " +
-                    "secure blockchain-based payments " +
-                    "without intermediaries.",
+            stringResource(R.string.ton_wallet_allows_),
             Modifier.padding(horizontal = 40.dp),
             textAlign = TextAlign.Center,
             fontSize = 15.sp,
@@ -99,7 +98,7 @@ fun StartPage(modifier: Modifier = Modifier) {
             contentPadding = PaddingValues(14.dp),
         ) {
             Text(
-                "Create my wallet",
+                stringResource(R.string.create_my_wallet),
                 Modifier.height(20.dp),
                 fontSize = 15.sp,
                 fontWeight = W500,
@@ -124,7 +123,7 @@ fun StartPage(modifier: Modifier = Modifier) {
             contentPadding = PaddingValues(14.dp),
         ) {
             Text(
-                "Import existing wallet",
+                stringResource(R.string.import_existing_wallet),
                 Modifier.height(20.dp),
                 fontSize = 15.sp,
                 fontWeight = W400,

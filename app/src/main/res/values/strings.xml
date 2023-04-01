@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TON Wallet</string>
+    <string name="ton_wallet">TON Wallet</string>
+    <string name="ton_wallet_allows_">TON Wallet allows you to make fast and secure blockchain-based payments without intermediaries.</string>
+    <string name="create_my_wallet">Create my wallet</string>
+    <string name="import_existing_wallet">Import existing wallet</string>
+    <string name="crystal_image">crystal image</string>
 </resources>
