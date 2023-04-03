@@ -10,6 +10,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +30,9 @@ import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
 private const val TAG = "StartPage"
+private val StatusBarHeight = 29.dp
+private val NavigationBarHeight = 20.dp     // TODO: check if it is 48
+// TODO: get size of unused bottom part of the screen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,11 +44,98 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    StartPage()
+                    CongratulationsPage()
                 }
             }
         }
     }
+}
+
+@Composable
+fun CongratulationsPage(modifier: Modifier = Modifier) {
+    val fontFamily = FontFamily(Font(R.font.roboto))
+    // Panel Header
+    Row(
+        Modifier
+            .padding(top = StatusBarHeight)
+//            .height(56.dp),
+    ) {
+        IconButton(
+            { /*TODO*/ Log.v(TAG, "Back icon clicked!") },
+            Modifier
+                .padding(4.dp, 4.dp, 0.dp, 4.dp)
+                .size(48.dp),
+        ) {
+            Icon(
+                Icons.Default.ArrowBack, "Arrow Back",
+                tint = Color(0xFF000000),
+            )
+        }
+        // Body
+        Box(Modifier.fillMaxWidth()) {}
+        // Cell
+        Box(
+            Modifier
+                .padding(4.dp, 4.dp, 0.dp, 4.dp)
+                .size(48.dp),
+        ) {}
+    }
+    Column(
+        modifier.offset(y = (-80).dp),
+        Arrangement.Center,
+        Alignment.CenterHorizontally,
+    ) {
+        Image(painterResource(R.drawable.sticker), null, Modifier.size(100.dp))
+        Text(
+            stringResource(R.string.congratulations),
+            Modifier.padding(vertical = 12.dp),
+            color = Color(0xFF222222),
+            fontFamily = fontFamily,
+            fontWeight = W500,
+            fontSize = 24.sp,
+            lineHeight = 28.sp,
+        )
+        Text(
+            stringResource(R.string.write_down_secret_words),
+            Modifier.fillMaxWidth(280 / 360F),
+            color = Color(0xFF000000),
+            textAlign = TextAlign.Center,
+            fontFamily = fontFamily,
+            fontWeight = W400,
+            fontSize = 15.sp,
+            lineHeight = 20.sp,
+        )
+    }
+    Column(
+        modifier.fillMaxWidth(),
+        Arrangement.Bottom,
+        Alignment.CenterHorizontally,
+    ) {
+        Button(
+            { /*TODO*/ Log.v(TAG, "Proceed clicked!") },
+            Modifier
+                .fillMaxWidth(200 / 360F)
+                .padding(
+                    bottom = 100.dp + NavigationBarHeight,
+                ),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color(0xFF339CEC),
+                contentColor = Color(0xFFFFFFFF),
+            ),
+            shape = RoundedCornerShape(8.dp),
+            contentPadding = PaddingValues(14.dp),
+        ) {
+            Text(
+                stringResource(R.string.proceed),
+                Modifier.height(20.dp),
+                fontFamily = fontFamily,
+                fontWeight = W500,
+                fontSize = 15.sp,
+                lineHeight = 20.sp,
+            )
+        }
+    }
+
 }
 
 @Composable
@@ -67,18 +159,18 @@ fun StartPage(modifier: Modifier = Modifier) {
         Text(
             stringResource(R.string.ton_wallet),
             Modifier.padding(vertical = 12.dp),
-            fontSize = 24.sp,
-            fontWeight = W500,
             fontFamily = fontFamily,
+            fontWeight = W500,
+            fontSize = 24.sp,
             lineHeight = 28.sp,
         )
         Text(
             stringResource(R.string.ton_wallet_allows_),
             Modifier.padding(horizontal = 40.dp),
             textAlign = TextAlign.Center,
-            fontSize = 15.sp,
-            fontWeight = W400,
             fontFamily = fontFamily,
+            fontWeight = W400,
+            fontSize = 15.sp,
             lineHeight = 20.sp,
         )
     }
@@ -89,7 +181,7 @@ fun StartPage(modifier: Modifier = Modifier) {
     ) {
         Button(
             { /*TODO*/ Log.v(TAG, "Create my wallet clicked!") },
-            Modifier.fillMaxWidth(0.5555556F),
+            Modifier.fillMaxWidth(200 / 360F),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(0xFF339CEC),
                 contentColor = Color(0xFFFFFFFF),
@@ -100,9 +192,9 @@ fun StartPage(modifier: Modifier = Modifier) {
             Text(
                 stringResource(R.string.create_my_wallet),
                 Modifier.height(20.dp),
-                fontSize = 15.sp,
-                fontWeight = W500,
                 fontFamily = fontFamily,
+                fontWeight = W500,
+                fontSize = 15.sp,
                 lineHeight = 20.sp,
             )
         }
@@ -111,9 +203,9 @@ fun StartPage(modifier: Modifier = Modifier) {
             Modifier
                 .padding(
                     top = 8.dp,
-                    bottom = (44 + 20).dp
-                )    // TODO: get size of unused bottom part of the screen
-                .fillMaxWidth(0.5555556F), // FIXME: 200/360
+                    bottom = 44.dp + NavigationBarHeight,
+                )
+                .fillMaxWidth(200 / 360F),
             border = null,
             elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp),
             colors = ButtonDefaults.buttonColors(
@@ -125,9 +217,9 @@ fun StartPage(modifier: Modifier = Modifier) {
             Text(
                 stringResource(R.string.import_existing_wallet),
                 Modifier.height(20.dp),
-                fontSize = 15.sp,
-                fontWeight = W400,
                 fontFamily = fontFamily,
+                fontWeight = W400,
+                fontSize = 15.sp,
                 lineHeight = 20.sp,
             )
         }
@@ -138,13 +230,11 @@ fun StartPage(modifier: Modifier = Modifier) {
     name = "Day Mode",
     showSystemUi = true,
     uiMode = UI_MODE_NIGHT_NO,
-    widthDp = 360,
-    heightDp = 640,
 )
 @Composable
 fun DefaultPreview() {
     TONWalletTheme {
-        StartPage()
+        CongratulationsPage()
     }
 }
 
@@ -152,10 +242,12 @@ fun DefaultPreview() {
     name = "Night Mode",
     showSystemUi = true,
     uiMode = UI_MODE_NIGHT_YES,
+    widthDp = 360,
+    heightDp = 640,
 )
 @Composable
 fun DefaultPreview2() {
     TONWalletTheme {
-        StartPage()
+        CongratulationsPage()
     }
 }
