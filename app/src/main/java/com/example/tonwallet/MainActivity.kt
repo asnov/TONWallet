@@ -74,7 +74,7 @@ private fun PanelHeader(modifier: Modifier = Modifier) {
                 .size(48.dp),
         ) {
             Icon(
-                Icons.Default.ArrowBack, "Arrow Back",
+                Icons.Default.ArrowBack, stringResource(R.string.arrow_back),
                 tint = Color(0xFF000000),
             )
         }
@@ -127,7 +127,7 @@ fun RecoveryPhrasePage(modifier: Modifier = Modifier) {
         PanelHeader()
         Image(painterResource(R.drawable.sticker_recovery_page), null, Modifier.size(100.dp))
         Text(
-            "Your Recovery Phrase",
+            stringResource(R.string.your_recovery_phrase),
             Modifier.padding(vertical = 12.dp),
             Color(0xFF222222),
             fontFamily = Roboto,
@@ -178,7 +178,7 @@ fun RecoveryPhrasePage(modifier: Modifier = Modifier) {
             contentPadding = PaddingValues(14.dp),
         ) {
             Text(
-                "Done",
+                stringResource(R.string.done),
                 Modifier.height(20.dp),
                 fontFamily = Roboto,
                 fontWeight = W500,
