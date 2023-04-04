@@ -8,4 +8,5 @@
     <string name="congratulations">Congratulations</string>
     <string name="write_down_secret_words">"Your TON Wallet has just been created. \nOnly you control it.\n\nTo be able to always have access to it, please write down secret words and set up a secure passcode."</string>
     <string name="proceed">Proceed</string>
+    <string name="write_down_these_words">Write down these 24 words in this exact order and keep them in a secure place. Do not share this list with anyone. If you lose it, you will irrevocably lose access to your TON account.</string>
 </resources>
