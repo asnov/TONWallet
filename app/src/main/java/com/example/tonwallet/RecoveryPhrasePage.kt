@@ -32,12 +32,7 @@ private val wordList = listOf(
 // ColumnOfRecoveryPhraseWords
 @Composable
 fun WordOfRecoveryPhrase(index: Int, word: String, modifier: Modifier = Modifier) {
-    // TODO: remove the padding below the last row. Or how to make between padding only?
-    Row(
-        modifier
-            .fillMaxWidth()
-            .padding(bottom = 8.dp),
-    ) {
+    Row(modifier.fillMaxWidth()) {
         Text(
             "$index.", Modifier.width(26.dp), Color(0xFF757575),
             fontFamily = Roboto,
@@ -90,12 +85,17 @@ fun RecoveryPhrasePage(modifier: Modifier = Modifier) {
                 .fillMaxWidth(280 / 360f)
                 .padding(vertical = 40.dp)
         ) {
-            Column(Modifier.fillMaxWidth(174 / 280f)) {  // 40+174+106+40=360, 174+106=280
+            Column(
+                Modifier.fillMaxWidth(174 / 280f),          // 40+174+106+40=360, 174+106=280
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                 wordList.slice(0..wordList.size / 2 - 1).forEachIndexed { index, word ->
                     WordOfRecoveryPhrase(index + 1, word)
                 }
             }
-            Column {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                 wordList.slice(wordList.size / 2..wordList.size - 1).forEachIndexed { index, word ->
                     WordOfRecoveryPhrase(wordList.size / 2 + index + 1, word)
                 }
