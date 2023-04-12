@@ -15,14 +15,16 @@ import androidx.compose.ui.unit.dp
 private const val TAG = "PanelHeader"
 
 @Composable
-internal fun PanelHeader(modifier: Modifier = Modifier) {
+internal fun PanelHeader(goBack: () -> Unit, modifier: Modifier = Modifier) {
+    Log.v(TAG, "started")
+
     Row(
         modifier
             .padding(top = StatusBarHeight)
 //            .height(56.dp),
     ) {
         IconButton(
-            { /*TODO*/ Log.v(TAG, "Back icon clicked!") },
+            goBack,
             Modifier
                 .padding(4.dp, 4.dp, 0.dp, 4.dp)
                 .size(48.dp),

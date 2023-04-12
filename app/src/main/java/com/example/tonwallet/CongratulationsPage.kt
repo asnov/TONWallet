@@ -24,9 +24,14 @@ import com.example.tonwallet.ui.theme.TONWalletTheme
 private const val TAG = "CongratulationsPage"
 
 @Composable
-fun CongratulationsPage(modifier: Modifier = Modifier) {
+fun CongratulationsPage(
+    goBack: () -> Unit,
+    goForth: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Log.v(TAG, "started")
 
-    PanelHeader()
+    PanelHeader(goBack)
 
     Column(
         modifier.offset(y = (-80).dp),
@@ -62,7 +67,7 @@ fun CongratulationsPage(modifier: Modifier = Modifier) {
         Alignment.CenterHorizontally,
     ) {
         Button(
-            { /*TODO*/ Log.v(TAG, "Proceed clicked!") },
+            goForth,
             Modifier
                 .fillMaxWidth(200 / 360f)
                 .padding(
@@ -96,6 +101,6 @@ fun CongratulationsPage(modifier: Modifier = Modifier) {
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        CongratulationsPage()
+        CongratulationsPage({}, {})
     }
 }

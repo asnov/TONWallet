@@ -24,8 +24,15 @@ import com.example.tonwallet.ui.theme.TONWalletTheme
 private const val TAG = "StartPage"
 
 @Composable
-fun StartPage(modifier: Modifier = Modifier) {
-    val image = painterResource(R.drawable.tonimage)    // drawable.tonimage - how to use it without R???
+fun StartPage(
+    goCreate: () -> Unit,
+    goImport: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Log.v(TAG, "started")
+
+    val image =
+        painterResource(R.drawable.tonimage)    // drawable.tonimage - how to use it without R???
 
     Column(
         modifier
@@ -65,7 +72,7 @@ fun StartPage(modifier: Modifier = Modifier) {
         Alignment.CenterHorizontally,
     ) {
         Button(
-            { /*TODO*/ Log.v(TAG, "Create my wallet clicked!") },
+            goCreate,
             Modifier.fillMaxWidth(200 / 360f),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(0xFF339CEC),
@@ -84,7 +91,7 @@ fun StartPage(modifier: Modifier = Modifier) {
             )
         }
         Button(
-            { /*TODO*/ Log.v(TAG, "Import existing wallet clicked!") },
+            goImport,
             Modifier
                 .padding(
                     top = 8.dp,
@@ -120,6 +127,6 @@ fun StartPage(modifier: Modifier = Modifier) {
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        StartPage()
+        StartPage({}, {})
     }
 }

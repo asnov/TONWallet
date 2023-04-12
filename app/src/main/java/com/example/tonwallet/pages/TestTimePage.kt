@@ -26,12 +26,18 @@ import com.example.tonwallet.ui.theme.TONWalletTheme
 private const val TAG = "TestTimePage"
 
 @Composable
-fun TestTimePage(modifier: Modifier = Modifier) {
+fun TestTimePage(
+    goBack: () -> Unit,
+    goForth: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Log.v(TAG, "started")
+
     val wordListToEnter = arrayOf(5, 15, 18)
     val words by remember { mutableStateOf(arrayOf("", "", "")) }
 
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        PanelHeader()
+        PanelHeader(goBack)
         Image(painterResource(R.drawable.sticker_test_time_page), null, Modifier.size(100.dp))
         Text(
             stringResource(R.string.test_time),
@@ -55,19 +61,21 @@ fun TestTimePage(modifier: Modifier = Modifier) {
         )
         wordListToEnter.forEachIndexed { index, word ->
             Row(Modifier.fillMaxWidth(200 / 360f)) {
-                Text(word.toString(),
+                Text(
+                    word.toString(),
                     fontFamily = Roboto,
                     fontWeight = FontWeight.W500,
                     fontSize = 15.sp,
                     lineHeight = 20.sp,
                 ) //, textAlign = TextAlign.Right)
-                TextField("example", { words[index] = it },
+                TextField(
+                    "example", { words[index] = it },
 
-                )
+                    )
             }
         }
         Button(
-            { /*TODO*/ Log.v(TAG, "Proceed clicked!") },
+            goForth,
             Modifier
                 .fillMaxWidth(200 / 360f)
                 .padding(
@@ -100,6 +108,6 @@ fun TestTimePage(modifier: Modifier = Modifier) {
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        TestTimePage()
+        TestTimePage({}, {})
     }
 }

@@ -32,6 +32,8 @@ private val wordList = listOf(
 // ColumnOfRecoveryPhraseWords
 @Composable
 fun WordOfRecoveryPhrase(index: Int, word: String, modifier: Modifier = Modifier) {
+    Log.v(TAG, "started")
+
     Row(modifier.fillMaxWidth()) {
         Text(
             "$index.", Modifier.width(26.dp), Color(0xFF757575),
@@ -55,10 +57,14 @@ fun WordOfRecoveryPhrase(index: Int, word: String, modifier: Modifier = Modifier
 }
 
 @Composable
-fun RecoveryPhrasePage(modifier: Modifier = Modifier) {
+fun RecoveryPhrasePage(
+    goBack: () -> Unit,
+    goForth: () -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        PanelHeader()
+        PanelHeader(goBack)
         Image(painterResource(R.drawable.sticker_recovery_page), null, Modifier.size(100.dp))
         Text(
             stringResource(R.string.your_recovery_phrase),
@@ -102,7 +108,7 @@ fun RecoveryPhrasePage(modifier: Modifier = Modifier) {
             }
         }
         Button(
-            { /*TODO*/ Log.v(TAG, "Done clicked!") },
+            goForth,
             Modifier
                 .fillMaxWidth(200 / 360f)
                 .padding(
@@ -137,7 +143,7 @@ fun RecoveryPhrasePage(modifier: Modifier = Modifier) {
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        RecoveryPhrasePage()
+        RecoveryPhrasePage({}, {})
     }
 }
 
@@ -151,6 +157,6 @@ private fun DefaultPreview() {
 @Composable
 private fun DefaultPreview2() {
     TONWalletTheme {
-        RecoveryPhrasePage()
+        RecoveryPhrasePage({}, {})
     }
 }
