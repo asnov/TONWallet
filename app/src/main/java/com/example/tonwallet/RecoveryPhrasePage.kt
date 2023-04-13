@@ -10,7 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +21,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
+import com.example.tonwallet.components.PopupSureDone
 import com.example.tonwallet.ui.theme.TONWalletTheme
+
 
 private const val TAG = "RecoveryPhrasePage"
 private val wordList = listOf(
@@ -64,6 +67,9 @@ fun RecoveryPhrasePage(
     goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isPopupVisible by remember { mutableStateOf(false) }
+    var isSecondTime by remember { mutableStateOf(false) }
+    // TODO: start timer
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -119,7 +125,7 @@ fun RecoveryPhrasePage(
             }
 
             Button(
-                goForth,
+                { isPopupVisible = true },
                 Modifier
                     .fillMaxWidth(200 / 360f)
                     .padding(
@@ -143,8 +149,19 @@ fun RecoveryPhrasePage(
                 )
             }
         }
-
     }
+
+    if (isPopupVisible) {
+        // TODO: compare time now() with timer
+        Popup(Alignment.Center) {
+            if (isSecondTime) {
+                PopupSureDone({ isPopupVisible = false }, goForth)
+            } else {
+                PopupSureDone({ isPopupVisible = false; isSecondTime = true }, null)
+            }
+        }
+    }
+
 }
 
 @Preview(
