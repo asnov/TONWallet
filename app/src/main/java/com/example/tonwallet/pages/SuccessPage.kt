@@ -80,7 +80,8 @@ fun SuccessPage(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                true, { isBiometricAuth = !isBiometricAuth },
+                isBiometricAuth,
+                { isBiometricAuth = !isBiometricAuth },
                 Modifier,
                 colors = CheckboxDefaults.colors(Color(0xFF339CEC)),
             )

@@ -15,4 +15,8 @@
     <string name="test_time">Test Time!</string>
     <string name="enter_the_words">Let’s check that you wrote them down correctly. Please enter the words %d, %d and %d.</string>
     <string name="continu_">Continue</string>
+    <string name="sure_done">Sure done?</string>
+    <string name="not_enough_time">You didn’t have enough time to write these words down.</string>
+    <string name="skip">Skip</string>
+    <string name="ok_sorry">OK, sorry</string>
 </resources>

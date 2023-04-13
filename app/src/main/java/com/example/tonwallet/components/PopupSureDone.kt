@@ -10,11 +10,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
@@ -34,12 +36,9 @@ fun PopupSureDone(
             .width(320.dp)
             .height(170.dp)
             .background(Color(0xFFFFFFFF)),
-//            .wrapContentSize(),
-//        verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            "Sure done?",
+            stringResource(R.string.sure_done),
             Modifier
                 .padding(start = 24.dp, top = 22.dp)
                 .fillMaxWidth(),
@@ -51,16 +50,16 @@ fun PopupSureDone(
             textAlign = TextAlign.Left,
         )
         Text(
-            "You didn’t have enough time to write these words down.",
-            Modifier.padding(24.dp, 12.dp, 24.dp, 16.dp),
+            stringResource(R.string.not_enough_time),
+            Modifier
+//                .height(40.dp)
+                .padding(24.dp, 12.dp, 24.dp, 16.dp),
             color = Color(0xFF000000),
             fontFamily = Roboto,
             fontWeight = FontWeight.W400,
             fontSize = 15.sp,
-            lineHeight = 2.sp,
+//            lineHeight = 2.sp,
             textAlign = TextAlign.Left,
-            maxLines = 2,
-            softWrap = true,
         )
         Row(
             Modifier
@@ -71,12 +70,11 @@ fun PopupSureDone(
             if (goForth != null) {
                 Button(
                     goForth,
-//                    Modifier,
                     elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp),
                     colors = ButtonDefaults.buttonColors(Color(0xFFFFFFFF)),
                 ) {
                     Text(
-                        "Skip",
+                        stringResource(R.string.skip),
                         color = Color(0xFF1A81CF),
                         fontFamily = Roboto,
                         fontWeight = FontWeight.W500,
@@ -85,6 +83,7 @@ fun PopupSureDone(
                     )
                 }
             }
+            // TODO: try TextButton()
             Button(
                 goBack,
 //                Modifier
@@ -93,7 +92,7 @@ fun PopupSureDone(
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFFFFF)),
             ) {
                 Text(
-                    "OK, sorry",
+                    stringResource(R.string.ok_sorry),
                     color = Color(0xFF1A81CF),
                     fontFamily = Roboto,
                     fontWeight = FontWeight.W500,

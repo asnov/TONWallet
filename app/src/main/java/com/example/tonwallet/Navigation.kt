@@ -32,7 +32,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             goForth = { it.setValue(it, it::value, TEST_TIME) },
         )
     }),
-    TEST_TIME({
+    TEST_TIME({ // TODO: pass it if it is the second time with this seed
         TestTimePage(
             goBack = { it.setValue(it, it::value, RECOVERY_PHRASE) },
             goForth = { it.setValue(it, it::value, SUCCESS) },
