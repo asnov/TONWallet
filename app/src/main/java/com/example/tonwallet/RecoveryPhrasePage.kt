@@ -4,7 +4,9 @@ import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -63,73 +65,83 @@ fun RecoveryPhrasePage(
     modifier: Modifier = Modifier
 ) {
 
-    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         PanelHeader(goBack)
-        Image(painterResource(R.drawable.sticker_recovery_page), null, Modifier.size(100.dp))
-        Text(
-            stringResource(R.string.your_recovery_phrase),
-            Modifier.padding(vertical = 12.dp),
-            Color(0xFF222222),
-            fontFamily = Roboto,
-            fontWeight = FontWeight.W500,
-            fontSize = 24.sp,
-            lineHeight = 28.sp,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            stringResource(R.string.write_down_these_words),
-            Modifier.fillMaxWidth(280 / 360f),
-            Color(0xFF000000),
-            fontFamily = Roboto,
-            fontWeight = FontWeight.W400,
-            fontSize = 15.sp,
-            lineHeight = 20.sp,
-            textAlign = TextAlign.Center,
-        )
-        Row(
-            Modifier
-                .fillMaxWidth(280 / 360f)
-                .padding(vertical = 40.dp)
+        Column(
+            modifier.verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
-                Modifier.fillMaxWidth(174 / 280f),          // 40+174+106+40=360, 174+106=280
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                wordList.slice(0..wordList.size / 2 - 1).forEachIndexed { index, word ->
-                    WordOfRecoveryPhrase(index + 1, word)
-                }
-            }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                wordList.slice(wordList.size / 2..wordList.size - 1).forEachIndexed { index, word ->
-                    WordOfRecoveryPhrase(wordList.size / 2 + index + 1, word)
-                }
-            }
-        }
-        Button(
-            goForth,
-            Modifier
-                .fillMaxWidth(200 / 360f)
-                .padding(
-                    top = 44.dp,    // TODO: check whether it is used instead of counter padding from above
-                    bottom = 56.dp + NavigationBarHeight,
-                ),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color(0xFF339CEC),
-                contentColor = Color(0xFFFFFFFF),
-            ),
-            shape = RoundedCornerShape(8.dp),
-            contentPadding = PaddingValues(14.dp),
-        ) {
+
+            Image(painterResource(R.drawable.sticker_recovery_page), null, Modifier.size(100.dp))
             Text(
-                stringResource(R.string.done),
-                Modifier.height(20.dp),
+                stringResource(R.string.your_recovery_phrase),
+                Modifier.padding(vertical = 12.dp),
+                Color(0xFF222222),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W500,
+                fontSize = 24.sp,
+                lineHeight = 28.sp,
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                stringResource(R.string.write_down_these_words),
+                Modifier.fillMaxWidth(280 / 360f),
+                Color(0xFF000000),
+                fontFamily = Roboto,
+                fontWeight = FontWeight.W400,
                 fontSize = 15.sp,
                 lineHeight = 20.sp,
+                textAlign = TextAlign.Center,
             )
+            Row(
+                Modifier
+                    .fillMaxWidth(280 / 360f)
+                    .padding(vertical = 40.dp)
+            ) {
+                Column(
+                    Modifier.fillMaxWidth(174 / 280f),          // 40+174+106+40=360, 174+106=280
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    wordList.slice(0..wordList.size / 2 - 1).forEachIndexed { index, word ->
+                        WordOfRecoveryPhrase(index + 1, word)
+                    }
+                }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    wordList.slice(wordList.size / 2..wordList.size - 1)
+                        .forEachIndexed { index, word ->
+                            WordOfRecoveryPhrase(wordList.size / 2 + index + 1, word)
+                        }
+                }
+            }
+
+            Button(
+                goForth,
+                Modifier
+                    .fillMaxWidth(200 / 360f)
+                    .padding(
+                        top = 4.dp,                 // checked: it is added to padding from above
+                        bottom = 56.dp + NavigationBarHeight,
+                    ),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color(0xFF339CEC),
+                    contentColor = Color(0xFFFFFFFF),
+                ),
+                shape = RoundedCornerShape(8.dp),
+                contentPadding = PaddingValues(14.dp),
+            ) {
+                Text(
+                    stringResource(R.string.done),
+                    Modifier.height(20.dp),
+                    fontFamily = Roboto,
+                    fontWeight = FontWeight.W500,
+                    fontSize = 15.sp,
+                    lineHeight = 20.sp,
+                )
+            }
         }
 
     }
