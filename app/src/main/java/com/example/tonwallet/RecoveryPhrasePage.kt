@@ -29,7 +29,7 @@ import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
 private const val TAG = "RecoveryPhrasePage"
-private val wordList = listOf(
+internal val wordList = listOf(
     "network", "banana", "coffee", "jaguar", "mafioso", "junk",
     "whale", "pepper", "steel", "execution", "drift", "sparrow",
     "angel", "sidewalk", "tank", "space", "heart", "sun",
@@ -43,7 +43,9 @@ fun WordOfRecoveryPhrase(index: Int, word: String, modifier: Modifier = Modifier
 
     Row(modifier.fillMaxWidth()) {
         Text(
-            "$index.", Modifier.width(26.dp), Color(0xFF757575),
+            "$index.",
+            Modifier.width(26.dp),
+            Color(0xFF757575),
             fontFamily = Roboto,
             fontWeight = FontWeight.W400,
             fontSize = 15.sp,
@@ -157,7 +159,8 @@ fun RecoveryPhrasePage(
         Box(
             Modifier
                 .fillMaxSize()
-                .background(Color(0x4C000000))) {}
+                .background(Color(0x4C000000))
+        ) {}
         // TODO: compare time now() with timer
         // TODO: pass popup if it is second time on this page with this seed
         Popup(
