@@ -23,4 +23,7 @@
     <string name="set_up_a_passcode">Now set up a passcode to secure transactions.</string>
     <string name="enable_biometric_auth">Enable Biometric Auth</string>
     <string name="set_a_passcode">Set a Passcode</string>
+    <string name="ready_to_go">Ready to go!</string>
+    <string name="you_are_all_set">You are all set. Now you have a wallet that\n only you control — directly, without\n middlemen or bankers.</string>
+    <string name="view_my_wallet">View my wallet</string>
 </resources>

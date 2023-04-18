@@ -6,7 +6,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import com.example.tonwallet.pages.DonePage
 import com.example.tonwallet.pages.ImportStartPage
+import com.example.tonwallet.pages.PasscodePage
 import com.example.tonwallet.pages.SuccessPage
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
@@ -48,11 +50,20 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
     SUCCESS({
         SuccessPage(
             goBack = { it.setValue(it, it::value, TEST_TIME) },  // TODO: or back to IMPORT_START
-            goForth = { it.setValue(it, it::value, SUCCESS) },
+            goForth = { it.setValue(it, it::value, PASSCODE) },
         )
     }),
-//    PASSCODE({}),
-//    DONE({}),
+    PASSCODE({
+        PasscodePage(
+            goBack = { it.setValue(it, it::value, RECOVERY_PHRASE) },
+            goForth = { it.setValue(it, it::value, DONE) },
+        )
+    }),
+    DONE({
+        DonePage(
+            goForth = { it.setValue(it, it::value, START) },
+        )
+    }),
 //    IMPORT_SUCCESS({}),
 //    DONOT_HAVE_A_PHRASE({}),
 //    WALLET({}),
@@ -61,7 +72,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
 @Composable
 fun Navigation() {
-    val visiblePage = remember { mutableStateOf(Pages.START) }
+    val visiblePage = remember { mutableStateOf(Pages.PASSCODE) }
     Log.v(TAG, "started")
 
     TONWalletTheme {
