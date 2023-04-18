@@ -57,6 +57,7 @@ fun PasscodePage(
     Log.v(TAG, "started")
     var numberOfDigits by remember { mutableStateOf(4) }
     var isMenuVisible by remember { mutableStateOf(false) }
+    var passcodeEntered by remember { mutableStateOf("56") }
 
     Column(
         modifier,
@@ -96,9 +97,13 @@ fun PasscodePage(
             Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
             Alignment.CenterVertically,
         ) {
-            repeat(numberOfDigits) {
+            repeat(numberOfDigits) { index ->
                 Image(
-                    painterResource(R.drawable.circle_empty), null,
+                    if (passcodeEntered.length > index)
+                        painterResource(R.drawable.circle_filled)
+                    else
+                        painterResource(R.drawable.circle_empty),
+                    null,
                 )
             }
         }
@@ -131,7 +136,11 @@ fun PasscodePage(
         }
 
         TextField(
-            TextFieldValue(""), { println(it) },
+            TextFieldValue(passcodeEntered),
+            {
+                passcodeEntered = it.text
+                println(it)
+            },
 //            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
 //            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             keyboardOptions = KeyboardOptions(
