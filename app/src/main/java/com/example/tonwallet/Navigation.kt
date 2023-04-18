@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.example.tonwallet.pages.DonePage
 import com.example.tonwallet.pages.ImportStartPage
+import com.example.tonwallet.pages.MainPage
 import com.example.tonwallet.pages.PasscodePage
 import com.example.tonwallet.pages.SuccessPage
 import com.example.tonwallet.ui.theme.TONWalletTheme
@@ -61,12 +62,17 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
     }),
     DONE({
         DonePage(
-            goForth = { it.setValue(it, it::value, START) },
+            goForth = { it.setValue(it, it::value, WALLET) },
         )
     }),
-//    IMPORT_SUCCESS({}),
+
+    //    IMPORT_SUCCESS({}),
 //    DONOT_HAVE_A_PHRASE({}),
-//    WALLET({}),
+    WALLET({
+        MainPage(
+            goBack = { it.setValue(it, it::value, START) },
+        )
+    }),
 }
 
 
