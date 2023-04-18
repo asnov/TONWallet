@@ -12,6 +12,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -39,6 +41,7 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "TestTimePage"
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TestTimePage(
     goBack: () -> Unit,
@@ -48,13 +51,14 @@ fun TestTimePage(
     Log.v(TAG, "started")
 
     val numberOfTheWordsToEnter = arrayOf(5, 15, 18)
-    val words = numberOfTheWordsToEnter.map { wordList[it - 1] }.toTypedArray()
+//    var words = numberOfTheWordsToEnter.map { wordList[it - 1] }.toTypedArray()
+    val (words, setWords) = remember { mutableStateOf(arrayOf("", "", "")) }
 //    var words = arrayOf("", "", "").toList().toMutableStateList()
-//    val words by remember { mutableStateOf(arrayOf("", "", "")) }
 //    var words2 by remember { mutableListOf("", "", "") }
 //    var words3 by remember { mutableStateListOf("", "", "") }
 //    var mut: State<List<String>>
 //    var words4 by remember { mut }
+    var isPopupVisible by remember { mutableStateOf(false) }
 
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         PanelHeader(goBack)
@@ -87,9 +91,15 @@ fun TestTimePage(
                 Modifier
                     .padding(vertical = 28.dp)
                     .fillMaxWidth(200 / 360f),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
 
+
                 numberOfTheWordsToEnter.forEachIndexed { index, word ->
+                    var currentWord by remember { mutableStateOf(words[index]) }
+                    currentWord = words[index]
+                    val interaction = MutableInteractionSource()
+
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -103,13 +113,16 @@ fun TestTimePage(
                             textAlign = TextAlign.Right,
                         )
 
-                        var currentWord by remember { mutableStateOf(words[index]) }
-                        var interaction = MutableInteractionSource()
                         TextField(
                             currentWord,
                             {
                                 currentWord = it
-                                words[index] = currentWord
+                                // FIXME: it doesn't update words
+                                // words = ...
+                                setWords(words
+                                    .clone()
+                                    .mapIndexed { ind, s -> if (ind == index) currentWord else s }
+                                    .toTypedArray())
                             },
 //                            Modifier.align(Alignment.Top),
                             textStyle = TextStyle(
@@ -137,38 +150,49 @@ fun TestTimePage(
                         )
 
                         // TODO: popup with suggestions
-/*
-                        var flow: Flow<Interaction> = interaction.interactions
-                        GlobalScope.launch {
-                            val result =  callGetApi()
-                            onResult(result) // onResult is called on the main thread
-                        }
-                        try {
-                            flow.collect { value ->
-                                println("Received $value")
-                            }
-                        } catch (e: Exception) {
-                            println("The flow has thrown an exception: $e")
-                        }
-*/
+                        /*
+                                                var flow: Flow<Interaction> = interaction.interactions
+                                                GlobalScope.launch {
+                                                    val result =  callGetApi()
+                                                    onResult(result) // onResult is called on the main thread
+                                                }
+                                                try {
+                                                    flow.collect { value ->
+                                                        println("Received $value")
+                                                    }
+                                                } catch (e: Exception) {
+                                                    println("The flow has thrown an exception: $e")
+                                                }
+                        */
 
 
                     }
                 }
-                Popup(offset = IntOffset(0, -80)) {
-                    Row(
-                        Modifier
-                            .border(width = 1.dp, color = Color(0x19000000))
-                    ) {
-                        Text("mafioso", Modifier.padding(16.dp, 12.dp))
-                        Text("mafia", Modifier.padding(16.dp, 12.dp))
-                        Text("maffin", Modifier.padding(16.dp, 12.dp))
+                if (isPopupVisible) {
+                    Popup(offset = IntOffset(0, -80)) {
+                        Card(onClick = { /*TODO*/ }) {
+                            Row(
+                                Modifier
+                                    .border(width = 1.dp, color = Color(0x19000000))
+                            ) {
+                                Text("mafioso", Modifier.padding(16.dp, 12.dp))
+                                Text("mafia", Modifier.padding(16.dp, 12.dp))
+                                Text("maffin", Modifier.padding(16.dp, 12.dp))
+                            }
+                        }
                     }
                 }
 
             }
+            // TODO: make button visible while using keyboard
             Button(
-                goForth,
+                {
+                    if (isPopupVisible) goForth()
+                    isPopupVisible = true
+                    // FIXME: it doesn't update words
+                    // words = ...
+                    setWords(numberOfTheWordsToEnter.map { wordList[it - 1] }.toTypedArray())
+                },
                 Modifier
                     .fillMaxWidth(200 / 360f)
                     .padding(
