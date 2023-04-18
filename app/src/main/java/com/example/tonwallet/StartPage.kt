@@ -118,6 +118,7 @@ fun StartPage(
                 fontWeight = FontWeight.W400,
                 fontSize = 15.sp,
                 lineHeight = 20.sp,
+                letterSpacing = 0.1.sp,
             )
         }
     }

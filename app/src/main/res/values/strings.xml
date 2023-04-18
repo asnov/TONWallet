@@ -26,4 +26,8 @@
     <string name="ready_to_go">Ready to go!</string>
     <string name="you_are_all_set">You are all set. Now you have a wallet that\n only you control — directly, without\n middlemen or bankers.</string>
     <string name="view_my_wallet">View my wallet</string>
+    <string name="set_passcode">Set a Passcode</string>
+    <string name="enter_digits">Enter the %d digits in the passcode.</string>
+    <string name="passcode_options">Passcode options</string>
+    <string name="n_digit_code">%d-digit code</string>
 </resources>
