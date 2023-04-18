@@ -19,4 +19,8 @@
     <string name="not_enough_time">You didn’t have enough time to write these words down.</string>
     <string name="skip">Skip</string>
     <string name="ok_sorry">OK, sorry</string>
+    <string name="perfect">Perfect!</string>
+    <string name="set_up_a_passcode">Now set up a passcode to secure transactions.</string>
+    <string name="enable_biometric_auth">Enable Biometric Auth</string>
+    <string name="set_a_passcode">Set a Passcode</string>
 </resources>

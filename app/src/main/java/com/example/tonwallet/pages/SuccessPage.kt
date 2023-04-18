@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +51,7 @@ fun SuccessPage(
                     .height(100.dp)
             )
             Text(
-                "Perfect!",
+                stringResource(R.string.perfect),
                 color = Color(0xFF000000),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W500,
@@ -58,7 +59,7 @@ fun SuccessPage(
                 lineHeight = 28.sp,
             )
             Text(
-                "Now set up a passcode to secure transactions.",
+                stringResource(R.string.set_up_a_passcode),
                 color = Color(0xFF000000),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W400,
@@ -86,7 +87,7 @@ fun SuccessPage(
                 colors = CheckboxDefaults.colors(Color(0xFF339CEC)),
             )
             Text(
-                "Enable Biometric Auth",
+                stringResource(R.string.enable_biometric_auth),
                 color = Color(0xFF000000),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W400,
@@ -109,7 +110,7 @@ fun SuccessPage(
             contentPadding = PaddingValues(14.dp),
         ) {
             Text(
-                "Set a Passcode",
+                stringResource(R.string.set_a_passcode),
                 Modifier.height(20.dp),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W500,
