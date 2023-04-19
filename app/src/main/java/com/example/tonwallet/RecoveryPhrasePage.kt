@@ -78,6 +78,7 @@ fun RecoveryPhrasePage(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        // TODO: add panel header title: "Your Recovery Phrase"
         PanelHeader(goBack)
         Column(
             modifier.verticalScroll(rememberScrollState()),

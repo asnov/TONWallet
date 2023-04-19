@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 
 
 private const val TAG = "MainActivity"
-internal val StatusBarHeight = 29.dp
+internal val StatusBarHeight = 28.dp
 internal val NavigationBarHeight = 20.dp     // TODO: check if it is 48
 // TODO: get size of unused bottom part of the screen
 

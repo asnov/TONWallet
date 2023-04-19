@@ -2,6 +2,7 @@ package com.example.tonwallet
 
 import android.content.res.Configuration
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -24,6 +25,7 @@ internal fun PanelHeader(goBack: () -> Unit, modifier: Modifier = Modifier) {
     Row(
         modifier
             .padding(top = StatusBarHeight)
+            .background(Color(0xFF000000))
 //            .height(56.dp),
     ) {
         IconButton(
@@ -42,7 +44,7 @@ internal fun PanelHeader(goBack: () -> Unit, modifier: Modifier = Modifier) {
         // Cell
         Box(
             Modifier
-                .padding(4.dp, 4.dp, 0.dp, 4.dp)
+                .padding(0.dp, 4.dp, 4.dp, 4.dp)
                 .size(48.dp),
         ) {}
     }

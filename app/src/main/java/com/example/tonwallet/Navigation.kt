@@ -78,7 +78,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
 @Composable
 fun Navigation() {
-    val visiblePage = remember { mutableStateOf(Pages.PASSCODE) }
+    val visiblePage = remember { mutableStateOf(Pages.START) }
     Log.v(TAG, "started")
 
     TONWalletTheme {
