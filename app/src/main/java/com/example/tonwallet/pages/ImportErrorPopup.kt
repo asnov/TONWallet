@@ -3,13 +3,12 @@ package com.example.tonwallet.pages
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -30,7 +29,6 @@ private const val TAG = "ImportErrorPopup"
 @Composable
 fun ImportErrorPopup(
     goBack: () -> Unit,
-    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -39,8 +37,9 @@ fun ImportErrorPopup(
         modifier
             .width(320.dp)
             .height(190.dp)
-            .background(Color(0xFFFFFFFF)),
+            .background(Color(0xFFFFFFFF), shape = RoundedCornerShape(10.dp))
     ) {
+
         Text(
             "Incorrect words",
             Modifier
@@ -56,8 +55,7 @@ fun ImportErrorPopup(
         Text(
             "Sorry, you have entered incorrect secret words. Please double check and try again.",
             Modifier
-//                .height(40.dp)
-                .padding(24.dp, 12.dp, 24.dp, 70.dp),
+                .padding(start = 24.dp, top = 12.dp, end = 24.dp),
             color = Color(0xFF000000),
             fontFamily = Roboto,
             fontWeight = FontWeight.W400,
@@ -65,42 +63,38 @@ fun ImportErrorPopup(
             lineHeight = 20.sp,
             textAlign = TextAlign.Left,
         )
-        Row(
-            Modifier
-                .padding(end = 8.dp, bottom = 12.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
 
-            // TODO: try TextButton()
-            Button(
-                goBack,
-//                Modifier
-//                    .padding(end = 8.dp, bottom = 12.dp),
-                elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFFFFFFFF)),
-            ) {
-                Text(
-                    text =("OK"),
-                    color = Color(0xFF1A81CF),
-                    fontFamily = Roboto,
-                    fontWeight = FontWeight.W500,
-                    fontSize = 14.sp,
-                    lineHeight = 18.sp,
-                )
-            }
+        Button(
+            goBack,
+            Modifier
+                .padding(start = 253.dp, top = 16.dp, end = 8.dp, bottom = 12.dp),
+            elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp),
+            colors = ButtonDefaults.buttonColors(Color(0xFFFFFFFF)),
+        ) {
+            Text(
+                text = ("OK"),
+                color = Color(0xFF1A81CF),
+                fontFamily = Roboto,
+                fontWeight = FontWeight.W500,
+                fontSize = 14.sp,
+                lineHeight = 18.sp,
+            )
         }
-    }
+
+    } // Column
 }
+
 
 @Preview(
     name = "Day Mode",
-    showSystemUi = true,
+//   showSystemUi = true,
+//          heightDp = 640,
+//    widthDp = 360,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        ImportErrorPopup({}, {})
+        ImportErrorPopup({})
     }
 }
