@@ -1,4 +1,4 @@
-package com.example.tonwallet
+package com.example.tonwallet.pages
 
 import android.content.res.Configuration
 import android.util.Log
@@ -31,6 +31,10 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import com.example.tonwallet.NavigationBarHeight
+import com.example.tonwallet.PanelHeader
+import com.example.tonwallet.R
+import com.example.tonwallet.Roboto
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -175,7 +179,7 @@ fun ImportStartPage(
                     isPopupVisible = true
                     // FIXME: it doesn't update words
                     // words = ...
-                    setWords(numberOfTheWordsToEnter.map { wordList[it - 1] }.toTypedArray())
+//                    setWords(numberOfTheWordsToEnter.map { wordList[it - 1] }.toTypedArray())
                 },
                 Modifier
                     .fillMaxWidth(200 / 360f)
