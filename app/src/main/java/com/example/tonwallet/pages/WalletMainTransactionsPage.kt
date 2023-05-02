@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,10 +32,10 @@ import com.example.tonwallet.Roboto
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
-private const val TAG = "WalletMainLTransactionsPage"
+private const val TAG = "WalletMainTransactionsPage"
 
 @Composable
-fun WalletMainLTransactionsPage(
+fun WalletMainTransactionsPage(
     goBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -51,9 +50,9 @@ fun WalletMainLTransactionsPage(
             Modifier
                 .height(56.dp)
                 .fillMaxWidth()
-                .padding(start = 272.dp, end = 16.dp),
+                .padding(start = 272.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround,
+            horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
 
             Image(
@@ -224,8 +223,8 @@ fun WalletMainLTransactionsPage(
                     topEnd = 10.dp,
                     bottomStart = 0.dp,
                     bottomEnd = 0.dp))
-                //.height(360.dp)
-                .fillMaxHeight()
+                //.height(390.dp)
+                //.fillMaxHeight()
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 16.dp)
         )
@@ -314,7 +313,7 @@ fun WalletMainLTransactionsPage(
                     fontWeight = FontWeight.W400,
                     )
                 Column(Modifier
-                    .padding(bottom=16.dp)) {
+                    .padding(bottom=14.dp)) {
                     Card(
                         elevation = 0.dp,
                         shape = RoundedCornerShape(topStart = 4.dp,
@@ -457,6 +456,6 @@ fun WalletMainLTransactionsPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainLTransactionsPage({})
+        WalletMainTransactionsPage({})
     }
 }
