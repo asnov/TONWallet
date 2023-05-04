@@ -223,13 +223,10 @@ fun WalletMainTransactionsPage(
                     topEnd = 10.dp,
                     bottomStart = 0.dp,
                     bottomEnd = 0.dp))
-                //.height(390.dp)
-                //.fillMaxHeight()
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 16.dp)
         )
         {
-            Column( modifier = Modifier.padding(top=20.dp, bottom=12.dp)) {
+            Column( modifier = Modifier.padding(top=20.dp, bottom=12.dp, start=16.dp, end=16.dp)) {
                 Text(
                     text = "September 5",
                     color = Color.Black,
@@ -240,7 +237,7 @@ fun WalletMainTransactionsPage(
 
                     )
             }
-            Column() {
+            Column( Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -286,7 +283,6 @@ fun WalletMainTransactionsPage(
                     }
                     Text(
                         text = "22:52",
-                        Modifier.padding(end = 10.dp),
                         color = Color(0xFF757575),
                         textAlign = TextAlign.Right,
                         fontSize = 14.sp,
@@ -312,8 +308,7 @@ fun WalletMainTransactionsPage(
                     lineHeight = 18.sp,
                     fontWeight = FontWeight.W400,
                     )
-                Column(Modifier
-                    .padding(bottom=14.dp)) {
+                Column( ) {
                     Card(
                         elevation = 0.dp,
                         shape = RoundedCornerShape(topStart = 4.dp,
@@ -333,19 +328,17 @@ fun WalletMainTransactionsPage(
                             fontWeight = FontWeight.W400,
                         )
                     } //card
-
-                    Divider (
-                        color = Color(0x14000000),
-                        modifier = Modifier
-                            .padding(top = 16.dp)
-                            .height(1.dp)
-                            .fillMaxWidth()
-                    )
                 }//column with card
+            }//row transaction
+            Divider (
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
 
-
-            }
-            Column() {
+            Column( Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -383,7 +376,6 @@ fun WalletMainTransactionsPage(
                     }
                     Text(
                         text = "22:43",
-                        Modifier.padding(end = 10.dp),
                         color = Color(0xFF757575),
                         textAlign = TextAlign.Right,
                         fontSize = 14.sp,
@@ -409,8 +401,7 @@ fun WalletMainTransactionsPage(
                     lineHeight = 18.sp,
                     fontWeight = FontWeight.W400,
                 )
-                Column(Modifier
-                    .padding(bottom=16.dp)) {
+                Column() {
                     Card(
                         elevation = 0.dp,
                         shape = RoundedCornerShape(topStart = 4.dp,
@@ -430,18 +421,15 @@ fun WalletMainTransactionsPage(
                             fontWeight = FontWeight.W400,
                         )
                     } //card
-
-                    Divider (
-                        color = Color(0x14000000),
-                        modifier = Modifier
-                            .padding(top = 16.dp)
-                            .height(1.dp)
-                            .fillMaxWidth()
-                    )
                 }//column with card
-
-
-            }
+            }//row transaction
+            Divider (
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
         }
     }
 
