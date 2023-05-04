@@ -333,7 +333,7 @@ fun WalletMainTransactionsPage(
             Divider (
                 color = Color(0x14000000),
                 modifier = Modifier
-                    .padding(top = 16.dp)
+                    .padding(bottom = 14.dp)
                     .height(1.dp)
                     .fillMaxWidth()
             )
@@ -426,7 +426,7 @@ fun WalletMainTransactionsPage(
             Divider (
                 color = Color(0x14000000),
                 modifier = Modifier
-                    .padding(top = 16.dp)
+                    .padding(bottom = 14.dp)
                     .height(1.dp)
                     .fillMaxWidth()
             )
