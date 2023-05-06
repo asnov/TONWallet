@@ -83,7 +83,7 @@ fun WalletMainLoadingPage(
                     painterResource(R.drawable.icon_crystal),
                     null,
                     Modifier
-                        .height(76.dp)
+                        .height(56.dp)
                 )
             }
             Column(
@@ -108,7 +108,7 @@ fun WalletMainLoadingPage(
                             contentColor = Color(0xFFFFFFFF),
                         ),
                         shape = RoundedCornerShape(8.dp),
-                        contentPadding = PaddingValues(12.dp),
+                        contentPadding = PaddingValues(14.dp),
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -139,12 +139,9 @@ fun WalletMainLoadingPage(
                             contentColor = Color(0xFFFFFFFF),
                         ),
                         shape = RoundedCornerShape(8.dp),
-                        contentPadding = PaddingValues(12.dp),
-
+                        contentPadding = PaddingValues(14.dp),
                         ) {
                         Row(
-                            Modifier
-
 
                         ) {
                             Image(
