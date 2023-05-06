@@ -6,7 +6,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -42,7 +44,7 @@ fun WalletMainTransactionsPage(
     Log.v(TAG, "started")
     Column(
         modifier
-            .background(Color.Black),
+            .background(Color.Black).fillMaxHeight(1/3f),
         Arrangement.Bottom,
         Alignment.CenterHorizontally,
     ) {
@@ -94,7 +96,7 @@ fun WalletMainTransactionsPage(
                     painterResource(R.drawable.icon_crystal),
                     null,
                     Modifier
-                        .height(76.dp)
+                        .height(56.dp)
                         .padding(end = 9.dp)
                 )
                 Text(
@@ -135,23 +137,16 @@ fun WalletMainTransactionsPage(
                 ) {
                     Button(
                         {},
+                        modifier.fillMaxWidth(1/2f).padding(start = 12.dp, end = 6.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(0xFF339CEC),
                             contentColor = Color(0xFFFFFFFF),
                         ),
                         shape = RoundedCornerShape(8.dp),
+                        contentPadding = PaddingValues(14.dp),
                     ) {
                         Row(
-                            // horizontalArrangement = Arrangement.SpaceAround,
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .padding(
-                                    start = 16.dp,
-                                    end = 20.dp,
-                                    top = 12.dp,
-                                    bottom = 12.dp
-                                )
-                                .padding(start = 12.dp, end = 12.dp)
                         ) {
                             Image(
                                 painter = painterResource(R.drawable.arrow_down),
@@ -174,22 +169,16 @@ fun WalletMainTransactionsPage(
                     }
                     Button(
                         {},
+                        modifier.fillMaxWidth(2f).padding(start = 6.dp, end = 12.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(0xFF339CEC),
                             contentColor = Color(0xFFFFFFFF),
                         ),
                         shape = RoundedCornerShape(8.dp),
-
+                        contentPadding = PaddingValues(14.dp),
                         ) {
                         Row(
-                            Modifier
-                                .padding(
-                                    start = 16.dp,
-                                    end = 20.dp,
-                                    top = 12.dp,
-                                    bottom = 12.dp
-                                )
-                                .padding(start = 12.dp, end = 12.dp)
+
                         ) {
                             Image(
                                 painter = painterResource(R.drawable.arrow_up),
@@ -223,7 +212,7 @@ fun WalletMainTransactionsPage(
                     topEnd = 10.dp,
                     bottomStart = 0.dp,
                     bottomEnd = 0.dp))
-                .fillMaxWidth()
+                .fillMaxWidth().fillMaxHeight()
         )
         {
             Column( modifier = Modifier.padding(top=20.dp, bottom=12.dp, start=16.dp, end=16.dp)) {
