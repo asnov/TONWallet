@@ -43,7 +43,7 @@ fun WalletMainTransactionsPage(
     Column(
         modifier
             .background(Color.Black),
-        Arrangement.Center,
+        Arrangement.Bottom,
         Alignment.CenterHorizontally,
     ) {
         Row(
