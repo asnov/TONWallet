@@ -113,7 +113,7 @@ fun IncomingTransactionView(
                         (".375"),
                         Modifier.padding(top = 8.dp),
                         Color(0xFF37A818),
-                        fontFamily = Roboto,
+                        fontFamily = Roboto,//should be google sans
                         fontWeight = FontWeight.W500,
                         fontSize = 32.sp,
                         lineHeight = 40.sp,

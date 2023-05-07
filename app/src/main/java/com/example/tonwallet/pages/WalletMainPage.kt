@@ -100,7 +100,7 @@ fun WalletMainPage(
                     ("0"),
                     Modifier.padding(),
                     Color(0xFFFFFFFF),
-                    fontFamily = Roboto,
+                    fontFamily = Roboto, //should be google sans
                     fontWeight = FontWeight.W500,
                     fontSize = 44.sp,
                     lineHeight = 56.sp,
