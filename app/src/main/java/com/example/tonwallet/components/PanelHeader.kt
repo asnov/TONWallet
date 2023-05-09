@@ -18,6 +18,18 @@ import com.example.tonwallet.ui.theme.TONWalletTheme
 
 private const val TAG = "PanelHeader"
 
+private fun getContrastColor(color: Color): Color {
+    val y: Double = 299 * color.red + 587 * color.green + 114 * color.blue / 1000.0
+    return if (y >= 128) Color.Black else Color.White
+}
+
+private fun complementaryColor(color: Color) = Color(
+    255 - color.red,
+    255 - color.green,
+    255 - color.blue,
+)
+
+
 @Composable
 internal fun PanelHeader(goBack: () -> Unit, modifier: Modifier = Modifier) {
     Log.v(TAG, "started")
@@ -25,7 +37,6 @@ internal fun PanelHeader(goBack: () -> Unit, modifier: Modifier = Modifier) {
     Row(
         modifier
             .padding(top = StatusBarHeight)
-            .background(Color(0xFF000000))
 //            .height(56.dp),
     ) {
         IconButton(
@@ -53,12 +64,11 @@ internal fun PanelHeader(goBack: () -> Unit, modifier: Modifier = Modifier) {
 
 @Preview(
     name = "Day Mode",
-    showSystemUi = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        PanelHeader({})
+        PanelHeader({}, Modifier.background(Color(0xFFFFFFFF)))
     }
 }
