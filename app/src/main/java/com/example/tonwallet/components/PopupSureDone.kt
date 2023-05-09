@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -35,7 +36,7 @@ fun PopupSureDone(
         modifier
             .width(320.dp)
             .height(170.dp)
-            .background(Color(0xFFFFFFFF)),
+            .background(Color(0xFFFFFFFF), RoundedCornerShape(6.dp)),
     ) {
         Text(
             stringResource(R.string.sure_done),
