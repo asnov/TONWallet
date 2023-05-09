@@ -14,7 +14,7 @@ internal val StatusBarHeight = 28.dp
 internal val NavigationBarHeight = 20.dp     // TODO: check if it is 48
 // TODO: get size of unused bottom part of the screen
 
-internal val Roboto = FontFamily(Font(R.font.roboto))
+val Roboto = FontFamily(Font(R.font.roboto))
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

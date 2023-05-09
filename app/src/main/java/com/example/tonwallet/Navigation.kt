@@ -8,9 +8,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.example.tonwallet.pages.DonePage
 import com.example.tonwallet.pages.ImportStartPage
-import com.example.tonwallet.pages.MainPage
 import com.example.tonwallet.pages.PasscodePage
 import com.example.tonwallet.pages.SuccessPage
+import com.example.tonwallet.pages.WIP.MainPage
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 

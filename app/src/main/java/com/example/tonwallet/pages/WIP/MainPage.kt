@@ -1,4 +1,4 @@
-package com.example.tonwallet.pages
+package com.example.tonwallet.pages.WIP
 
 import android.content.res.Configuration
 import android.util.Log
