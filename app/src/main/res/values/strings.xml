@@ -31,4 +31,7 @@
     <string name="enter_digits">Enter the %d digits in the passcode.</string>
     <string name="passcode_options">Passcode options</string>
     <string name="n_digit_code">%d-digit code</string>
+    <string name="i_don_t_have_those">I don\'t have those</string>
+    <string name="you_can_restore_access">You can restore access to your wallet by entering 24 words you wrote when down you creating the wallet.</string>
+    <string name="_24_secret_words">24 Secret Words</string>
 </resources>
