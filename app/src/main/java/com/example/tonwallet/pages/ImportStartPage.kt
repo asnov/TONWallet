@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -17,6 +18,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -47,11 +49,13 @@ import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.StatusBarHeight
 import com.example.tonwallet.ui.theme.TONWalletTheme
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 private const val TAG = "ImportStartPage"
+
+fun LazyListState.isScrolledToTheEnd() =
+    layoutInfo.visibleItemsInfo.lastOrNull()?.index == layoutInfo.totalItemsCount - 1
 
 @OptIn(
     ExperimentalMaterialApi::class, ExperimentalFoundationApi::class,
@@ -67,7 +71,12 @@ fun ImportStartPage(
     Log.v(TAG, "started")
 
     val numberOfTheWordsToEnter = 24
-    val words by remember { mutableStateOf(Array(numberOfTheWordsToEnter) { "" }) }
+    val (words, setWordsLocal) = remember { mutableStateOf(Array(numberOfTheWordsToEnter) { "" }) }
+    fun setWords(newWords: Array<String>) {
+        setWordsLocal(newWords)
+        Log.v(TAG, "setWords: ${newWords.joinToString()}")
+    }
+
     val focusRequesters = remember { Array(numberOfTheWordsToEnter) { FocusRequester() } }
 
     Log.v(TAG, focusRequesters.toString())
@@ -79,16 +88,17 @@ fun ImportStartPage(
     var isPopupVisible by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
-    val state: LazyListState = rememberLazyListState()
+    val listState: LazyListState = rememberLazyListState()
 
-    val firstVisibleItemIndex = remember { derivedStateOf { state.firstVisibleItemIndex } }
+    val firstVisibleItemIndex = remember { derivedStateOf { listState.firstVisibleItemIndex } }
     print("state.firstVisibleItemIndex:${firstVisibleItemIndex.value}, ")
-    var firstVisibleItemScrollOffset = 0
-    LaunchedEffect(state) {
-        snapshotFlow { state.firstVisibleItemScrollOffset }
-            .collect { firstVisibleItemScrollOffset = it }
-    }
+    val firstVisibleItemScrollOffset = remember { derivedStateOf { listState.firstVisibleItemScrollOffset } }
     println("state.firstVisibleItemScrollOffset:$firstVisibleItemScrollOffset")
+
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemScrollOffset }
+            .collect { print("snapshotFlow of firstVisibleItemScrollOffset: $it, ") }
+    }
 
     PanelHeader(
         goBack,
@@ -101,7 +111,7 @@ fun ImportStartPage(
         modifier
 //            .imePadding()
             .padding(top = StatusBarHeight),
-        state,
+        listState,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
@@ -176,7 +186,8 @@ fun ImportStartPage(
 
         items(numberOfTheWordsToEnter) { index ->
             var currentWord by remember { mutableStateOf(words[index]) }
-            val interaction = MutableInteractionSource()
+            val interaction = remember { MutableInteractionSource() }
+            val isFocused = interaction.collectIsFocusedAsState().value
             Row(
                 Modifier
                     .focusRequester(focusRequesters[index])
@@ -185,9 +196,9 @@ fun ImportStartPage(
             ) {
                 TextField(
                     currentWord,
-                    {
-                        currentWord = it
-                        words[index] = it
+                    { newValue ->
+                        currentWord = newValue
+                        setWords(words.also { it[index] = newValue })
                         // TODO: showContextMenuIfNecessary
 
                     },
@@ -208,6 +219,7 @@ fun ImportStartPage(
                         Text(
                             "${index + 1}:",
                             Modifier.width(44.dp),
+                            if (isFocused) Color(0xFF757575) else Color.Unspecified,
                             textAlign = TextAlign.Right,
                         )
                     },
@@ -267,9 +279,11 @@ fun ImportStartPage(
 //                            Log.v(TAG, "scrolling to ${indexOfFirstBlankField + 1}")
 //                            state.scrollToItem(indexOfFirstBlankField + 1)
                             Log.v(TAG, "animate scrolling to ${indexOfFirstBlankField + 1}")
-                            state.animateScrollToItem(indexOfFirstBlankField + 1)
+                            listState.animateScrollToItem(indexOfFirstBlankField + 1)
                             Log.v(TAG, "stoped scrolling")
-                            delay(100)
+//                            kotlinx.coroutines.delay(100)
+//                            android.os.SystemClock.sleep(100)
+//                            Thread.sleep(100)   // blocking call
                             // TODO: make sure node.isAttached
                             // androidx/compose/ui/node/DelegatableNode.kt:206
                             // androidx/compose/ui/node/DelegatableNode.kt:39
@@ -304,6 +318,22 @@ fun ImportStartPage(
 
 
     } // LazyColumn()
+
+
+//    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
+//        if (!listState.isScrolledToTheEnd()) {
+//            ExtendedFloatingActionButton(
+//                modifier = Modifier.padding(16.dp),
+//                text = { Text(text = "⇓", fontSize = 35.sp) },
+//                onClick = {
+//                    coroutineScope.launch {
+//                        listState.animateScrollToItem(numberOfTheWordsToEnter)
+//                    }
+//                }
+//            )
+//        }
+//    }
+
 }
 
 @Preview(
