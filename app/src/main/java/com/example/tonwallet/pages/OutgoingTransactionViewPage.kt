@@ -142,7 +142,7 @@ fun OutgoingTransactionViewPage(
             }//column with centered text
             Column() {
                 Text(
-                    "Deta  ils",
+                    "Details",
                     Modifier.padding(top=20.dp, start=20.dp, bottom=4.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
