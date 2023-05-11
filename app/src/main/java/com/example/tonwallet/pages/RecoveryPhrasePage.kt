@@ -8,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -27,7 +26,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.example.tonwallet.components.PopupSureDone
 import com.example.tonwallet.ui.theme.TONWalletTheme
-import kotlinx.coroutines.delay
+import java.time.LocalTime
 
 
 private const val TAG = "RecoveryPhrasePage"
@@ -67,16 +66,20 @@ fun WordOfRecoveryPhrase(index: Int, word: String, modifier: Modifier = Modifier
     }
 }
 
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecoveryPhrasePage(
     goBack: () -> Unit,
     goForth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isSeedRemembered: Boolean = false,
 ) {
     var isPopupVisible by remember { mutableStateOf(false) }
     var isSecondTime by remember { mutableStateOf(false) }
-    // TODO: start timer
+    val secondsForWriting = if (isSeedRemembered) 0L else
+        if (BuildConfig.DEBUG) 10L else wordList.size * 3L
+    val writingEndTime = remember { LocalTime.now().plusSeconds(secondsForWriting) }
 
     Column(
         modifier,
@@ -147,7 +150,13 @@ fun RecoveryPhrasePage(
                 } // Row
 
                 Button(
-                    { isPopupVisible = true },
+                    {
+                        if (LocalTime.now().isAfter(writingEndTime)) {
+                            goForth()
+                        } else {
+                            isPopupVisible = true
+                        }
+                    },
                     Modifier
                         .fillMaxWidth(200 / 360f)
                         .padding(
@@ -183,8 +192,6 @@ fun RecoveryPhrasePage(
                 .fillMaxSize()
                 .background(Color(0x4C000000))
         ) {}
-        // TODO: compare time now() with timer
-        // TODO: pass popup if it is second time on this page with this seed
         Popup(
             Alignment.Center,
             onDismissRequest = { isPopupVisible = false },
@@ -198,55 +205,6 @@ fun RecoveryPhrasePage(
         }
     }
 
-}
-
-
-@Composable
-fun TimeLimitedPopup() {
-    var elapsedTime by remember { mutableStateOf(0L) }
-    var isDoneClicked by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        val startTime = System.currentTimeMillis()
-        while (!isDoneClicked && elapsedTime < 10000) {
-            elapsedTime = System.currentTimeMillis() - startTime
-            delay(100)
-        }
-    }
-
-    if (isDoneClicked) {
-        AlertDialog(
-            onDismissRequest = { },
-            title = { Text("Thank you!") },
-            confirmButton = {
-                Button(
-                    onClick = { /* do something */ }
-                ) {
-                    Text("OK")
-                }
-            }
-        )
-    } else {
-        AlertDialog(
-            onDismissRequest = { },
-            title = {
-                Text("You didn't have enough time to write these words down.")
-            },
-            confirmButton = {
-                Button(
-                    onClick = { /* do something */ }
-                ) {
-                    Text("OK")
-                }
-            }
-        )
-    }
-
-    Button(
-        onClick = { isDoneClicked = true }
-    ) {
-        Text("Done")
-    }
 }
 
 
