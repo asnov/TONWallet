@@ -1,7 +1,7 @@
 buildscript {
     ext {
         compose_ui_version = '1.4.7'
-        core_version = '1.10.0'
+        core_version = '1.10.1'
     }
     repositories {
         google()
