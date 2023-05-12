@@ -31,8 +31,8 @@ import com.example.tonwallet.ui.theme.TONWalletTheme
 private const val TAG = "WalletRecievePage"
 
 @Composable
-fun WalletRecievePage(
-    goBack: () -> Unit,
+fun WalletReceivePage(
+    shareAddress: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -106,7 +106,7 @@ fun WalletRecievePage(
                 fontWeight = FontWeight.W400,
             )
             Button(
-                {},
+                shareAddress,
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color(0xFF339CEC),
                     contentColor = Color(0xFFFFFFFF),
@@ -147,6 +147,6 @@ fun WalletRecievePage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletRecievePage({})
+        WalletReceivePage({})
     }
 }

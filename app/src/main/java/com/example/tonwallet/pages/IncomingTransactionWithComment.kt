@@ -32,11 +32,11 @@ import com.example.tonwallet.Roboto
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
-private const val TAG = "IncomingTransactionWhithComment"
+private const val TAG = "IncomingTransactionWithComment"
 
 @Composable
-fun IncomingTransactionWhithComment(
-    goBack: () -> Unit,
+fun IncomingTransactionWithComment(
+    goSend: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -243,7 +243,7 @@ fun IncomingTransactionWhithComment(
                 )
             }
             Button(
-                {},
+                goSend,
                 modifier.fillMaxWidth().padding(16.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color(0xFF339CEC),
@@ -280,6 +280,6 @@ fun IncomingTransactionWhithComment(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        IncomingTransactionWhithComment({})
+        IncomingTransactionWithComment({})
     }
 }

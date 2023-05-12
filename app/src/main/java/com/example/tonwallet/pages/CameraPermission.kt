@@ -46,10 +46,12 @@ fun CameraPermission(
         Arrangement.Center,
         Alignment.CenterHorizontally,
 
-    ) {
+        ) {
         Text(
             "No Camera Access",
-            Modifier.padding(vertical = 12.dp) .fillMaxWidth(205/ 360f),
+            Modifier
+                .padding(vertical = 12.dp)
+                .fillMaxWidth(205 / 360f),
             Color(0xFFFFFFFF),
             fontFamily = Roboto,
             fontWeight = FontWeight.W500,

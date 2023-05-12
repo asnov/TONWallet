@@ -39,4 +39,8 @@
     <string name="you_can_t_restore_access">Without the secret words you can’t restore access to the wallet.</string>
     <string name="enter_24_secret_words">Enter 24 secret words</string>
     <string name="create_empty_wallet">Create a new empty wallet instead</string>
+    <string name="receive_button">Receive</string>
+    <string name="send_button">Send</string>
+    <string name="from_transaction">from</string>
+    <string name="to_transaction">to</string>
 </resources>

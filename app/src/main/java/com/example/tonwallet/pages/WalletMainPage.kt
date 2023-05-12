@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
+import com.example.tonwallet.components.PanelHeaderBlack
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -46,45 +47,29 @@ fun WalletMainPage(
 
     Column(
         modifier
-            .background(Color.Black).fillMaxHeight(1/3f),
+            .background(Color.Black)
+            .fillMaxHeight(1 / 3f),
         Arrangement.Bottom,
         Alignment.CenterHorizontally,
     ) {
-        Row(
-            Modifier
-                .height(56.dp)
-                .fillMaxWidth()
-                .padding(start = 272.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly,
-        ) {
-
-            Image(
-                painterResource(R.drawable.icon_scan),
-                null, Modifier.size(24.dp)
-            )
-
-            Image(
-                painterResource(R.drawable.icon_config),
-                null, Modifier.size(24.dp)
-            )
-        }
+        PanelHeaderBlack(goScan, goSettings)
 
         Column(
             Modifier
                 .background(Color.Black),
             Arrangement.Center,
             Alignment.CenterHorizontally,
-        ) { Text(
-            ("UQBF…AoKP"),
-            Modifier.padding(vertical = 12.dp),
-            Color(0xFFFFFFFF),
-            fontFamily = Roboto,
-            fontWeight = FontWeight.W400,
-            fontSize = 15.sp,
-            lineHeight = 18.sp,
-            textAlign = TextAlign.Center,
-        )
+        ) {
+            Text(
+                ("UQBF…AoKP"),
+                Modifier.padding(vertical = 12.dp),
+                Color(0xFFFFFFFF),
+                fontFamily = Roboto,
+                fontWeight = FontWeight.W400,
+                fontSize = 15.sp,
+                lineHeight = 18.sp,
+                textAlign = TextAlign.Center,
+            )
             Row(
                 Modifier
                     .fillMaxWidth(),
@@ -125,8 +110,10 @@ fun WalletMainPage(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     Button(
-                        {},
-                        modifier.fillMaxWidth(1/2f).padding(start = 12.dp, end = 6.dp),
+                        goReceive,
+                        modifier
+                            .fillMaxWidth(1 / 2f)
+                            .padding(start = 12.dp, end = 6.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(0xFF339CEC),
                             contentColor = Color(0xFFFFFFFF),
@@ -156,15 +143,17 @@ fun WalletMainPage(
                         }
                     }
                     Button(
-                        {},
-                        modifier.fillMaxWidth(2f).padding(start = 6.dp, end = 12.dp),
+                        goSend,
+                        modifier
+                            .fillMaxWidth(2f)
+                            .padding(start = 6.dp, end = 12.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(0xFF339CEC),
                             contentColor = Color(0xFFFFFFFF),
                         ),
                         shape = RoundedCornerShape(8.dp),
                         contentPadding = PaddingValues(14.dp),
-                        ) {
+                    ) {
                         Row(
 
                         ) {
@@ -191,12 +180,16 @@ fun WalletMainPage(
         }
         Column(
             Modifier
-                .background(Color(0xFFFFFFFF), shape = RoundedCornerShape(topStart = 10.dp,
-                    topEnd = 10.dp,
-                    bottomStart = 0.dp,
-                    bottomEnd = 0.dp)
+                .background(
+                    Color(0xFFFFFFFF), shape = RoundedCornerShape(
+                        topStart = 10.dp,
+                        topEnd = 10.dp,
+                        bottomStart = 0.dp,
+                        bottomEnd = 0.dp
+                    )
                 )
-                .fillMaxWidth().fillMaxHeight(),
+                .fillMaxWidth()
+                .fillMaxHeight(),
             Arrangement.Center,
             Alignment.CenterHorizontally,
         )
@@ -207,16 +200,16 @@ fun WalletMainPage(
             )
             Text(
                 "Wallet Created",
-                modifier.padding (top=12.dp),
+                modifier.padding(top = 12.dp),
                 color = Color.Black,
                 textAlign = TextAlign.Center,
                 fontSize = 24.sp,
                 lineHeight = 28.sp,
                 fontWeight = FontWeight.W500,
-                )
+            )
             Text(
                 "Your wallet address",
-                modifier.padding (top=20.dp),
+                modifier.padding(top = 20.dp),
                 color = Color(0xFF757575),
                 textAlign = TextAlign.Center,
                 fontSize = 15.sp,
@@ -226,7 +219,7 @@ fun WalletMainPage(
             )
             Text(
                 "UQBFz01R2CU7YA8pevUaNIYEzi1mRo4cX-r3W2Dwx-WEAoKP",
-                modifier.padding (top=6.dp, start = 70.dp, end = 70.dp, bottom = 57.dp),
+                modifier.padding(top = 6.dp, start = 70.dp, end = 70.dp, bottom = 57.dp),
                 color = Color.Black,
                 textAlign = TextAlign.Center,
                 fontSize = 15.sp,
@@ -243,12 +236,29 @@ fun WalletMainPage(
 
 @Preview(
     name = "Day Mode",
-    showSystemUi = true,
+    widthDp = 300,
+    heightDp = 640,
+//    showSystemUi = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainPage({},{},{},{})
+        WalletMainPage({}, {}, {}, {})
+    }
+}
+
+@Preview(
+    name = "Day Mode",
+    widthDp = 428,
+    heightDp = 926,
+//    showSystemUi = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+//428
+@Composable
+private fun DefaultPreview2() {
+    TONWalletTheme {
+        WalletMainPage({}, {}, {}, {})
     }
 }

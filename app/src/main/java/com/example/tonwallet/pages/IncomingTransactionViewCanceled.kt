@@ -35,7 +35,7 @@ private const val TAG = "IncomingTransactionViewCanceled"
 
 @Composable
 fun IncomingTransactionViewCanceled(
-    goBack: () -> Unit,
+    goSend: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -227,7 +227,7 @@ fun IncomingTransactionViewCanceled(
                 )
             }
             Button(
-                {},
+                goSend,
                 modifier
                     .fillMaxWidth()
                     .padding(16.dp),

@@ -35,7 +35,7 @@ private const val TAG = "OutgoingTransactionViewPage"
 
 @Composable
 fun OutgoingTransactionViewPage(
-    goBack: () -> Unit,
+    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -142,7 +142,7 @@ fun OutgoingTransactionViewPage(
             }//column with centered text
             Column() {
                 Text(
-                    "Deta  ils",
+                    "Details",
                     Modifier.padding(top=20.dp, start=20.dp, bottom=4.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
@@ -224,7 +224,7 @@ fun OutgoingTransactionViewPage(
                 )
             }
             Button(
-                {},
+                goForth,
                 modifier.fillMaxWidth().padding(16.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color(0xFF339CEC),

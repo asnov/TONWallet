@@ -36,7 +36,7 @@ private const val TAG = "IncomingTransactionViewPending"
 
 @Composable
 fun IncomingTransactionViewPending(
-    goBack: () -> Unit,
+    goSend: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -238,7 +238,7 @@ fun IncomingTransactionViewPending(
                 )
             }
             Button(
-                {},
+                goSend,
                 modifier
                     .fillMaxWidth()
                     .padding(16.dp),

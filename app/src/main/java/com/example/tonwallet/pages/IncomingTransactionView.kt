@@ -35,7 +35,7 @@ private const val TAG = "IncomingTransactionView"
 
 @Composable
 fun IncomingTransactionView(
-    goBack: () -> Unit,
+    goSend: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -224,7 +224,7 @@ fun IncomingTransactionView(
                 )
             }
             Button(
-                {},
+                goSend,
                 modifier.fillMaxWidth().padding(16.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color(0xFF339CEC),

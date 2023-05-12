@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
+import com.example.tonwallet.components.PanelHeaderBlack
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -38,36 +40,24 @@ private const val TAG = "WalletMainTransactionsPage"
 
 @Composable
 fun WalletMainTransactionsPage(
-    goBack: () -> Unit,
+    goReceive: () -> Unit,
+    goSend: () -> Unit,
+    goScan: () -> Unit,
+    goSettings: () -> Unit,
+    showIncomingTransaction: () -> Unit,
+    showOutgoingTransaction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
+
     Column(
         modifier
-            .background(Color.Black).fillMaxHeight(1/3f),
+            .background(Color.Black)
+            .fillMaxHeight(1 / 3f),
         Arrangement.Bottom,
         Alignment.CenterHorizontally,
     ) {
-        Row(
-            Modifier
-                .height(56.dp)
-                .fillMaxWidth()
-                .padding(start = 272.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly,
-        ) {
-
-            Image(
-                painterResource(R.drawable.icon_scan),
-                null, Modifier.size(24.dp)
-            )
-
-            Image(
-                painterResource(R.drawable.icon_config),
-                null, Modifier.size(24.dp)
-            )
-
-        }
+        PanelHeaderBlack(goScan, goSettings)
 
         Column(
             Modifier
@@ -76,7 +66,7 @@ fun WalletMainTransactionsPage(
             Alignment.CenterHorizontally,
         ) {
             Text(
-                ("UQBF…AoKP"),
+                "UQBF…AoKP",
                 Modifier.padding(vertical = 12.dp),
                 Color(0xFFFFFFFF),
                 fontFamily = Roboto,
@@ -136,8 +126,10 @@ fun WalletMainTransactionsPage(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     Button(
-                        {},
-                        modifier.fillMaxWidth(1/2f).padding(start = 12.dp, end = 6.dp),
+                        goReceive,
+                        modifier
+                            .fillMaxWidth(1 / 2f)
+                            .padding(start = 12.dp, end = 6.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(0xFF339CEC),
                             contentColor = Color(0xFFFFFFFF),
@@ -156,7 +148,7 @@ fun WalletMainTransactionsPage(
                                     .padding(end = 11.dp)
                             )
                             Text(
-                                text = "Receive",
+                                text = stringResource(R.string.receive_button),
                                 color = Color.White,
                                 textAlign = TextAlign.Center,
                                 fontSize = 15.sp,
@@ -168,15 +160,17 @@ fun WalletMainTransactionsPage(
 
                     }
                     Button(
-                        {},
-                        modifier.fillMaxWidth(2f).padding(start = 6.dp, end = 12.dp),
+                        goSend,
+                        modifier
+                            .fillMaxWidth(2f)
+                            .padding(start = 6.dp, end = 12.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(0xFF339CEC),
                             contentColor = Color(0xFFFFFFFF),
                         ),
                         shape = RoundedCornerShape(8.dp),
                         contentPadding = PaddingValues(14.dp),
-                        ) {
+                    ) {
                         Row(
 
                         ) {
@@ -188,7 +182,7 @@ fun WalletMainTransactionsPage(
                                     .padding(end = 11.dp)
                             )
                             Text(
-                                "Send",
+                                stringResource(R.string.send_button),
                                 color = Color.White,
                                 textAlign = TextAlign.Center,
                                 fontSize = 15.sp,
@@ -205,17 +199,33 @@ fun WalletMainTransactionsPage(
 
             }
 
-        }
+        } // black part
+
+
         Column(
             Modifier
-                .background(Color(0xFFFFFFFF), shape = RoundedCornerShape(topStart = 10.dp,
-                    topEnd = 10.dp,
-                    bottomStart = 0.dp,
-                    bottomEnd = 0.dp))
-                .fillMaxWidth().fillMaxHeight()
+                .background(
+                    Color(0xFFFFFFFF), shape = RoundedCornerShape(
+                        topStart = 10.dp,
+                        topEnd = 10.dp,
+                        bottomStart = 0.dp,
+                        bottomEnd = 0.dp
+                    )
+                )
+                .fillMaxWidth()
+                .fillMaxHeight()
         )
         {
-            Column( modifier = Modifier.padding(top=20.dp, bottom=12.dp, start=16.dp, end=16.dp)) {
+
+            // header
+            Column(
+                modifier = Modifier.padding(
+                    top = 20.dp,
+                    bottom = 12.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                )
+            ) {
                 Text(
                     text = "September 5",
                     color = Color.Black,
@@ -226,7 +236,14 @@ fun WalletMainTransactionsPage(
 
                     )
             }
-            Column( Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+
+
+            // item 0
+            Column(
+                Modifier
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .clickable(onClick = showIncomingTransaction)
+            ) {
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -234,7 +251,7 @@ fun WalletMainTransactionsPage(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Image(
                             painter = painterResource(R.drawable.icon_crystal),
@@ -261,8 +278,8 @@ fun WalletMainTransactionsPage(
                             fontWeight = FontWeight.W500,
                         )
                         Text(
-                            text = "from",
-                            Modifier.padding(top = 2.dp, start=3.dp),
+                            text = stringResource(R.string.from_transaction),
+                            Modifier.padding(top = 2.dp, start = 3.dp),
                             color = Color(0xFF757575),
                             textAlign = TextAlign.Center,
                             fontSize = 14.sp,
@@ -287,7 +304,7 @@ fun WalletMainTransactionsPage(
                     fontSize = 14.sp,
                     lineHeight = 18.sp,
                     fontWeight = FontWeight.W400,
-                    )
+                )
                 Text(
                     "-0.000065732 storage fee",
                     Modifier.padding(bottom = 10.dp),
@@ -296,20 +313,22 @@ fun WalletMainTransactionsPage(
                     fontSize = 14.sp,
                     lineHeight = 18.sp,
                     fontWeight = FontWeight.W400,
-                    )
-                Column( ) {
+                )
+                Column() {
                     Card(
                         elevation = 0.dp,
-                        shape = RoundedCornerShape(topStart = 4.dp,
+                        shape = RoundedCornerShape(
+                            topStart = 4.dp,
                             topEnd = 10.dp,
                             bottomStart = 10.dp,
-                            bottomEnd = 10.dp),
+                            bottomEnd = 10.dp
+                        ),
                         backgroundColor = Color(0xfff1f1f4),
                         contentColor = Color.Black,
-                        ) {
+                    ) {
                         Text(
                             "Testing payments, D.",
-                            Modifier.padding(vertical = 10.dp, horizontal=12.dp),
+                            Modifier.padding(vertical = 10.dp, horizontal = 12.dp),
                             color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontSize = 15.sp,
@@ -317,9 +336,9 @@ fun WalletMainTransactionsPage(
                             fontWeight = FontWeight.W400,
                         )
                     } //card
-                }//column with card
-            }//row transaction
-            Divider (
+                } //column with card
+            } //row transaction
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .padding(bottom = 14.dp)
@@ -327,7 +346,13 @@ fun WalletMainTransactionsPage(
                     .fillMaxWidth()
             )
 
-            Column( Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+
+            // item 1
+            Column(
+                Modifier
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .clickable(onClick = showOutgoingTransaction)
+            ) {
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -335,7 +360,7 @@ fun WalletMainTransactionsPage(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Image(
                             painter = painterResource(R.drawable.icon_crystal),
@@ -354,8 +379,8 @@ fun WalletMainTransactionsPage(
                         )
 
                         Text(
-                            text = "to",
-                            Modifier.padding(top = 2.dp, start=3.dp),
+                            text = stringResource(R.string.to_transaction),
+                            Modifier.padding(top = 2.dp, start = 3.dp),
                             color = Color(0xFF757575),
                             textAlign = TextAlign.Center,
                             fontSize = 14.sp,
@@ -393,16 +418,18 @@ fun WalletMainTransactionsPage(
                 Column() {
                     Card(
                         elevation = 0.dp,
-                        shape = RoundedCornerShape(topStart = 4.dp,
+                        shape = RoundedCornerShape(
+                            topStart = 4.dp,
                             topEnd = 10.dp,
                             bottomStart = 10.dp,
-                            bottomEnd = 10.dp),
+                            bottomEnd = 10.dp
+                        ),
                         backgroundColor = Color(0xfff1f1f4),
                         contentColor = Color.Black,
                     ) {
                         Text(
                             "Thanks!",
-                            Modifier.padding(vertical = 10.dp, horizontal=12.dp),
+                            Modifier.padding(vertical = 10.dp, horizontal = 12.dp),
                             color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontSize = 15.sp,
@@ -410,16 +437,18 @@ fun WalletMainTransactionsPage(
                             fontWeight = FontWeight.W400,
                         )
                     } //card
-                }//column with card
-            }//row transaction
-            Divider (
+                } //column with card
+            } //row transaction
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .padding(bottom = 14.dp)
                     .height(1.dp)
                     .fillMaxWidth()
             )
-        }
+
+
+        } // LazyColumn
     }
 
 }
@@ -433,6 +462,6 @@ fun WalletMainTransactionsPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainTransactionsPage({})
+        WalletMainTransactionsPage({}, {}, {}, {}, {}, {})
     }
 }
