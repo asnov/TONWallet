@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,11 +37,13 @@ private const val TAG = "DontHavePhrase"
 
 @Composable
 fun DontHavePhrase(
+    goBack: () -> Unit,
     goForth: () -> Unit,
-    goImport: () -> Unit,
+    goCreate: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
+    PanelHeader(goBack)
 
     Column(
         modifier.offset(y = (-80).dp),
@@ -49,7 +52,7 @@ fun DontHavePhrase(
     ) {
         Image(painterResource(R.drawable.sticker_too_bad), null, Modifier.size(100.dp))
         Text(
-            "Too Bad!",
+            stringResource(R.string.too_bad),
             Modifier.padding(vertical = 12.dp) .fillMaxWidth(210 / 360f),
             Color(0xFF222222),
             fontFamily = Roboto,
@@ -59,7 +62,7 @@ fun DontHavePhrase(
             textAlign = TextAlign.Center,
         )
         Text(
-            "Without the secret words you can’t restore access to the wallet.",
+            stringResource(R.string.you_can_t_restore_access),
             Modifier.fillMaxWidth(280 / 360f),
             Color(0xFF000000),
             fontFamily = Roboto,
@@ -87,7 +90,7 @@ fun DontHavePhrase(
             contentPadding = PaddingValues(14.dp),
         ) {
             Text(
-                "Enter 24 secret words",
+                stringResource(R.string.enter_24_secret_words),
                 Modifier.height(20.dp),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W500,
@@ -96,7 +99,7 @@ fun DontHavePhrase(
             )
         }
         Button(
-            goImport,
+            goCreate,
             Modifier
                 .padding(
                     top = 8.dp,
@@ -112,7 +115,7 @@ fun DontHavePhrase(
             contentPadding = PaddingValues(14.dp),
         ) {
             Text(
-                "Create a new empty wallet instead",
+                stringResource(R.string.create_empty_wallet),
                 Modifier.height(20.dp),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W400,
@@ -132,6 +135,6 @@ fun DontHavePhrase(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        DontHavePhrase({}, {})
+        DontHavePhrase({}, {}, {})
     }
 }

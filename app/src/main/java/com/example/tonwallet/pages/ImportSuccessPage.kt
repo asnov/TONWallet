@@ -27,7 +27,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.NavigationBarHeight
-import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.ui.theme.TONWalletTheme
@@ -37,7 +36,6 @@ private const val TAG = "ImportSuccessPage"
 
 @Composable
 fun ImportSuccessPage(
-    goBack: () -> Unit,
     goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -50,7 +48,7 @@ fun ImportSuccessPage(
     ) {
         Image(painterResource(R.drawable.sticker), null, Modifier.size(100.dp))
         Text(
-            "Your wallet has just been imported!",
+            stringResource(R.string.wallet_has_been_imported),
             Modifier.padding(vertical = 12.dp) .fillMaxWidth(210 / 360f),
             Color(0xFF222222),
             fontFamily = Roboto,
@@ -102,6 +100,6 @@ fun ImportSuccessPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        ImportSuccessPage({}, {})
+        ImportSuccessPage({})
     }
 }

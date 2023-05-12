@@ -7,7 +7,9 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.example.tonwallet.pages.DonePage
+import com.example.tonwallet.pages.DontHavePhrase
 import com.example.tonwallet.pages.ImportStartPage
+import com.example.tonwallet.pages.ImportSuccessPage
 import com.example.tonwallet.pages.PasscodePage
 import com.example.tonwallet.pages.SuccessPage
 import com.example.tonwallet.pages.WIP.MainPage
@@ -32,6 +34,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         isSeedRemembered = false
     }),
     CONGRATULATION({
+        isCreatingWallet = true
         Log.v(TAG, "before CongratulationsPage")
         CongratulationsPage(
             goBack = { it.setValue(it, it::value, START) },
@@ -61,16 +64,6 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         )
         Log.v(TAG, "after TestTimePage")
     }),
-    IMPORT_START({
-        Log.v(TAG, "before ImportStartPage")
-        isCreatingWallet = false
-        ImportStartPage(
-            goBack = { it.setValue(it, it::value, START) },
-            {},
-            goForth = { it.setValue(it, it::value, SUCCESS) },
-        )
-        Log.v(TAG, "after ImportStartPage")
-    }),
     SUCCESS({
         Log.v(TAG, "before SuccessPage")
         isSeedWrittenDown = true
@@ -96,7 +89,11 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             } else {
                 { it.setValue(it, it::value, IMPORT_START) }
             },
-            goForth = { it.setValue(it, it::value, DONE) },
+            goForth = if (isCreatingWallet) {
+                { it.setValue(it, it::value, DONE) }
+            } else {
+                { it.setValue(it, it::value, IMPORT_SUCCESS) }
+            },
         )
         Log.v(TAG, "after PasscodePage")
     }),
@@ -108,8 +105,33 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         Log.v(TAG, "after DonePage")
     }),
 
-    //    IMPORT_SUCCESS({}),
-//    DONOT_HAVE_A_PHRASE({}),
+    IMPORT_START({
+        Log.v(TAG, "before ImportStartPage")
+        isCreatingWallet = false
+        ImportStartPage(
+            goBack = { it.setValue(it, it::value, START) },
+            goNoPhrase = { it.setValue(it, it::value, DONOT_HAVE_A_PHRASE) },
+            goForth = { it.setValue(it, it::value, SUCCESS) },
+        )
+        Log.v(TAG, "after ImportStartPage")
+    }),
+    DONOT_HAVE_A_PHRASE({
+        Log.v(TAG, "before DontHavePhrase")
+        DontHavePhrase(
+            goBack = { it.setValue(it, it::value, START) },
+            goForth = { it.setValue(it, it::value, IMPORT_START) },
+            goCreate = { it.setValue(it, it::value, CONGRATULATION) },
+        )
+        Log.v(TAG, "after DontHavePhrase")
+    }),
+    IMPORT_SUCCESS({
+        Log.v(TAG, "before ImportSuccessPage")
+        ImportSuccessPage(
+            goForth = { it.setValue(it, it::value, WALLET) },
+        )
+        Log.v(TAG, "after ImportSuccessPage")
+    }),
+
     WALLET({
         Log.v(TAG, "before MainPage")
         MainPage(
