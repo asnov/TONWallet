@@ -12,7 +12,10 @@ import com.example.tonwallet.pages.ImportStartPage
 import com.example.tonwallet.pages.ImportSuccessPage
 import com.example.tonwallet.pages.PasscodePage
 import com.example.tonwallet.pages.SuccessPage
-import com.example.tonwallet.pages.WIP.MainPage
+import com.example.tonwallet.pages.WalletMainLoadingPage
+import com.example.tonwallet.pages.WalletMainPage
+import com.example.tonwallet.pages.WalletMainTransactionsPage
+import com.example.tonwallet.pages.WalletMainTransactionsScrollPage
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -100,7 +103,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
     DONE({
         Log.v(TAG, "before DonePage")
         DonePage(
-            goForth = { it.setValue(it, it::value, WALLET) },
+            goForth = { it.setValue(it, it::value, MAIN_CREATED) },
         )
         Log.v(TAG, "after DonePage")
     }),
@@ -127,18 +130,38 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
     IMPORT_SUCCESS({
         Log.v(TAG, "before ImportSuccessPage")
         ImportSuccessPage(
-            goForth = { it.setValue(it, it::value, WALLET) },
+            goForth = { it.setValue(it, it::value, MAIN_LOADING) },
         )
         Log.v(TAG, "after ImportSuccessPage")
     }),
 
-    WALLET({
-        Log.v(TAG, "before MainPage")
-        MainPage(
-            goBack = { it.setValue(it, it::value, START) },
+
+    MAIN_LOADING({
+        Log.v(TAG, "before WalletMainLoadingPage")
+        WalletMainLoadingPage(
+            goForth = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
         )
-        Log.v(TAG, "after MainPage")
+        Log.v(TAG, "after WalletMainLoadingPage")
     }),
+    MAIN_CREATED({
+        Log.v(TAG, "before WalletMainPage")
+        WalletMainPage(
+            goReceive = {},
+            goSend = {},
+            goScan = {},
+            goSettings = {},
+        )
+        Log.v(TAG, "after WalletMainPage")
+    }),
+    MAIN_WITH_TRANSACTIONS({
+        Log.v(TAG, "before WalletMainTransactionsPage")
+        WalletMainTransactionsPage({})
+        Log.v(TAG, "after WalletMainTransactionsPage")
+        if (false) {
+            WalletMainTransactionsScrollPage({})
+        }
+    }),
+
 }
 
 

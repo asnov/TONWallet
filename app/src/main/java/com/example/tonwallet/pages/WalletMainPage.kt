@@ -36,7 +36,10 @@ private const val TAG = "WalletMainPage"
 
 @Composable
 fun WalletMainPage(
-    goBack: () -> Unit,
+    goReceive: () -> Unit,
+    goSend: () -> Unit,
+    goScan: () -> Unit,
+    goSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -246,6 +249,6 @@ fun WalletMainPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainPage({})
+        WalletMainPage({},{},{},{})
     }
 }

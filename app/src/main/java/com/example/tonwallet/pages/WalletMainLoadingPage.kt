@@ -18,6 +18,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,16 +30,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.ui.theme.TONWalletTheme
+import kotlinx.coroutines.delay
 
 
 private const val TAG = "WalletMainLoadingPage"
 
 @Composable
 fun WalletMainLoadingPage(
-    goBack: () -> Unit,
+    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
+
+    LaunchedEffect(true) {
+        Log.v(TAG, "delaying")
+        delay(5_000)
+        Log.v(TAG, "delayed")
+        goForth()
+        Log.v(TAG, "goForth() called")
+    }
 
     Column(
         modifier
