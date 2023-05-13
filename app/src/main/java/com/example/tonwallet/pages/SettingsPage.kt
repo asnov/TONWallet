@@ -2,11 +2,10 @@ package com.example.tonwallet.pages
 
 import android.content.res.Configuration
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,16 +13,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Card
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Switch
+import androidx.compose.material.SwitchColors
+import androidx.compose.material.SwitchDefaults
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
+import com.example.tonwallet.StatusBarHeight
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -44,177 +48,340 @@ fun SettingsPage(
     Log.v(TAG, "started")
     Column(
         modifier
-            .background(Color.Black).fillMaxHeight(1/3f),
+            .background(Color.Black),
         Arrangement.Bottom,
         Alignment.CenterHorizontally,
     ) {
         Row(
-            Modifier
-                .height(56.dp)
-                .fillMaxWidth()
-                .padding(start = 272.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier
+                .padding(top = StatusBarHeight)
         ) {
-
-            Image(
-                painterResource(R.drawable.icon_scan),
-                null, Modifier.size(24.dp)
-            )
-
-            Image(
-                painterResource(R.drawable.icon_config),
-                null, Modifier.size(24.dp)
-            )
-
-        }
-
-        Column(
-            Modifier
-                .background(Color.Black),
-            Arrangement.Center,
-            Alignment.CenterHorizontally,
-        ) {
-
-
-            Column(
+            IconButton(
+                goBack,
                 Modifier
-                    .background(Color.Black)
-                    .padding(top = 57.dp),
-                Arrangement.Center,
-                Alignment.CenterHorizontally,
+                    .padding(4.dp, 4.dp, 0.dp, 4.dp)
+                    .size(48.dp),
             ) {
-                Row(
-                    Modifier
-                        .padding(bottom = 16.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                ) {
-
-                }
-
+                Icon(
+                    Icons.Default.ArrowBack, stringResource(R.string.arrow_back),
+                    tint = Color(0xFFFFFFFF),
+                )
+            }
+            // Body
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .size(48.dp)
+                    .padding(20.dp, 12.dp, 20.dp, 12.dp),
+            ) {
+                Text(
+                    text = "Wallet Settings",
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    fontSize = 20.sp,
+                    lineHeight = 24.sp,
+                    fontWeight = FontWeight.W500,
+                )
+            }
+            // Cell
+            Box(
+                Modifier
+                    .padding(0.dp, 4.dp, 4.dp, 4.dp)
+                    .size(48.dp),
+            ) {
 
             }
-
         }
+
         Column(
             Modifier
-                .background(Color(0xFFFFFFFF), shape = RoundedCornerShape(topStart = 10.dp,
-                    topEnd = 10.dp,
-                    bottomStart = 0.dp,
-                    bottomEnd = 0.dp))
-                .fillMaxWidth().fillMaxHeight()
+                .background(
+                    Color(0xFFFFFFFF), shape = RoundedCornerShape(
+                        topStart = 10.dp,
+                        topEnd = 10.dp,
+                        bottomStart = 0.dp,
+                        bottomEnd = 0.dp
+                    )
+                )
+                .fillMaxWidth()
+                .fillMaxHeight()
         )
         {
-            Column( modifier = Modifier.padding(top=20.dp, bottom=12.dp, start=16.dp, end=16.dp)) {
+            Column( modifier = Modifier.padding(top=20.dp, bottom=4.dp, start=20.dp)) {
                 Text(
-                    text = "September 5",
-                    color = Color.Black,
+                    text = "General",
+                    color = Color(0xFF339CEC),
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
-                    lineHeight = 20.sp,
+                    lineHeight = 16.sp,
                     fontWeight = FontWeight.W500,
-
                     )
             }
-            Column( Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
                 Row(
                     Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 6.dp),
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
                     Row(  verticalAlignment = Alignment.CenterVertically,) {
 
-                        Image(
-                            painter = painterResource(R.drawable.icon_crystal),
-                            contentDescription = "crystal",
-                            modifier = Modifier
-                                .height(height = 18.dp)
-                                .padding(end = 8.dp)
-                        )
                         Text(
-                            text = "1",
-                            color = Color(0xFF37A818),
+                            text = "Notifications",
+                            color = Color.Black,
                             textAlign = TextAlign.Center,
-                            fontSize = 18.sp,
-                            lineHeight = 18.sp,
-                            fontWeight = FontWeight.W600,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
                         )
 
                     }
-                    Text(
-                        text = "22:52",
-                        color = Color(0xFF757575),
-                        textAlign = TextAlign.Right,
-                        fontSize = 14.sp,
-                        lineHeight = 18.sp,
-                        fontWeight = FontWeight.W400,
-                    )
+                    //here should be switch button - code above don't work, needs some programming
+                    //Switch(checked =checkedState.value , onCheckedChange = {checkedState.value = it },
+                  //  colors=SwitchDefaults.Colors(
+                   //     checkedThumbColor=Color(0xFFFFFFFF),
+                  //      checkedTrackColor=Color(0xFF5AA7EA),
+                  //       )
+                  //  )
                 }
-                Text(
-                    "12nP8p…4Ad9BDh",
-                    Modifier.padding(bottom = 6.dp),
-                    color = Color.Black,
-                    textAlign = TextAlign.Center,
-                    fontSize = 14.sp,
-                    lineHeight = 18.sp,
-                    fontWeight = FontWeight.W400,
-                    )
-
-
-            }//row transaction
+            }//row
             Divider (
                 color = Color(0x14000000),
                 modifier = Modifier
-                    .padding(bottom = 14.dp)
                     .height(1.dp)
                     .fillMaxWidth()
             )
 
-            Column( Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
+            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
                 Row(
                     Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 6.dp),
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
                     Row(  verticalAlignment = Alignment.CenterVertically,) {
 
+                        Text(
+                            text = "Active address",
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+
+                    }
+                    Text(
+                        text = "v4R2",
+                        color = Color(0xFF339CEC),
+                        textAlign = TextAlign.Right,
+                        fontFamily = Roboto,//should be Inter
+                        fontSize = 15.sp,
+                        lineHeight = 20.sp,
+                        fontWeight = FontWeight.W400,
+                    )
+                }
+            }//row
+            Divider (
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                ) {
+                    Row(  verticalAlignment = Alignment.CenterVertically,) {
 
                         Text(
-                            text = "10",
+                            text = "Primary currency",
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+
+                    }
+                    Text(
+                        text = "USD",
+                        color = Color(0xFF339CEC),
+                        textAlign = TextAlign.Right,
+                        fontFamily = Roboto,//should be Inter
+                        fontSize = 15.sp,
+                        lineHeight = 20.sp,
+                        fontWeight = FontWeight.W400,
+                    )
+                }
+            }//row
+            Divider (
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                ) {
+                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+
+                        Text(
+                            text = "List of tokens",
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+                    }
+                }
+            }//row
+            Column( modifier = Modifier.padding(top=20.dp, bottom=4.dp, start=20.dp)) {
+                Text(
+                    text = "Security",
+                    color = Color(0xFF339CEC),
+                    textAlign = TextAlign.Center,
+                    fontSize = 15.sp,
+                    lineHeight = 16.sp,
+                    fontWeight = FontWeight.W500,
+                )
+            }
+            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                ) {
+                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+
+                        Text(
+                            text = "Show recovery phrase",
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+
+                    }
+                }
+            }//row
+            Divider (
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+
+            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                ) {
+                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+
+                        Text(
+                            text = "Change passcode",
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+
+                    }
+                }
+            }//row
+            Divider (
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                ) {
+                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+
+                        Text(
+                            text = "Biometric Auth",
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+
+                    }
+                    //here should be switch button - code above don't work, needs some programming
+                    //Switch(checked =checkedState.value , onCheckedChange = {checkedState.value = it },
+                    //  colors=SwitchDefaults.Colors(
+                    //     checkedThumbColor=Color(0xFFFFFFFF),
+                    //      checkedTrackColor=Color(0xFF5AA7EA),
+                    //       )
+                    //  )
+                }
+            }//row
+            Divider (
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                ) {
+                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+
+                        Text(
+                            text = "Delete Wallet",
                             color = Color(0xFFFE3C30),
                             textAlign = TextAlign.Center,
-                            fontSize = 18.sp,
-                            lineHeight = 18.sp,
-                            fontWeight = FontWeight.W600,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
                         )
+
                     }
-                    Text(
-                        text = "22:43",
-                        color = Color(0xFF757575),
-                        textAlign = TextAlign.Right,
-                        fontSize = 14.sp,
-                        lineHeight = 18.sp,
-                        fontWeight = FontWeight.W400,
-                    )
                 }
-            }//row transaction
-            Divider (
-                color = Color(0x14000000),
-                modifier = Modifier
-                    .padding(bottom = 14.dp)
-                    .height(1.dp)
-                    .fillMaxWidth()
-            )
+            }//row
+
         }
     }
 
 }
+
+fun Switch(checked: () -> Unit, onCheckedChange: (Boolean) -> Unit, colors: SwitchColors) {
+
+}
+
 
 
 @Preview(
