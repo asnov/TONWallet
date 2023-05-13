@@ -77,17 +77,17 @@ fun LockPage(
                 .width(100.dp)
                 .height(100.dp)
         )
-
+        Spacer(Modifier.height(20.dp))
         Text(
             stringResource(R.string.enter_digits, numberOfDigits),
-            color = Color(0xFF000000),
+            color = Color(0xFFFFFFFF),
             fontFamily = Roboto,
             fontWeight = FontWeight.W400,
             fontSize = 15.sp,
             lineHeight = 20.sp,
             textAlign = TextAlign.Center,
         )
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(28.dp))
         Row(
             Modifier
                 .padding(12.dp)
@@ -122,7 +122,7 @@ fun LockPage(
                 border = null,
                 elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0x00FFFFFF),
+                    backgroundColor = Color(0x00000000),
                     contentColor = Color(0xFF339CEC),
                 ),
                 contentPadding = PaddingValues(14.dp),
