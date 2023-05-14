@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
-import com.example.tonwallet.ui.theme.progressTONWalletTheme
+import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
 private const val TAG = "ConnectPending"
