@@ -3,6 +3,7 @@ package com.example.tonwallet.pages
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +44,8 @@ private const val TAG = "SettingsPage"
 @Composable
 fun SettingsPage(
     goBack: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    openConnectStartPage: () -> Unit = {},
 ) {
     Log.v(TAG, "started")
     Column(
@@ -75,7 +77,7 @@ fun SettingsPage(
                     .padding(20.dp, 12.dp, 20.dp, 12.dp),
             ) {
                 Text(
-                    text = "Wallet Settings",
+                    text = stringResource(R.string.wallet_settings),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp,
@@ -91,7 +93,8 @@ fun SettingsPage(
             ) {
 
             }
-        }
+        } // Header
+
 
         Column(
             Modifier
@@ -109,7 +112,7 @@ fun SettingsPage(
         {
             Column(modifier = Modifier.padding(top = 20.dp, bottom = 4.dp, start = 20.dp)) {
                 Text(
-                    text = "General",
+                    text = stringResource(R.string.settings_general),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
@@ -127,7 +130,7 @@ fun SettingsPage(
                     Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
-                            text = "Notifications",
+                            text = stringResource(R.string.settings_notifications),
                             color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontFamily = Roboto,//should be Inter
@@ -163,7 +166,7 @@ fun SettingsPage(
                     Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
-                            text = "Active address",
+                            text = stringResource(R.string.settings_active_address),
                             color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontFamily = Roboto,//should be Inter
@@ -201,7 +204,7 @@ fun SettingsPage(
                     Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
-                            text = "Primary currency",
+                            text = stringResource(R.string.settings_primary_currency),
                             color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontFamily = Roboto,//should be Inter
@@ -239,7 +242,7 @@ fun SettingsPage(
                     Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
-                            text = "List of tokens",
+                            text = stringResource(R.string.settings_list_of_tokens),
                             color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontFamily = Roboto,//should be Inter
@@ -253,7 +256,7 @@ fun SettingsPage(
 
             Column(modifier = Modifier.padding(top = 20.dp, bottom = 4.dp, start = 20.dp)) {
                 Text(
-                    text = "Security",
+                    text = stringResource(R.string.settings_security),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
@@ -271,36 +274,7 @@ fun SettingsPage(
                     Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
-                            text = "Show recovery phrase",
-                            color = Color.Black,
-                            textAlign = TextAlign.Center,
-                            fontFamily = Roboto,//should be Inter
-                            fontSize = 15.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight.W400,
-                        )
-
-                    }
-                }
-            } // row
-            Divider(
-                color = Color(0x14000000),
-                modifier = Modifier
-                    .height(1.dp)
-                    .fillMaxWidth()
-            )
-
-            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
-                Row(
-                    Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Bottom,
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-
-                        Text(
-                            text = "Change passcode",
+                            text = stringResource(R.string.settings_show_recovery_phrase),
                             color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontFamily = Roboto,//should be Inter
@@ -329,7 +303,36 @@ fun SettingsPage(
                     Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
-                            text = "Biometric Auth",
+                            text = stringResource(R.string.settings_change_passcode),
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+
+                    }
+                }
+            } // row
+
+            Divider(
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+
+                        Text(
+                            text = stringResource(R.string.settings_biometric_auth),
                             color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontFamily = Roboto,//should be Inter
@@ -365,7 +368,7 @@ fun SettingsPage(
                     Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
-                            text = "Delete Wallet",
+                            text = stringResource(R.string.settings_delete_wallet),
                             color = Color(0xFFFE3C30),
                             textAlign = TextAlign.Center,
                             fontFamily = Roboto,//should be Inter
@@ -377,6 +380,41 @@ fun SettingsPage(
                     }
                 }
             } // row
+
+            Divider(
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+
+            Column(
+                Modifier
+                    .padding(vertical = 14.dp, horizontal = 20.dp)
+                    .clickable(onClick = openConnectStartPage)
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+
+                        Text(
+                            text = "Connect to Fragment (delete it)",
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+
+                    }
+                }
+            } // row
+
 
         }
     }

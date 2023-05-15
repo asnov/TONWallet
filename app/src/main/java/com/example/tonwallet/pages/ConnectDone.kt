@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +38,7 @@ private const val TAG = "ConnectDone"
 @Composable
 fun ConnectDone(
     goBack: () -> Unit,
+    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -65,9 +65,11 @@ fun ConnectDone(
             Alignment.CenterHorizontally,
         )
         {
-            Column(Modifier,
+            Column(
+                Modifier,
                 Arrangement.Top,
-                Alignment.CenterHorizontally,) {
+                Alignment.CenterHorizontally,
+            ) {
                 Row(
                     modifier,
                     verticalAlignment = Alignment.Top,
@@ -93,9 +95,13 @@ fun ConnectDone(
                     ) {}
                 }
             }//column with close-button
-            Column(Modifier.offset(y=-12.dp).fillMaxWidth(),
+            Column(
+                Modifier
+                    .offset(y = (-12).dp)
+                    .fillMaxWidth(),
                 Arrangement.Center,
-                Alignment.CenterHorizontally) {
+                Alignment.CenterHorizontally
+            ) {
                 Image(
                     painterResource(R.drawable.fragment_logo),
                     null,
@@ -105,7 +111,8 @@ fun ConnectDone(
                 Spacer(
                     Modifier
                         .height(20.dp)
-                        .fillMaxWidth())
+                        .fillMaxWidth()
+                )
                 Text(
                     text = "Connect to Fragment",
                     color = Color.Black,
@@ -117,8 +124,10 @@ fun ConnectDone(
                 Spacer(
                     Modifier
                         .height(8.dp)
-                        .fillMaxWidth())
-                Text(//here should be buildAnnotatedString, but i don'n know how to use it, to make part of this text in other color, this UQBF…AoKP should be in color grey and font roboto mono
+                        .fillMaxWidth()
+                )
+                Text(
+//here should be buildAnnotatedString, but i don'n know how to use it, to make part of this text in other color, this UQBF…AoKP should be in color grey and font roboto mono
                     text = "fragment.io is requesting access to your wallet address UQBF…AoKP v4R2. ",
                     Modifier.padding(horizontal = 40.dp),
                     color = Color.Black,
@@ -130,7 +139,8 @@ fun ConnectDone(
                 Spacer(
                     Modifier
                         .height(36.dp)
-                        .fillMaxWidth())
+                        .fillMaxWidth()
+                )
                 Text(
                     text = "Be sure to check the service address before connecting the wallet.",
                     Modifier.padding(horizontal = 40.dp),
@@ -141,7 +151,7 @@ fun ConnectDone(
                     fontWeight = FontWeight.W400,
                 )
                 Button(
-                    {},
+                    goForth,
                     modifier
                         .fillMaxWidth()
                         .padding(top = 28.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
@@ -166,7 +176,6 @@ fun ConnectDone(
 }
 
 
-
 @Preview(
     name = "Day Mode",
     showSystemUi = true,
@@ -175,6 +184,6 @@ fun ConnectDone(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        ConnectDone({})
+        ConnectDone({}, {})
     }
 }

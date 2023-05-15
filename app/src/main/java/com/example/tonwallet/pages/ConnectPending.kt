@@ -21,6 +21,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.ui.theme.TONWalletTheme
+import kotlinx.coroutines.delay
 
 
 private const val TAG = "ConnectPending"
@@ -39,9 +41,18 @@ private const val TAG = "ConnectPending"
 @Composable
 fun ConnectPending(
     goBack: () -> Unit,
+    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
+
+    LaunchedEffect(true) {
+        Log.v(TAG, "delaying")
+        delay(5_000)
+        Log.v(TAG, "delayed")
+        goForth()
+        Log.v(TAG, "goForth() called")
+    }
 
     Column(
         modifier
@@ -65,9 +76,11 @@ fun ConnectPending(
             Alignment.CenterHorizontally,
         )
         {
-            Column(Modifier,
+            Column(
+                Modifier,
                 Arrangement.Top,
-                Alignment.CenterHorizontally,) {
+                Alignment.CenterHorizontally,
+            ) {
                 Row(
                     modifier,
                     verticalAlignment = Alignment.Top,
@@ -92,13 +105,15 @@ fun ConnectPending(
                             .size(48.dp),
                     ) {}
                 }
-            }//column with close-button
+            } // column with close-button
+
             Column(
                 Modifier
                     .offset(y = -12.dp)
                     .fillMaxWidth(),
                 Arrangement.Center,
-                Alignment.CenterHorizontally) {
+                Alignment.CenterHorizontally
+            ) {
                 Image(
                     painterResource(R.drawable.fragment_logo),
                     null,
@@ -108,7 +123,8 @@ fun ConnectPending(
                 Spacer(
                     Modifier
                         .height(20.dp)
-                        .fillMaxWidth())
+                        .fillMaxWidth()
+                )
                 Text(
                     text = "Connect to Fragment",
                     color = Color.Black,
@@ -120,8 +136,10 @@ fun ConnectPending(
                 Spacer(
                     Modifier
                         .height(8.dp)
-                        .fillMaxWidth())
-                Text(//here should be buildAnnotatedString, but i don'n know how to use it, to make part of this text in other color, this UQBF…AoKP should be in color grey and font roboto mono
+                        .fillMaxWidth()
+                )
+                Text(
+//here should be buildAnnotatedString, but i don'n know how to use it, to make part of this text in other color, this UQBF…AoKP should be in color grey and font roboto mono
                     text = "fragment.io is requesting access to your wallet address UQBF…AoKP v4R2. ",
                     Modifier.padding(horizontal = 40.dp),
                     color = Color.Black,
@@ -133,7 +151,8 @@ fun ConnectPending(
                 Spacer(
                     Modifier
                         .height(36.dp)
-                        .fillMaxWidth())
+                        .fillMaxWidth()
+                )
                 Text(
                     text = "Be sure to check the service address before connecting the wallet.",
                     Modifier.padding(horizontal = 40.dp),
@@ -155,15 +174,18 @@ fun ConnectPending(
                     shape = RoundedCornerShape(8.dp),
                     contentPadding = PaddingValues(14.dp),
                 ) {
-                    Row(horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
                         Box(
                             Modifier
-                                .size(16.dp).weight(1/3f),
+                                .size(16.dp)
+                                .weight(1 / 3f),
                         )
                         Text(
                             "Connect wallet",
-                            Modifier.weight(1/3f),
+                            Modifier.weight(1 / 3f),
                             color = Color.White,
                             textAlign = TextAlign.Center,
                             fontSize = 15.sp,
@@ -173,11 +195,14 @@ fun ConnectPending(
                         )
                         Image(
                             painterResource(R.drawable.icon_pending_white),
-                            null, Modifier.size(16.dp).weight(1/3f),
+                            null,
+                            Modifier
+                                .size(16.dp)
+                                .weight(1 / 3f),
                             Alignment.CenterEnd,
                         )
                     }
-                }//button
+                } // button
             }
 
 
@@ -185,7 +210,6 @@ fun ConnectPending(
     }
 
 }
-
 
 
 @Preview(
@@ -196,6 +220,6 @@ fun ConnectPending(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        ConnectPending({})
+        ConnectPending({}, {})
     }
 }

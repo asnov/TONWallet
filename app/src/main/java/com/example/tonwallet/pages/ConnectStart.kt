@@ -39,6 +39,7 @@ private const val TAG = "ConnectStart"
 @Composable
 fun ConnectStart(
     goBack: () -> Unit,
+    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -141,7 +142,7 @@ fun ConnectStart(
                     fontWeight = FontWeight.W400,
                 )
                 Button(
-                    {},
+                    goForth,
                     modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 12.dp),
@@ -180,6 +181,6 @@ fun ConnectStart(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        ConnectStart({})
+        ConnectStart({}, {})
     }
 }

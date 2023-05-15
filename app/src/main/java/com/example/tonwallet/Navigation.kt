@@ -14,6 +14,9 @@ import com.example.tonwallet.pages.DonePage
 import com.example.tonwallet.pages.DontHavePhrase
 import com.example.tonwallet.components.ImportErrorPopup
 import com.example.tonwallet.components.WIP.TonViewModel
+import com.example.tonwallet.pages.ConnectDone
+import com.example.tonwallet.pages.ConnectPending
+import com.example.tonwallet.pages.ConnectStart
 import com.example.tonwallet.pages.ImportStartPage
 import com.example.tonwallet.pages.ImportSuccessPage
 import com.example.tonwallet.pages.IncomingTransactionView
@@ -29,7 +32,6 @@ import com.example.tonwallet.pages.SendPageSuccess
 import com.example.tonwallet.pages.SendStartPage
 import com.example.tonwallet.pages.SettingsPage
 import com.example.tonwallet.pages.SuccessPage
-import com.example.tonwallet.pages.WIP.MainPage
 import com.example.tonwallet.pages.WalletMainLoadingPage
 import com.example.tonwallet.pages.WalletMainPage
 import com.example.tonwallet.pages.WalletMainTransactionsPage
@@ -334,6 +336,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         SettingsPage(
             // should it depends on pathway?
             goBack = goBack,
+            openConnectStartPage = { it.setValue(it, it::value, CONNECT_START) },
         )
         Log.v(TAG, "after SettingsPage")
     }),
@@ -364,6 +367,41 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             goForth = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
         )
         Log.v(TAG, "after LockPage")
+    }),
+
+
+    CONNECT_START({
+        Log.v(TAG, "before ConnectStart")
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
+        ConnectStart(
+            goBack = goBack,
+            goForth = { it.setValue(it, it::value, CONNECT_PENDING) },
+        )
+        Log.v(TAG, "after ConnectStart")
+    }),
+    CONNECT_PENDING({
+        Log.v(TAG, "before ConnectPending")
+        val goBack = { it.setValue(it, it::value, CONNECT_START) }
+        BackHandler(onBack = goBack)
+
+        ConnectPending(
+            goBack = goBack,
+            goForth = { it.setValue(it, it::value, CONNECT_DONE) },
+        )
+        Log.v(TAG, "after ConnectPending")
+    }),
+    CONNECT_DONE({
+        Log.v(TAG, "before ConnectDone")
+        val goBack = { it.setValue(it, it::value, CONNECT_START) }
+        BackHandler(onBack = goBack)
+
+        ConnectDone(
+            goBack = goBack,
+            goForth = { it.setValue(it, it::value, CONNECT_START) },
+        )
+        Log.v(TAG, "after ConnectDone")
     }),
 
 

@@ -43,4 +43,15 @@
     <string name="send_button">Send</string>
     <string name="from_transaction">from</string>
     <string name="to_transaction">to</string>
+    <string name="wallet_settings">Wallet Settings</string>
+    <string name="settings_general">General</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_active_address">Active address</string>
+    <string name="settings_primary_currency">Primary currency</string>
+    <string name="settings_list_of_tokens">List of tokens</string>
+    <string name="settings_security">Security</string>
+    <string name="settings_show_recovery_phrase">Show recovery phrase</string>
+    <string name="settings_change_passcode">Change passcode</string>
+    <string name="settings_biometric_auth">Biometric Auth</string>
+    <string name="settings_delete_wallet">Delete Wallet</string>
 </resources>
