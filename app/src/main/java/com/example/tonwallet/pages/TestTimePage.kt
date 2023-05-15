@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -44,6 +46,8 @@ fun TestTimePage(
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
+    val walletModel: TonViewModel = viewModel()
+    val wordList = if (walletModel.mnemonic.isNotEmpty()) walletModel.mnemonic else wordListDemo
 
     val numberOfTheWordsToEnter = arrayOf(5, 15, 18)
 //    var words = numberOfTheWordsToEnter.map { wordList[it - 1] }.toTypedArray()

@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.pages.CameraPermission
 import com.example.tonwallet.pages.DonePage
 import com.example.tonwallet.pages.DontHavePhrase
 import com.example.tonwallet.components.ImportErrorPopup
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.pages.ImportStartPage
 import com.example.tonwallet.pages.ImportSuccessPage
 import com.example.tonwallet.pages.IncomingTransactionView
@@ -30,7 +33,7 @@ import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
 private const val TAG = "Navigation"
-private var isCreatingWallet by mutableStateOf(true)
+private var isCreatingWallet by mutableStateOf(false)
 private var isSeedWrittenDown by mutableStateOf(false)
 private var isSeedRemembered by mutableStateOf(false)
 private const val merged = false
@@ -43,12 +46,16 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             goImport = { it.setValue(it, it::value, IMPORT_START) },
         )
         Log.v(TAG, "after StartPage")
-        isCreatingWallet = true
+        isCreatingWallet = false
         isSeedWrittenDown = false
         isSeedRemembered = false
     }),
     CONGRATULATION({
-        isCreatingWallet = true
+        if (!isCreatingWallet) {
+            val walletModel: TonViewModel = viewModel()
+            walletModel.generateSeed()
+            isCreatingWallet = true
+        }
         Log.v(TAG, "before CongratulationsPage")
         CongratulationsPage(
             goBack = { it.setValue(it, it::value, START) },
@@ -56,6 +63,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         )
         Log.v(TAG, "after CongratulationsPage")
     }),
+
     RECOVERY_PHRASE({
         Log.v(TAG, "before RecoveryPhrasePage")
         RecoveryPhrasePage(
@@ -248,8 +256,12 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
 @Composable
 fun Navigation() {
-    val visiblePage = remember { mutableStateOf(Pages.START) }
+//    val visiblePage = remember { mutableStateOf(Pages.START) }
+    val visiblePage = rememberSaveable { mutableStateOf(Pages.START) }
+
     Log.v(TAG, "started")
+
+//    val tonModel: TonViewModel = ViewModelProvider().get(TonViewModel::class.java)
 
     TONWalletTheme {
         // A surface container using the 'background' color from the theme

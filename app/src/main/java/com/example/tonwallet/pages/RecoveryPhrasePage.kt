@@ -24,13 +24,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.components.PopupSureDone
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import java.time.LocalTime
 
 
 private const val TAG = "RecoveryPhrasePage"
-internal val wordList = listOf(
+internal val wordListDemo = listOf(
     "network", "banana", "coffee", "jaguar", "mafioso", "junk",
     "whale", "pepper", "steel", "execution", "drift", "sparrow",
     "angel", "sidewalk", "tank", "space", "heart", "sun",
@@ -75,10 +77,12 @@ fun RecoveryPhrasePage(
     modifier: Modifier = Modifier,
     isSeedRemembered: Boolean = false,
 ) {
+    val walletModel: TonViewModel = viewModel()
+    val wordList = if (walletModel.mnemonic.isNotEmpty()) walletModel.mnemonic else wordListDemo
     var isPopupVisible by remember { mutableStateOf(false) }
     var isSecondTime by remember { mutableStateOf(false) }
     val secondsForWriting = if (isSeedRemembered) 0L else
-        if (BuildConfig.DEBUG) 10L else wordList.size * 3L
+        if (BuildConfig.DEBUG) 10L else wordList.size * 3L  // 3 secs to write down each word
     val writingEndTime = remember { LocalTime.now().plusSeconds(secondsForWriting) }
 
     Column(
