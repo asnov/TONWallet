@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
-import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.KeyboardScreen
@@ -53,7 +52,6 @@ private const val TAG = "LockPage"
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun LockPage(
-    goBack: () -> Unit,
     goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -61,15 +59,14 @@ fun LockPage(
     var numberOfDigits by remember { mutableStateOf(4) }
     var passcodeEntered by remember { mutableStateOf("") }
     var isMenuVisible by remember { mutableStateOf(false) }
-    var isConfirming by remember { mutableStateOf(false) }
-    var firstPasscode by remember { mutableStateOf("") }
+    var firstPasscode by remember { mutableStateOf("1".repeat(numberOfDigits)) }
 
     Column(
-        modifier .background(Color(0xFF31373E)),
+        modifier.background(Color(0xFF31373E)),
         Arrangement.SpaceBetween,
         Alignment.CenterHorizontally,
     ) {
-        PanelHeader(goBack)
+        Spacer(Modifier.height(56.dp))
 
         Image(
             painterResource(R.drawable.sticker_monkey_closed_eyes), null,
@@ -107,36 +104,28 @@ fun LockPage(
         }
         Spacer(Modifier.height(31.dp))
 
-        if (isConfirming) {
-            Spacer(
-                Modifier
-                    .height(48.dp)
-                    .padding(bottom = 4.dp)
+        Button(
+            { isMenuVisible = !isMenuVisible },
+            Modifier
+                .padding(bottom = 4.dp)
+                .fillMaxWidth(200 / 360f),
+            border = null,
+            elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color(0x00000000),
+                contentColor = Color(0xFF339CEC),
+            ),
+            contentPadding = PaddingValues(14.dp),
+        ) {
+            Text(
+                stringResource(R.string.passcode_options),
+                Modifier.height(20.dp),
+                fontFamily = Roboto,
+                fontWeight = FontWeight.W400,
+                fontSize = 15.sp,
+                lineHeight = 20.sp,
+                letterSpacing = 0.1.sp,
             )
-        } else {
-            Button(
-                { isMenuVisible = !isMenuVisible },
-                Modifier
-                    .padding(bottom = 4.dp)
-                    .fillMaxWidth(200 / 360f),
-                border = null,
-                elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0x00000000),
-                    contentColor = Color(0xFF339CEC),
-                ),
-                contentPadding = PaddingValues(14.dp),
-            ) {
-                Text(
-                    stringResource(R.string.passcode_options),
-                    Modifier.height(20.dp),
-                    fontFamily = Roboto,
-                    fontWeight = FontWeight.W400,
-                    fontSize = 15.sp,
-                    lineHeight = 20.sp,
-                    letterSpacing = 0.1.sp,
-                )
-            }
         }
         Spacer(Modifier.height(16.dp))
 
@@ -149,31 +138,16 @@ fun LockPage(
             GlobalScope.launch {
                 delay(100)
                 // passcodeEntered.length == numberOfDigits
-                if (!isConfirming) {
-                    isConfirming = true
-                    firstPasscode = passcodeEntered
-                    passcodeEntered = ""
-                    return@launch
-                }
-                // isConfirming
                 if (firstPasscode == passcodeEntered) {
                     goForth()
-                    return@launch
                 }
-                // else switch to confirming
-                isConfirming = false
+                // else switch to repeat mode
                 passcodeEntered = ""
-                firstPasscode = ""
             }
         }, onDelete = {
             if (passcodeEntered.isNotEmpty()) {
                 passcodeEntered = passcodeEntered.substring(0, passcodeEntered.length - 1)
                 return@KeyboardScreen
-            }
-            if (isConfirming) {
-                isConfirming = false
-                passcodeEntered = firstPasscode.substring(0, firstPasscode.length - 1)
-                firstPasscode = ""
             }
             Log.v(TAG, "passcodeEntered = '$passcodeEntered'")
         })
@@ -198,6 +172,7 @@ fun LockPage(
                 numberOfDigits = it
                 passcodeEntered = ""
                 isMenuVisible = false
+                firstPasscode = "1".repeat(numberOfDigits)
             }
         }
     }
@@ -216,6 +191,6 @@ fun LockPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        LockPage({}, {})
+        LockPage({})
     }
 }

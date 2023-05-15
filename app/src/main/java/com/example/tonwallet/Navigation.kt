@@ -20,6 +20,7 @@ import com.example.tonwallet.pages.IncomingTransactionView
 import com.example.tonwallet.pages.IncomingTransactionViewCanceled
 import com.example.tonwallet.pages.IncomingTransactionViewPending
 import com.example.tonwallet.pages.IncomingTransactionWithComment
+import com.example.tonwallet.pages.LockPage
 import com.example.tonwallet.pages.OutgoingTransactionViewDNS
 import com.example.tonwallet.pages.OutgoingTransactionViewPage
 import com.example.tonwallet.pages.PasscodePage
@@ -195,7 +196,8 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
     MAIN_LOADING({
         Log.v(TAG, "before WalletMainLoadingPage")
-        BackHandler {}
+        val goBack = { it.setValue(it, it::value, LOCK) }
+        BackHandler(onBack = goBack)
 
         WalletMainLoadingPage(
             goReceive = { it.setValue(it, it::value, RECEIVE) },
@@ -209,7 +211,8 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
     MAIN_CREATED({
         Log.v(TAG, "before WalletMainPage")
-        BackHandler {}
+        val goBack = { it.setValue(it, it::value, LOCK) }
+        BackHandler(onBack = goBack)
 
         WalletMainPage(
             goReceive = { it.setValue(it, it::value, RECEIVE) },
@@ -222,7 +225,8 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
     MAIN_WITH_TRANSACTIONS({
         Log.v(TAG, "before WalletMainTransactionsPage")
-        BackHandler {}
+        val goBack = { it.setValue(it, it::value, LOCK) }
+        BackHandler(onBack = goBack)
 
         WalletMainTransactionsPage(
             goReceive = { it.setValue(it, it::value, RECEIVE) },
@@ -336,6 +340,16 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             }, // FIXME: should it be system settings?
         )
         Log.v(TAG, "after CameraPermission")
+    }),
+
+    LOCK({
+        Log.v(TAG, "before LockPage")
+        BackHandler {}
+
+        LockPage(
+            goForth = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
+        )
+        Log.v(TAG, "after LockPage")
     }),
 
 
