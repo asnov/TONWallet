@@ -93,7 +93,10 @@ fun ConnectPending(
                     ) {}
                 }
             }//column with close-button
-            Column(Modifier.offset(y=-12.dp).fillMaxWidth(),
+            Column(
+                Modifier
+                    .offset(y = -12.dp)
+                    .fillMaxWidth(),
                 Arrangement.Center,
                 Alignment.CenterHorizontally) {
                 Image(
@@ -152,23 +155,29 @@ fun ConnectPending(
                     shape = RoundedCornerShape(8.dp),
                     contentPadding = PaddingValues(14.dp),
                 ) {
-                    Box(
-                        Modifier
-                            .size(16.dp),
-                    )
-                    Text(
-                        "Connect wallet",
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        fontSize = 15.sp,
-                        lineHeight = 20.sp,
-                        fontWeight = FontWeight.W500,
-                        letterSpacing = 0.1.sp
-                    )
-                    Image(
-                        painterResource(R.drawable.icon_pending),
-                        null, Modifier.size(16.dp)
-                    )
+                    Row(horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,) {
+                        Box(
+                            Modifier
+                                .size(16.dp).weight(1/3f),
+                        )
+                        Text(
+                            "Connect wallet",
+                            Modifier.weight(1/3f),
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W500,
+                            letterSpacing = 0.1.sp
+                        )
+                        Image(
+                            painterResource(R.drawable.icon_pending_white),
+                            null, Modifier.size(16.dp).weight(1/3f),
+                            Alignment.CenterEnd,
+                        )
+                    }
+
                 }//button
             }
 
