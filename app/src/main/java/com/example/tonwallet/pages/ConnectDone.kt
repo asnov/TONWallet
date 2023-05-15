@@ -155,6 +155,7 @@ fun ConnectDone(
                     modifier
                         .fillMaxWidth()
                         .padding(top = 28.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
+                    elevation = null,
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color(0xFFFFFFFF),
                         contentColor = Color(0xFFFFFFFF),
