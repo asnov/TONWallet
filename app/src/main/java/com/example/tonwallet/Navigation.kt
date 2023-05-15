@@ -25,6 +25,7 @@ import com.example.tonwallet.pages.OutgoingTransactionViewDNS
 import com.example.tonwallet.pages.OutgoingTransactionViewPage
 import com.example.tonwallet.pages.PasscodePage
 import com.example.tonwallet.pages.SendPagePending
+import com.example.tonwallet.pages.SendPageSuccess
 import com.example.tonwallet.pages.SendStartPage
 import com.example.tonwallet.pages.SuccessPage
 import com.example.tonwallet.pages.WIP.MainPage
@@ -271,9 +272,21 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
         SendPagePending(
             goBack = goBack,
-            goForth = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
+            goForth = { it.setValue(it, it::value, SEND_SUCCESS) },
         )
         Log.v(TAG, "after SendPagePending")
+    }),
+
+    SEND_SUCCESS({
+        Log.v(TAG, "before SendPageSuccess")
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
+        SendPageSuccess(
+            goBack = goBack,
+            goForth = goBack,
+        )
+        Log.v(TAG, "after SendPageSuccess")
     }),
 
     INCOMING_VIEW({
