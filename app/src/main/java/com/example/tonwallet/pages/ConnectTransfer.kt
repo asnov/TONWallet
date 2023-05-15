@@ -83,7 +83,6 @@ fun ConnectTransfer(
                 Arrangement.Center,
                 Alignment.CenterHorizontally,
             ) {
-
                 Row(
                     Modifier
                         .fillMaxWidth()
