@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
+import com.example.tonwallet.components.PanelHeaderBlack
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.delay
 
@@ -37,6 +38,10 @@ private const val TAG = "WalletMainLoadingPage"
 
 @Composable
 fun WalletMainLoadingPage(
+    goReceive: () -> Unit,
+    goSend: () -> Unit,
+    goScan: () -> Unit,
+    goSettings: () -> Unit,
     goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -52,29 +57,12 @@ fun WalletMainLoadingPage(
 
     Column(
         modifier
-            .background(Color.Black).fillMaxHeight(1/3f),
+            .background(Color.Black)
+            .fillMaxHeight(1 / 3f),
         Arrangement.Bottom,
         Alignment.CenterHorizontally,
     ) {
-        Row(
-            Modifier
-                .height(56.dp)
-                .fillMaxWidth()
-                .padding(start = 272.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly,
-        ) {
-
-            Image(
-                painterResource(R.drawable.icon_scan),
-                null, Modifier.size(24.dp)
-            )
-
-            Image(
-                painterResource(R.drawable.icon_config),
-                null, Modifier.size(24.dp)
-            )
-        }
+        PanelHeaderBlack(goScan, goSettings)
 
         Column(
             Modifier
@@ -111,8 +99,10 @@ fun WalletMainLoadingPage(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     Button(
-                        {},
-                        modifier.fillMaxWidth(1/2f).padding(start = 12.dp, end = 6.dp),
+                        goReceive,
+                        modifier
+                            .fillMaxWidth(1 / 2f)
+                            .padding(start = 12.dp, end = 6.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(0xFF339CEC),
                             contentColor = Color(0xFFFFFFFF),
@@ -142,15 +132,17 @@ fun WalletMainLoadingPage(
                         }
                     }
                     Button(
-                        {},
-                        modifier.fillMaxWidth(2f).padding(start = 6.dp, end = 12.dp),
+                        goSend,
+                        modifier
+                            .fillMaxWidth(2f)
+                            .padding(start = 6.dp, end = 12.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(0xFF339CEC),
                             contentColor = Color(0xFFFFFFFF),
                         ),
                         shape = RoundedCornerShape(8.dp),
                         contentPadding = PaddingValues(14.dp),
-                        ) {
+                    ) {
                         Row(
 
                         ) {
@@ -177,12 +169,16 @@ fun WalletMainLoadingPage(
         }
         Column(
             Modifier
-                .background(Color(0xFFFFFFFF), shape = RoundedCornerShape(topStart = 10.dp,
-                    topEnd = 10.dp,
-                    bottomStart = 0.dp,
-                    bottomEnd = 0.dp)
+                .background(
+                    Color(0xFFFFFFFF), shape = RoundedCornerShape(
+                        topStart = 10.dp,
+                        topEnd = 10.dp,
+                        bottomStart = 0.dp,
+                        bottomEnd = 0.dp
+                    )
                 )
-                .fillMaxWidth().fillMaxHeight(),
+                .fillMaxWidth()
+                .fillMaxHeight(),
             Arrangement.Center,
             Alignment.CenterHorizontally,
         )
@@ -198,7 +194,6 @@ fun WalletMainLoadingPage(
 }
 
 
-
 @Preview(
     name = "Day Mode",
     showSystemUi = true,
@@ -207,6 +202,6 @@ fun WalletMainLoadingPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainLoadingPage({})
+        WalletMainLoadingPage({}, {}, {}, {}, {})
     }
 }

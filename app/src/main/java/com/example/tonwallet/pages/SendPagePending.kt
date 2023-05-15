@@ -39,119 +39,126 @@ private const val TAG = "SendPagePending"
 @Composable
 fun SendPagePending(
     goBack: () -> Unit,
+    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
 
+    Column(
+        Modifier
+            .background(
+                Color(0xFFFFFFFF), shape = RoundedCornerShape(
+                    topStart = 10.dp,
+                    topEnd = 10.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 0.dp
+                )
+            )
+            .padding(top = 8.dp)
+            .fillMaxWidth()
+            .fillMaxHeight(),
+    )
+    {
+        Column(
+            Modifier,
+            Arrangement.Top,
+            Alignment.CenterHorizontally,
+        ) {
+            Row(
+                modifier
+                    .padding(top = StatusBarHeight),
+                verticalAlignment = Alignment.Top,
+
+                ) {
+                IconButton(
+                    goBack,
+                    Modifier
+                        .padding(4.dp, 4.dp, 0.dp, 4.dp)
+                        .size(48.dp),
+                ) {
+                    Image(
+                        painterResource(R.drawable.icon_close),
+                        null, Modifier.size(24.dp)
+                    )
+                }
+                // Body
+                Box(Modifier.fillMaxWidth()) {}
+                // Cell
+                Box(
+                    Modifier
+                        .padding(0.dp, 4.dp, 4.dp, 4.dp)
+                        .size(48.dp),
+                ) {}
+            }
+        }
+
         Column(
             Modifier
-                .background(
-                    Color(0xFFFFFFFF), shape = RoundedCornerShape(
-                        topStart = 10.dp,
-                        topEnd = 10.dp,
-                        bottomStart = 0.dp,
-                        bottomEnd = 0.dp
-                    )
-                )
-                .padding(top=8.dp)
-                .fillMaxWidth()
-                .fillMaxHeight(),
-        )
-        {
-            Column(Modifier,
-                Arrangement.Top,
-                Alignment.CenterHorizontally,) {
-                Row(
-                    modifier
-                        .padding(top = StatusBarHeight),
-                    verticalAlignment = Alignment.Top,
-
-                    ) {
-                    IconButton(
-                        goBack,
-                        Modifier
-                            .padding(4.dp, 4.dp, 0.dp, 4.dp)
-                            .size(48.dp),
-                    ) {
-                        Image(
-                            painterResource(R.drawable.icon_close),
-                            null, Modifier.size(24.dp)
-                        )
-                    }
-                    // Body
-                    Box(Modifier.fillMaxWidth()) {}
-                    // Cell
-                    Box(
-                        Modifier
-                            .padding(0.dp, 4.dp, 4.dp, 4.dp)
-                            .size(48.dp),
-                    ) {}
-                }
-            }
-            Column(Modifier.weight(0.9f).fillMaxWidth(),
-                Arrangement.Center,
-                Alignment.CenterHorizontally) {
-                Image(
-                    painterResource(R.drawable.icon_flying_money),
-                    null, Modifier.size(100.dp)
-                )
-                Text(
-                    "Sending TON",
-                    modifier.padding (top=12.dp),
-                    color = Color(0xFF222222),
-                    textAlign = TextAlign.Center,
-                    fontSize = 24.sp,
-                    lineHeight = 28.sp,
-                    fontWeight = FontWeight.W500,
-                )
-                Text(
-                    "Please wait a few seconds for your\n" +
-                            "transaction to be processed…",
-                    modifier.padding (top=12.dp),
-                    color = Color.Black,
-                    textAlign = TextAlign.Center,
-                    fontSize = 15.sp,
-                    fontFamily = Roboto,
-                    lineHeight = 20.sp,
-                    fontWeight = FontWeight.W400
-                )
-
-
-            }
-            Column(Modifier.weight(0.18f),
-                Arrangement.Bottom,
-                Alignment.CenterHorizontally) {
-                Button(
-                    {},
-                    modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color(0xFF339CEC),
-                        contentColor = Color(0xFFFFFFFF),
-                    ),
-                    shape = RoundedCornerShape(8.dp),
-                    contentPadding = PaddingValues(14.dp),
-                ) {
-                    Text(
-                        "View My Wallet",
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        fontSize = 15.sp,
-                        lineHeight = 20.sp,
-                        fontWeight = FontWeight.W500,
-                        letterSpacing = 0.1.sp
-                    )
-                }//button
-            }
-
+                .weight(0.9f)
+                .fillMaxWidth(),
+            Arrangement.Center,
+            Alignment.CenterHorizontally
+        ) {
+            Image(
+                painterResource(R.drawable.icon_flying_money),
+                null, Modifier.size(100.dp)
+            )
+            Text(
+                "Sending TON",
+                modifier.padding(top = 12.dp),
+                color = Color(0xFF222222),
+                textAlign = TextAlign.Center,
+                fontSize = 24.sp,
+                lineHeight = 28.sp,
+                fontWeight = FontWeight.W500,
+            )
+            Text(
+                "Please wait a few seconds for your\n" +
+                        "transaction to be processed…",
+                modifier.padding(top = 12.dp),
+                color = Color.Black,
+                textAlign = TextAlign.Center,
+                fontSize = 15.sp,
+                fontFamily = Roboto,
+                lineHeight = 20.sp,
+                fontWeight = FontWeight.W400
+            )
 
 
         }
+
+        Column(
+            Modifier.weight(0.18f),
+            Arrangement.Bottom,
+            Alignment.CenterHorizontally
+        ) {
+            Button(
+                goForth,
+                modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color(0xFF339CEC),
+                    contentColor = Color(0xFFFFFFFF),
+                ),
+                shape = RoundedCornerShape(8.dp),
+                contentPadding = PaddingValues(14.dp),
+            ) {
+                Text(
+                    "View My Wallet",
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    fontSize = 15.sp,
+                    lineHeight = 20.sp,
+                    fontWeight = FontWeight.W500,
+                    letterSpacing = 0.1.sp
+                )
+            } // button
+        }
+
+
     }
-
-
-
+}
 
 
 @Preview(
@@ -162,6 +169,6 @@ fun SendPagePending(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SendPagePending({})
+        SendPagePending({}, {})
     }
 }

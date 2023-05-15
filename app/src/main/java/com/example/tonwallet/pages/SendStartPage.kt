@@ -40,12 +40,12 @@ import com.example.tonwallet.Roboto
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
-
 private const val TAG = "SendStartPage"
 
 @Composable
 fun SendStartPage(
     goBack: () -> Unit,
+    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -71,8 +71,10 @@ fun SendStartPage(
             Arrangement.Bottom,
         )
         {
-            Column( modifier = Modifier
-                .padding(top=16.dp, bottom=12.dp, start=20.dp, end=16.dp))
+            Column(
+                modifier = Modifier
+                    .padding(top = 16.dp, bottom = 12.dp, start = 20.dp, end = 16.dp)
+            )
             {
                 Text(
                     text = "Send TON",
@@ -82,13 +84,13 @@ fun SendStartPage(
                     fontSize = 20.sp,
                     lineHeight = 24.sp,
                     fontWeight = FontWeight.W500,
-                    )
+                )
             }
 
             Column() {
-                    Text(
+                Text(
                     "Wallet Address or Domain",
-                    Modifier.padding(start=20.dp),
+                    Modifier.padding(start = 20.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
                     fontSize = 15.sp,
@@ -98,10 +100,10 @@ fun SendStartPage(
 
                 BasicTextField(value = "Enter Wallet Address or Domain...",
                     onValueChange = {},
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(start=20.dp, top=12.dp, bottom=12.dp, end=20.dp),
-                            //.defaultMinSize(minHeight=64.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, top = 12.dp, bottom = 12.dp, end = 20.dp),
+                    //.defaultMinSize(minHeight=64.dp),
                     textStyle = TextStyle(
                         color = Color(0xFF000000),
                         fontFamily = Roboto,
@@ -113,18 +115,19 @@ fun SendStartPage(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     singleLine = false,
                     minLines = 2,
-                    cursorBrush= SolidColor(Color(0xFF339CEC)),
+                    cursorBrush = SolidColor(Color(0xFF339CEC)),
                     decorationBox = { innerTextField ->
                         Column(
                         ) {
                             //this should be placeholder
-                           // if (value.isEmpty()) {
+                            // if (value.isEmpty()) {
                             //   Text("Enter Wallet Address or Domain...")
-                           // }
+                            // }
                             innerTextField()
-                            Divider (
+                            Divider(
                                 color = Color(0xFF339CEC),
-                                modifier = Modifier.padding(top=12.dp)
+                                modifier = Modifier
+                                    .padding(top = 12.dp)
                                     .height(1.dp)
                                     .fillMaxWidth()
                             )
@@ -135,8 +138,9 @@ fun SendStartPage(
                     "",
                     {},
                     Modifier
-                        .fillMaxWidth().padding(horizontal = 20.dp)
-                       // .offset(-30.dp)
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        // .offset(-30.dp)
                         .height(88.dp),
                     textStyle = TextStyle(
                         color = Color(0xFF000000),
@@ -148,16 +152,19 @@ fun SendStartPage(
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = {},
-                    placeholder = { Text("Enter Wallet Address or Domain..." )
+                    placeholder = {
+                        Text("Enter Wallet Address or Domain...")
                         Modifier
-                            .offset(x=30.dp) },
+                            .offset(x = 30.dp)
+                    },
                     leadingIcon = {
                         modifier
                             .width(1.dp)
-                            .offset(30.dp) },
+                            .offset(30.dp)
+                    },
                     trailingIcon = {},
                     singleLine = false,
-                       colors = TextFieldDefaults.textFieldColors(
+                    colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color(0xFFFFFFFF),
                         cursorColor = Color(0xFF339CEC),
                         focusedIndicatorColor = Color(0xFF339CEC),
@@ -169,7 +176,7 @@ fun SendStartPage(
                 )
                 Text(
                     "Paste the 24-letter wallet address of the recipient here or TON DNS.",
-                    Modifier.padding(top=12.dp, start=20.dp, bottom=4.dp),
+                    Modifier.padding(top = 12.dp, start = 20.dp, bottom = 4.dp),
                     color = Color(0xFF757575),
                     textAlign = TextAlign.Left,
                     fontSize = 15.sp,
@@ -177,13 +184,14 @@ fun SendStartPage(
                     fontWeight = FontWeight.W400,
                 )
             }
-           
 
-            Column( Modifier.padding(top=12.dp, start=20.dp, end=20.dp,bottom=102.dp)
+
+            Column(
+                Modifier.padding(top = 12.dp, start = 20.dp, end = 20.dp, bottom = 102.dp)
             )
             {
                 Row() {
-                    Row(modifier.padding(end=24.dp)) {
+                    Row(modifier.padding(end = 24.dp)) {
                         Image(
                             painterResource(R.drawable.icon_paste),
                             null,
@@ -219,9 +227,10 @@ fun SendStartPage(
                     }
                 }
 
-            }//column with icons
+            } // column with icons
+
             Button(
-                {},
+                goForth,
                 modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -241,15 +250,11 @@ fun SendStartPage(
                     fontWeight = FontWeight.W500,
                     letterSpacing = 0.1.sp
                 )
-            }//button
+            } // button
         }
 
-    }//column rounded top corners
-}//main column
-
-fun BasicTextField(value: () -> Unit, onValueChange: () -> Unit) {
-
-}
+    } // column rounded top corners
+} // main column
 
 
 @Preview(
@@ -260,6 +265,6 @@ fun BasicTextField(value: () -> Unit, onValueChange: () -> Unit) {
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SendStartPage({})
+        SendStartPage({}, {})
     }
 }

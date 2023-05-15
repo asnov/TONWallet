@@ -23,6 +23,8 @@ import com.example.tonwallet.pages.IncomingTransactionWithComment
 import com.example.tonwallet.pages.OutgoingTransactionViewDNS
 import com.example.tonwallet.pages.OutgoingTransactionViewPage
 import com.example.tonwallet.pages.PasscodePage
+import com.example.tonwallet.pages.SendPagePending
+import com.example.tonwallet.pages.SendStartPage
 import com.example.tonwallet.pages.SuccessPage
 import com.example.tonwallet.pages.WIP.MainPage
 import com.example.tonwallet.pages.WalletMainLoadingPage
@@ -125,11 +127,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
     PASSCODE({
         Log.v(TAG, "before PasscodePage")
-        val goBack = if (isCreatingWallet) {
-            { it.setValue(it, it::value, SUCCESS) }
-        } else {
-            { it.setValue(it, it::value, IMPORT_START) }
-        }
+        val goBack = { it.setValue(it, it::value, SUCCESS) }
         BackHandler(onBack = goBack)
 
         PasscodePage(
@@ -185,7 +183,8 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
     IMPORT_SUCCESS({
         Log.v(TAG, "before ImportSuccessPage")
-        BackHandler {}
+        val goBack = { it.setValue(it, it::value, PASSCODE) }
+        BackHandler(onBack = goBack)
 
         ImportSuccessPage(
             goForth = { it.setValue(it, it::value, MAIN_LOADING) },
@@ -199,6 +198,10 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         BackHandler {}
 
         WalletMainLoadingPage(
+            goReceive = { it.setValue(it, it::value, RECEIVE) },
+            goSend = { it.setValue(it, it::value, SEND) },
+            goScan = { it.setValue(it, it::value, CAMERA) },
+            goSettings = { it.setValue(it, it::value, SETTINGS) },
             goForth = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
         )
         Log.v(TAG, "after WalletMainLoadingPage")
@@ -245,15 +248,28 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
     }),
 
     SEND({
-        Log.v(TAG, "before WalletSendPage")
+        Log.v(TAG, "before SendStartPage")
         // FIXME: should be WalletSendPage({})
         val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
         BackHandler(onBack = goBack)
 
-        MainPage(
+        SendStartPage(
             goBack = goBack,
+            goForth = { it.setValue(it, it::value, SEND_PENDING) },
         )
-        Log.v(TAG, "after WalletSendPage")
+        Log.v(TAG, "after SendStartPage")
+    }),
+
+    SEND_PENDING({
+        Log.v(TAG, "before SendPagePending")
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
+        SendPagePending(
+            goBack = goBack,
+            goForth = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
+        )
+        Log.v(TAG, "after SendPagePending")
     }),
 
     INCOMING_VIEW({
@@ -262,7 +278,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         BackHandler(onBack = goBack)
 
         IncomingTransactionView(
-            goSend = { it.setValue(it, it::value, SEND) }
+            goForth = { it.setValue(it, it::value, SEND) }
         )
         Log.v(TAG, "after IncomingTransactionView")
         if (merged) {
@@ -283,7 +299,9 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
         BackHandler(onBack = goBack)
 
-        OutgoingTransactionViewPage({})
+        OutgoingTransactionViewPage(
+            goForth = { it.setValue(it, it::value, SEND) }
+        )
         Log.v(TAG, "after OutgoingTransactionViewPage")
         if (merged) {
             OutgoingTransactionViewDNS({})
