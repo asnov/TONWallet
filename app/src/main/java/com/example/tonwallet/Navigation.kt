@@ -1,6 +1,7 @@
 package com.example.tonwallet
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -39,8 +40,11 @@ private var isSeedRemembered by mutableStateOf(false)
 private const val merged = false
 
 enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Unit) {
+
     START({
         Log.v(TAG, "before StartPage")
+        BackHandler {}
+
         StartPage(
             goCreate = { it.setValue(it, it::value, CONGRATULATION) },
             goImport = { it.setValue(it, it::value, IMPORT_START) },
@@ -50,6 +54,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         isSeedWrittenDown = false
         isSeedRemembered = false
     }),
+
     CONGRATULATION({
         if (!isCreatingWallet) {
             val walletModel: TonViewModel = viewModel()
@@ -57,8 +62,11 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             isCreatingWallet = true
         }
         Log.v(TAG, "before CongratulationsPage")
+        val goBack = { it.setValue(it, it::value, START) }
+        BackHandler(onBack = goBack)
+
         CongratulationsPage(
-            goBack = { it.setValue(it, it::value, START) },
+            goBack = goBack,
             goForth = { it.setValue(it, it::value, RECOVERY_PHRASE) },
         )
         Log.v(TAG, "after CongratulationsPage")
@@ -66,8 +74,11 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
     RECOVERY_PHRASE({
         Log.v(TAG, "before RecoveryPhrasePage")
+        val goBack = { it.setValue(it, it::value, CONGRATULATION) }
+        BackHandler(onBack = goBack)
+
         RecoveryPhrasePage(
-            goBack = { it.setValue(it, it::value, CONGRATULATION) },
+            goBack = goBack,
             goForth = if (isSeedWrittenDown) {
                 { it.setValue(it, it::value, SUCCESS) }
             } else {
@@ -77,40 +88,52 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         )
         Log.v(TAG, "after RecoveryPhrasePage")
     }),
-    TEST_TIME({ // TODO: pass it if it is the second time with this seed
+
+    TEST_TIME({
         isSeedRemembered = true
         Log.v(TAG, "before TestTimePage")
+        val goBack = { it.setValue(it, it::value, RECOVERY_PHRASE) }
+        BackHandler(onBack = goBack)
+
         TestTimePage(
-            goBack = { it.setValue(it, it::value, RECOVERY_PHRASE) },
+            goBack = goBack,
             goForth = { it.setValue(it, it::value, SUCCESS) },
         )
         Log.v(TAG, "after TestTimePage")
     }),
+
     SUCCESS({
         Log.v(TAG, "before SuccessPage")
         isSeedWrittenDown = true
-        SuccessPage(
-            goBack = if (isCreatingWallet) {
-                if (isSeedWrittenDown) {
-                    { it.setValue(it, it::value, RECOVERY_PHRASE) }
-                } else {
-                    { it.setValue(it, it::value, TEST_TIME) }
-                }
+        val goBack = if (isCreatingWallet) {
+            if (isSeedWrittenDown) {
+                { it.setValue(it, it::value, RECOVERY_PHRASE) }
             } else {
-                { it.setValue(it, it::value, IMPORT_START) }
-            },
+                { it.setValue(it, it::value, TEST_TIME) }
+            }
+        } else {
+            { it.setValue(it, it::value, IMPORT_START) }
+        }
+        BackHandler(onBack = goBack)
+
+        SuccessPage(
+            goBack = goBack,
             goForth = { it.setValue(it, it::value, PASSCODE) },
         )
         Log.v(TAG, "after SuccessPage")
     }),
+
     PASSCODE({
         Log.v(TAG, "before PasscodePage")
+        val goBack = if (isCreatingWallet) {
+            { it.setValue(it, it::value, SUCCESS) }
+        } else {
+            { it.setValue(it, it::value, IMPORT_START) }
+        }
+        BackHandler(onBack = goBack)
+
         PasscodePage(
-            goBack = if (isCreatingWallet) {
-                { it.setValue(it, it::value, RECOVERY_PHRASE) }
-            } else {
-                { it.setValue(it, it::value, IMPORT_START) }
-            },
+            goBack = goBack,
             goForth = if (isCreatingWallet) {
                 { it.setValue(it, it::value, DONE) }
             } else {
@@ -119,8 +142,11 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         )
         Log.v(TAG, "after PasscodePage")
     }),
+
     DONE({
         Log.v(TAG, "before DonePage")
+        BackHandler { it.setValue(it, it::value, PASSCODE) }
+
         DonePage(
             goForth = { it.setValue(it, it::value, MAIN_CREATED) },
         )
@@ -130,8 +156,11 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
     IMPORT_START({
         Log.v(TAG, "before ImportStartPage")
         isCreatingWallet = false
+        val goBack = { it.setValue(it, it::value, START) }
+        BackHandler(onBack = goBack)
+
         ImportStartPage(
-            goBack = { it.setValue(it, it::value, START) },
+            goBack = goBack,
             goNoPhrase = { it.setValue(it, it::value, DONOT_HAVE_A_PHRASE) },
             goForth = { it.setValue(it, it::value, SUCCESS) },
         )
@@ -140,17 +169,24 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             ImportErrorPopup({})
         }
     }),
+
     DONOT_HAVE_A_PHRASE({
         Log.v(TAG, "before DontHavePhrase")
+        val goBack = { it.setValue(it, it::value, START) }
+        BackHandler(onBack = goBack)
+
         DontHavePhrase(
-            goBack = { it.setValue(it, it::value, START) },
+            goBack = goBack,
             goForth = { it.setValue(it, it::value, IMPORT_START) },
             goCreate = { it.setValue(it, it::value, CONGRATULATION) },
         )
         Log.v(TAG, "after DontHavePhrase")
     }),
+
     IMPORT_SUCCESS({
         Log.v(TAG, "before ImportSuccessPage")
+        BackHandler {}
+
         ImportSuccessPage(
             goForth = { it.setValue(it, it::value, MAIN_LOADING) },
         )
@@ -160,13 +196,18 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
     MAIN_LOADING({
         Log.v(TAG, "before WalletMainLoadingPage")
+        BackHandler {}
+
         WalletMainLoadingPage(
             goForth = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
         )
         Log.v(TAG, "after WalletMainLoadingPage")
     }),
+
     MAIN_CREATED({
         Log.v(TAG, "before WalletMainPage")
+        BackHandler {}
+
         WalletMainPage(
             goReceive = { it.setValue(it, it::value, RECEIVE) },
             goSend = { it.setValue(it, it::value, SEND) },
@@ -175,8 +216,11 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         )
         Log.v(TAG, "after WalletMainPage")
     }),
+
     MAIN_WITH_TRANSACTIONS({
         Log.v(TAG, "before WalletMainTransactionsPage")
+        BackHandler {}
+
         WalletMainTransactionsPage(
             goReceive = { it.setValue(it, it::value, RECEIVE) },
             goSend = { it.setValue(it, it::value, SEND) },
@@ -193,20 +237,30 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
     RECEIVE({
         Log.v(TAG, "before WalletReceivePage")
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
         WalletReceivePage(shareAddress = {})
         Log.v(TAG, "after WalletReceivePage")
     }),
+
     SEND({
         Log.v(TAG, "before WalletSendPage")
         // FIXME: should be WalletSendPage({})
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
         MainPage(
-            goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
+            goBack = goBack,
         )
         Log.v(TAG, "after WalletSendPage")
     }),
 
     INCOMING_VIEW({
         Log.v(TAG, "before IncomingTransactionView")
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
         IncomingTransactionView(
             goSend = { it.setValue(it, it::value, SEND) }
         )
@@ -223,8 +277,12 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             )
         }
     }),
+
     OUTGOING_VIEW({
         Log.v(TAG, "before OutgoingTransactionViewPage")
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
         OutgoingTransactionViewPage({})
         Log.v(TAG, "after OutgoingTransactionViewPage")
         if (merged) {
@@ -234,18 +292,30 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
     SETTINGS({
         Log.v(TAG, "before CameraPermission")
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
         MainPage(
             // should it depends on pathway?
-            goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
+            goBack = goBack,
         )
         Log.v(TAG, "after CameraPermission")
     }),
 
     CAMERA({
         Log.v(TAG, "before CameraPermission")
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
         CameraPermission(
-            goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
-            goForth = { it.setValue(it, it::value, SETTINGS) }, // FIXME: should it be system settings?
+            goBack = goBack,
+            goForth = {
+                it.setValue(
+                    it,
+                    it::value,
+                    SETTINGS
+                )
+            }, // FIXME: should it be system settings?
         )
         Log.v(TAG, "after CameraPermission")
     }),
