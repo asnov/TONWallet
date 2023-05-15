@@ -107,7 +107,7 @@ fun SettingsPage(
                 .fillMaxHeight()
         )
         {
-            Column( modifier = Modifier.padding(top=20.dp, bottom=4.dp, start=20.dp)) {
+            Column(modifier = Modifier.padding(top = 20.dp, bottom = 4.dp, start = 20.dp)) {
                 Text(
                     text = "General",
                     color = Color(0xFF339CEC),
@@ -115,16 +115,16 @@ fun SettingsPage(
                     fontSize = 15.sp,
                     lineHeight = 16.sp,
                     fontWeight = FontWeight.W500,
-                    )
+                )
             }
-            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
                 Row(
                     Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
                             text = "Notifications",
@@ -139,28 +139,28 @@ fun SettingsPage(
                     }
                     //here should be switch button - code above don't work, needs some programming
                     //Switch(checked =checkedState.value , onCheckedChange = {checkedState.value = it },
-                  //  colors=SwitchDefaults.Colors(
-                   //     checkedThumbColor=Color(0xFFFFFFFF),
-                  //      checkedTrackColor=Color(0xFF5AA7EA),
-                  //       )
-                  //  )
+                    //  colors=SwitchDefaults.Colors(
+                    //     checkedThumbColor=Color(0xFFFFFFFF),
+                    //      checkedTrackColor=Color(0xFF5AA7EA),
+                    //       )
+                    //  )
                 }
-            }//row
-            Divider (
+            } // row
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
             )
 
-            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
                 Row(
                     Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
                             text = "Active address",
@@ -183,21 +183,22 @@ fun SettingsPage(
                         fontWeight = FontWeight.W400,
                     )
                 }
-            }//row
-            Divider (
+            } // row
+
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
             )
-            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
                 Row(
                     Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
                             text = "Primary currency",
@@ -220,21 +221,22 @@ fun SettingsPage(
                         fontWeight = FontWeight.W400,
                     )
                 }
-            }//row
-            Divider (
+            } // row
+
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
             )
-            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
                 Row(
                     Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
                             text = "List of tokens",
@@ -247,8 +249,9 @@ fun SettingsPage(
                         )
                     }
                 }
-            }//row
-            Column( modifier = Modifier.padding(top=20.dp, bottom=4.dp, start=20.dp)) {
+            } // row
+
+            Column(modifier = Modifier.padding(top = 20.dp, bottom = 4.dp, start = 20.dp)) {
                 Text(
                     text = "Security",
                     color = Color(0xFF339CEC),
@@ -258,14 +261,14 @@ fun SettingsPage(
                     fontWeight = FontWeight.W500,
                 )
             }
-            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
                 Row(
                     Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
                             text = "Show recovery phrase",
@@ -279,22 +282,22 @@ fun SettingsPage(
 
                     }
                 }
-            }//row
-            Divider (
+            } // row
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
             )
 
-            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
                 Row(
                     Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
                             text = "Change passcode",
@@ -308,21 +311,22 @@ fun SettingsPage(
 
                     }
                 }
-            }//row
-            Divider (
+            } // row
+
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
             )
-            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
                 Row(
                     Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
                             text = "Biometric Auth",
@@ -343,21 +347,22 @@ fun SettingsPage(
                     //       )
                     //  )
                 }
-            }//row
-            Divider (
+            } // row
+
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
             )
-            Column( Modifier.padding(vertical = 14.dp, horizontal= 20.dp)) {
+            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
                 Row(
                     Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
-                    Row(  verticalAlignment = Alignment.CenterVertically,) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
                             text = "Delete Wallet",
@@ -371,17 +376,12 @@ fun SettingsPage(
 
                     }
                 }
-            }//row
+            } // row
 
         }
     }
 
 }
-
-fun Switch(checked: () -> Unit, onCheckedChange: (Boolean) -> Unit, colors: SwitchColors) {
-
-}
-
 
 
 @Preview(

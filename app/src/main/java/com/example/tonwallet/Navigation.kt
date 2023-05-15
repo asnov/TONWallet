@@ -27,6 +27,7 @@ import com.example.tonwallet.pages.PasscodePage
 import com.example.tonwallet.pages.SendPagePending
 import com.example.tonwallet.pages.SendPageSuccess
 import com.example.tonwallet.pages.SendStartPage
+import com.example.tonwallet.pages.SettingsPage
 import com.example.tonwallet.pages.SuccessPage
 import com.example.tonwallet.pages.WIP.MainPage
 import com.example.tonwallet.pages.WalletMainLoadingPage
@@ -326,15 +327,15 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
     }),
 
     SETTINGS({
-        Log.v(TAG, "before CameraPermission")
+        Log.v(TAG, "before SettingsPage")
         val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
         BackHandler(onBack = goBack)
 
-        MainPage(
+        SettingsPage(
             // should it depends on pathway?
             goBack = goBack,
         )
-        Log.v(TAG, "after CameraPermission")
+        Log.v(TAG, "after SettingsPage")
     }),
 
     CAMERA({
