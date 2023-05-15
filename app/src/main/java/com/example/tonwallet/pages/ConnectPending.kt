@@ -177,7 +177,6 @@ fun ConnectPending(
                             Alignment.CenterEnd,
                         )
                     }
-
                 }//button
             }
 
