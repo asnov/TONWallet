@@ -78,7 +78,7 @@ fun ConnectTransfer(
                     .padding(end = 9.dp)
             )
             Text(
-                ("56.2322"),
+                ("56"),
                 Modifier.padding(),
                 Color(0xFFFFFFFF),
                 fontFamily = Roboto, //should be google sans
@@ -86,6 +86,16 @@ fun ConnectTransfer(
                 fontSize = 44.sp,
                 lineHeight = 56.sp,
                 textAlign = TextAlign.Center,
+            )
+            Text(
+                (".2322"),
+                Modifier.padding(top = 8.dp),
+                Color(0xFFFFFFFF),
+                fontFamily = Roboto,
+                fontWeight = FontWeight.W500,
+                fontSize = 32.sp,
+                lineHeight = 40.sp,
+                textAlign = TextAlign.End,
             )
         }
         Column(
