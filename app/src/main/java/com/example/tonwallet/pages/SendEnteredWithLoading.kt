@@ -234,7 +234,6 @@ fun SendEnteredWithLoading(
                 }
             } // button
         }
-
     } // column rounded top corners
 } // main column
 
