@@ -11,10 +11,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,8 +20,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -210,11 +206,11 @@ fun SendEnteredWithLoading(
                 ) {
                     Box(
                         Modifier
-                            .size(14.dp)
+                            .size(16.dp)
                             .weight(1 /4f),
                     )
                     Text(
-                        "Confirm",
+                        "Continue",
                         Modifier.weight(1 / 3f),
                         color = Color.White,
                         textAlign = TextAlign.Center,
@@ -227,7 +223,7 @@ fun SendEnteredWithLoading(
                         painterResource(R.drawable.icon_pending_white),
                         null,
                         Modifier
-                            .size(14.dp)
+                            .size(16.dp)
                             .weight(1 / 4f),
                         Alignment.CenterEnd,
                     )
