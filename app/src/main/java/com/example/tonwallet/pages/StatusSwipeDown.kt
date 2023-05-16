@@ -82,7 +82,7 @@ fun StatusSwipeDown(
                         .height(44.dp)
                         //.padding(end = 9.dp)
                 )
-                Row(  Modifier.height(60.dp).fillMaxWidth().padding(bottom=6.dp),
+                Row(  Modifier.fillMaxHeight().fillMaxWidth().padding(bottom=6.dp),
                     horizontalArrangement=Arrangement.Center,
                         verticalAlignment = Alignment.Bottom) {
                     Text(
