@@ -101,7 +101,7 @@ fun SendEnteredWithLoading(
                     Modifier
                         .fillMaxWidth()
                         .padding(start = 20.dp, top = 12.dp, bottom = 12.dp, end = 20.dp),
-                    //.defaultMinSize(minHeight=64.dp),
+
                     textStyle = TextStyle(
                         color = Color(0xFF000000),
                         fontFamily = Roboto,
