@@ -223,7 +223,6 @@ fun SendInvalidAddress(
                 )
 
             }
-
         }
     } // column rounded top corners
 } // main column
