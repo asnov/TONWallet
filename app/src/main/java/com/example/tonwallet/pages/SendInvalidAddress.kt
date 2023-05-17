@@ -5,25 +5,18 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -191,39 +184,54 @@ fun SendInvalidAddress(
                 }
 
             } // column with icons
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
+            Card(
+                Modifier
+                   // .height(56.dp)
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                elevation = 0.dp,
+                shape = RoundedCornerShape(
+                    topStart = 6.dp,
+                    topEnd = 6.dp,
+                    bottomStart = 6.dp,
+                    bottomEnd = 6.dp
+                ),
+                backgroundColor = Color(0xEB2F373F),
+                contentColor = Color.White,
+            ) { Row(Modifier.padding(10.dp),
+               // horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,)
+            {
                 Image(
                     painterResource(R.drawable.icon_invalid),
                     null,
                     Modifier
-                        .size(32.dp)
-                        .weight(1 / 4f),
-                    Alignment.CenterEnd,
-                )
-                Text(
-                    "Invalid Address",
-                    Modifier.weight(1 / 3f),
-                    color = Color.White,
-                    textAlign = TextAlign.Left,
-                    fontSize = 14.sp,
-                    lineHeight = 18.sp,
-                    fontWeight = FontWeight.W500,
-                )
-                Text(
-                    "Address entered does not belong to TON",
-                Modifier.weight(1 / 3f),
-                color = Color.White,
-                textAlign = TextAlign.Left,
-                fontSize = 14.sp,
-                lineHeight = 18.sp,
-                fontWeight = FontWeight.W400,
-                )
-
+                        .size(32.dp),
+                    Alignment.CenterStart, )
+                Column(Modifier.padding(start=10.dp)) {
+                    Text(
+                        "Invalid Address",
+                        Modifier,
+                        color = Color.White,
+                        textAlign = TextAlign.Left,
+                        fontSize = 14.sp,
+                        lineHeight = 18.sp,
+                        fontWeight = FontWeight.W500,
+                    )
+                    Text(
+                        "Address entered does not belong to TON",
+                        Modifier,
+                        color = Color.White,
+                        textAlign = TextAlign.Left,
+                        fontSize = 14.sp,
+                        lineHeight = 18.sp,
+                        fontWeight = FontWeight.W400,
+                    )
+                }
             }
-        }
+
+                }
+                   }
     } // column rounded top corners
 } // main column
 
