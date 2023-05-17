@@ -18,7 +18,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -31,8 +30,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -43,11 +47,15 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.StatusBarHeight
+import com.example.tonwallet.components.ImportErrorPopup
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.launch
 
@@ -70,8 +78,12 @@ fun ImportStartPage(
 ) {
     Log.v(TAG, "started")
 
-    val numberOfTheWordsToEnter = 24
-    val (words, setWordsLocal) = remember { mutableStateOf(Array(numberOfTheWordsToEnter) { "" }) }
+    val walletModel: TonViewModel = viewModel()
+    val clipboardManager: ClipboardManager = LocalClipboardManager.current
+    val numberOfTheWordsToEnter = walletModel.wordCount
+    val (words, setWordsLocal) = remember { mutableStateOf(walletModel.mnemonic.toTypedArray()) }
+//    val words by remember { mutableStateListOf() }
+
     fun setWords(newWords: Array<String>) {
         setWordsLocal(newWords)
         Log.v(TAG, "setWords: ${newWords.joinToString()}")
@@ -79,29 +91,28 @@ fun ImportStartPage(
 
     val focusRequesters = remember { Array(numberOfTheWordsToEnter) { FocusRequester() } }
 
-    Log.v(TAG, focusRequesters.toString())
-    Log.v(TAG, focusRequesters[0].toString())
-    Log.v(TAG, focusRequesters[23].toString())
-    Log.v(TAG, (focusRequesters[0] == FocusRequester.Default).toString())
-    Log.v(TAG, (focusRequesters[0] == FocusRequester.Cancel).toString())
-
     var isPopupVisible by remember { mutableStateOf(false) }
+    var isTooltipVisible by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
     val listState: LazyListState = rememberLazyListState()
 
     val firstVisibleItemIndex = remember { derivedStateOf { listState.firstVisibleItemIndex } }
     print("state.firstVisibleItemIndex:${firstVisibleItemIndex.value}, ")
-    val firstVisibleItemScrollOffset = remember { derivedStateOf { listState.firstVisibleItemScrollOffset } }
+    val firstVisibleItemScrollOffset =
+        remember { derivedStateOf { listState.firstVisibleItemScrollOffset } }
     println("state.firstVisibleItemScrollOffset:$firstVisibleItemScrollOffset")
 
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemScrollOffset }
-            .collect { print("snapshotFlow of firstVisibleItemScrollOffset: $it, ") }
+            .collect { Log.v(TAG, ">> snapshotFlow of firstVisibleItemScrollOffset: $it, ") }
     }
 
     PanelHeader(
-        goBack,
+        {
+            goBack()
+            walletModel.clearSeed()
+        },
         Modifier
             .background(Color(0x00FFFFFF))
             .zIndex(2f)
@@ -116,6 +127,7 @@ fun ImportStartPage(
     ) {
 
 
+        // first item
         item {
             Spacer(
                 Modifier
@@ -128,7 +140,7 @@ fun ImportStartPage(
                 null,
                 Modifier.size(100.dp)
             )
-        } // item
+        } // first item
 
         var elevation by mutableStateOf(0.dp)
         stickyHeader {
@@ -154,6 +166,7 @@ fun ImportStartPage(
             }
         } // stickyHeader
 
+        // second item
         item {
 
             Text(
@@ -182,10 +195,12 @@ fun ImportStartPage(
             )
             Spacer(modifier = Modifier.height(20.dp))
 
-        } // item
+        } // second item
 
         items(numberOfTheWordsToEnter) { index ->
             var currentWord by remember { mutableStateOf(words[index]) }
+            currentWord = words[index]
+//            Log.v(TAG, ">> currentWord: <$currentWord>")
             val interaction = remember { MutableInteractionSource() }
             val isFocused = interaction.collectIsFocusedAsState().value
             Row(
@@ -197,13 +212,54 @@ fun ImportStartPage(
                 TextField(
                     currentWord,
                     { newValue ->
-                        currentWord = newValue
-                        setWords(words.also { it[index] = newValue })
-                        // TODO: showContextMenuIfNecessary
+                        // copy&paste
+                        if (newValue.length - currentWord.length > 1) {
+                            Log.v(TAG, ">> hasText(): ${clipboardManager.hasText()}")
 
+                            val text = clipboardManager.getText()?.text ?: ""
+                            Log.v(TAG, ">> text: $text")
+
+                            var pastedWords = text.split(Regex("\\W+"))
+                                .filter { it.isNotBlank() }
+                                .filterIndexed { index, _ -> index < numberOfTheWordsToEnter }
+                                .toTypedArray()
+                            Log.v(TAG, ">> pastedWords: ${pastedWords.joinToString()}")
+
+                            if (pastedWords.size == numberOfTheWordsToEnter) {
+                                setWords(pastedWords)
+                                coroutineScope.launch {
+                                    listState.animateScrollToItem(numberOfTheWordsToEnter)
+                                }
+                            } else {
+                                pastedWords =
+                                    pastedWords.filterIndexed { i, _ -> i < numberOfTheWordsToEnter - index }
+                                        .toTypedArray()
+                                setWords(
+                                    words.copyOfRange(0, index)
+                                        .plus(pastedWords)
+                                        .plus(
+                                            words.copyOfRange(index + pastedWords.size, words.size)
+                                        )
+                                )
+                                coroutineScope.launch {
+                                    listState.animateScrollToItem(2 + index + pastedWords.size)
+                                    focusRequesters[index + pastedWords.size - 1].requestFocus()
+                                }
+                            }
+                        } else {
+                            Log.v(TAG, ">> newValue: <$newValue>")
+                            currentWord = newValue
+                            setWords(words.also { it[index] = newValue })
+                            // TODO: showContextMenuIfNecessary
+
+                        }
                     },
                     Modifier
                         .fillMaxWidth()
+                        .onKeyEvent { event ->
+                            Log.v(TAG, ">>> onKeyEvent: ${event.type}, ${event.key}")
+                            false
+                        }
                         .height(68.dp),
                     textStyle = TextStyle(
                         color = Color(0xFF000000),
@@ -239,10 +295,10 @@ fun ImportStartPage(
             }   // Row
         } // items
 
-
+        // 2+24+1 = 27-th item
         item {
 
-            if (isPopupVisible) {
+            if (isTooltipVisible) {
                 Popup(offset = IntOffset(0, -80)) {
                     Card(onClick = { /*TODO*/ }) {
                         Row(
@@ -261,18 +317,17 @@ fun ImportStartPage(
 
             Button(
                 {
-                    Log.v(TAG, focusRequesters.toString())
-                    Log.v(TAG, focusRequesters[0].toString())
-                    Log.v(TAG, focusRequesters[23].toString())
-                    Log.v(TAG, (focusRequesters[0] == FocusRequester.Default).toString())
-                    Log.v(TAG, (focusRequesters[0] == FocusRequester.Cancel).toString())
-
-                    print("state.firstVisibleItemIndex:${firstVisibleItemIndex.value}, ")
-                    println("state.firstVisibleItemScrollOffset:$firstVisibleItemScrollOffset")
+                    Log.v(TAG, "state.firstVisibleItemIndex:${firstVisibleItemIndex.value}, ")
+                    Log.v(TAG, "state.firstVisibleItemScrollOffset:$firstVisibleItemScrollOffset")
 
                     val indexOfFirstBlankField = words.indexOfFirst { it.isBlank() }
                     if (indexOfFirstBlankField == -1) {
-                        goForth()
+                        // validate seed phrase
+                        if (walletModel.isSeedValid(words.toList())) {
+                            goForth()
+                        } else {
+                            isPopupVisible = true
+                        }
                     } else {
                         // go to the first empty word and make it focused
                         coroutineScope.launch {
@@ -293,7 +348,7 @@ fun ImportStartPage(
 
                         }
                     }
-                    isPopupVisible = false
+                    isTooltipVisible = false
                 },
                 Modifier
                     .fillMaxWidth(200 / 360f)
@@ -319,6 +374,21 @@ fun ImportStartPage(
 
     } // LazyColumn()
 
+    if (isPopupVisible) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(Color(0x4C000000))
+        ) {}
+        Popup(
+            Alignment.Center,
+            onDismissRequest = { isPopupVisible = false },
+            properties = PopupProperties(focusable = true)
+        ) {
+            ImportErrorPopup({ isPopupVisible = false })
+        }
+    }
+
 
 //    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
 //        if (!listState.isScrolledToTheEnd()) {
@@ -335,6 +405,7 @@ fun ImportStartPage(
 //    }
 
 }
+
 
 @Preview(
     name = "Day Mode",
