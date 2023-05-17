@@ -57,7 +57,7 @@ fun TestTimePage(
 //    var words3 by remember { mutableStateListOf("", "", "") }
 //    var mut: State<List<String>>
 //    var words4 by remember { mut }
-    var isPopupVisible by remember { mutableStateOf(false) }
+    var isTooltipVisible by remember { mutableStateOf(false) }
 
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         PanelHeader(goBack)
@@ -167,7 +167,7 @@ fun TestTimePage(
 
                     }
                 }
-                if (isPopupVisible) {
+                if (isTooltipVisible) {
                     Popup(offset = IntOffset(0, -80)) {
                         Card(onClick = { /*TODO*/ }) {
                             Row(
@@ -186,8 +186,8 @@ fun TestTimePage(
             // TODO: make button visible while using keyboard
             Button(
                 {
-                    if (isPopupVisible) goForth()
-                    isPopupVisible = true
+                    if (isTooltipVisible) goForth()
+                    isTooltipVisible = true
                     // FIXME: it doesn't update words
                     // words = ...
                     setWords(numberOfTheWordsToEnter.map { wordList[it - 1] }.toTypedArray())

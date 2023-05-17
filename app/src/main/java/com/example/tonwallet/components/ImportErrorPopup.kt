@@ -15,11 +15,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
@@ -41,7 +43,7 @@ fun ImportErrorPopup(
     ) {
 
         Text(
-            "Incorrect words",
+            stringResource(R.string.incorrect_words),
             Modifier
                 .padding(start = 24.dp, top = 22.dp)
                 .fillMaxWidth(),
@@ -53,7 +55,7 @@ fun ImportErrorPopup(
             textAlign = TextAlign.Left,
         )
         Text(
-            "Sorry, you have entered incorrect secret words. Please double check and try again.",
+            stringResource(R.string.import_incorrect_words),
             Modifier
                 .padding(start = 24.dp, top = 12.dp, end = 24.dp),
             color = Color(0xFF000000),
@@ -72,7 +74,7 @@ fun ImportErrorPopup(
             colors = ButtonDefaults.buttonColors(Color(0xFFFFFFFF)),
         ) {
             Text(
-                text = ("OK"),
+                text = (stringResource(R.string.popup_ok)),
                 color = Color(0xFF1A81CF),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W500,

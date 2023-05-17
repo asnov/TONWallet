@@ -54,4 +54,7 @@
     <string name="settings_change_passcode">Change passcode</string>
     <string name="settings_biometric_auth">Biometric Auth</string>
     <string name="settings_delete_wallet">Delete Wallet</string>
+    <string name="import_incorrect_words">Sorry, you have entered incorrect secret words. Please double check and try again.</string>
+    <string name="popup_ok">OK</string>
+    <string name="incorrect_words">Incorrect words</string>
 </resources>
