@@ -19,7 +19,7 @@ import com.example.tonwallet.NavigationBarHeight
 import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -44,7 +44,7 @@ fun SuccessPage(
         Alignment.CenterHorizontally,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Sticker(R.drawable.sticker_success, R.raw.success)
+            StickerBig(R.drawable.sticker_success, R.raw.success)
             Text(
                 stringResource(R.string.perfect),
                 color = Color(0xFF000000),

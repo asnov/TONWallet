@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.PanelHeaderBlack
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.components.StickerSmall
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
@@ -191,7 +191,8 @@ fun WalletMainPage(
             Alignment.CenterHorizontally,
         )
         {
-            Sticker(R.drawable.icon_whith_chicken, R.raw.created)
+            StickerBig(R.drawable.icon_whith_chicken, R.raw.created, true)
+
             Text(
                 "Wallet Created",
                 modifier.padding(top = 12.dp),

@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.StatusBarHeight
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.delay
 
@@ -110,7 +110,7 @@ fun SendPagePending(
             Arrangement.Center,
             Alignment.CenterHorizontally
         ) {
-            Sticker(R.drawable.icon_flying_money, R.raw.waiting_ton)
+            StickerBig(R.drawable.icon_flying_money, R.raw.waiting_ton)
             Text(
                 "Sending TON",
                 modifier.padding(top = 12.dp),

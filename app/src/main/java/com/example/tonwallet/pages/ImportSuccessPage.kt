@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tonwallet.NavigationBarHeight
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -44,7 +44,7 @@ fun ImportSuccessPage(
         Arrangement.Center,
         Alignment.CenterHorizontally,
     ) {
-        Sticker(R.drawable.sticker, R.raw.congratulations)
+        StickerBig(R.drawable.sticker, R.raw.congratulations)
         Text(
             stringResource(R.string.wallet_has_been_imported),
             Modifier.padding(vertical = 12.dp) .fillMaxWidth(210 / 360f),

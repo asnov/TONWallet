@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.ui.theme.TONWalletTheme
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 
 
 private const val TAG = "StartPage"
@@ -39,7 +39,7 @@ fun StartPage(
         Arrangement.Center,
         Alignment.CenterHorizontally,
     ) {
-        Sticker(R.drawable.tonimage, R.raw.start)
+        StickerBig(R.drawable.tonimage, R.raw.start)
         Text(
             stringResource(R.string.ton_wallet),
             Modifier.padding(vertical = 12.dp),

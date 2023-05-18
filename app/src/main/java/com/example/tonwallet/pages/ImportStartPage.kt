@@ -53,7 +53,7 @@ import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.StatusBarHeight
 import com.example.tonwallet.components.ImportErrorPopup
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.launch
@@ -134,7 +134,7 @@ fun ImportStartPage(
                     .fillParentMaxWidth()
                     .background(Color(0xFFFFFFFF))
             )
-            Sticker(R.drawable.sticker_recovery_page, R.raw.recovery_phrase)
+            StickerBig(R.drawable.sticker_recovery_page, R.raw.recovery_phrase)
         } // first item
 
         var elevation by mutableStateOf(0.dp)

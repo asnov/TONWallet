@@ -24,7 +24,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.components.PopupSureDone
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import java.time.LocalTime
@@ -97,7 +97,7 @@ fun RecoveryPhrasePage(
         ) {
 
             item {
-                Sticker(R.drawable.sticker_recovery_page, R.raw.recovery_phrase)
+                StickerBig(R.drawable.sticker_recovery_page, R.raw.recovery_phrase)
             }
 
             stickyHeader {

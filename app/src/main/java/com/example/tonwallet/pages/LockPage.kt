@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -39,6 +38,7 @@ import androidx.compose.ui.window.PopupProperties
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.KeyboardScreen
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.components.popupPasscodeLength
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -68,12 +68,8 @@ fun LockPage(
     ) {
         Spacer(Modifier.height(56.dp))
 
-        Image(
-            painterResource(R.drawable.sticker_monkey_closed_eyes), null,
-            Modifier
-                .width(100.dp)
-                .height(100.dp)
-        )
+        StickerBig(R.drawable.sticker_monkey_closed_eyes, R.raw.password, true)
+
         Spacer(Modifier.height(20.dp))
         Text(
             stringResource(R.string.enter_digits, numberOfDigits),

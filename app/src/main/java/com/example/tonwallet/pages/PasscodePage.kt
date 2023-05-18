@@ -39,7 +39,7 @@ import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.KeyboardScreen
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.components.popupPasscodeLength
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -73,7 +73,8 @@ fun PasscodePage(
     ) {
         PanelHeader(goBack)
 
-        Sticker(R.drawable.sticker_monkey_closed_eyes, R.raw.password)
+        StickerBig(R.drawable.sticker_monkey_closed_eyes, R.raw.password)
+
         Text(
             if (isConfirming) stringResource(R.string.confirm_passcode)
             else stringResource(R.string.set_passcode),

@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
@@ -67,7 +67,7 @@ fun TestTimePage(
             Modifier.verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Sticker(R.drawable.sticker_test_time_page, R.raw.test_time)
+            StickerBig(R.drawable.sticker_test_time_page, R.raw.test_time)
             Text(
                 stringResource(R.string.test_time),
                 Modifier.padding(vertical = 12.dp),

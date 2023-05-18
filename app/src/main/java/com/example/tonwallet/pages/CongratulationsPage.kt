@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 private const val TAG = "CongratulationsPage"
@@ -37,7 +37,7 @@ fun CongratulationsPage(
         Arrangement.Center,
         Alignment.CenterHorizontally,
     ) {
-        Sticker(R.drawable.sticker, R.raw.congratulations)
+        StickerBig(R.drawable.sticker, R.raw.congratulations)
         Text(
             stringResource(R.string.congratulations),
             Modifier.padding(vertical = 12.dp),

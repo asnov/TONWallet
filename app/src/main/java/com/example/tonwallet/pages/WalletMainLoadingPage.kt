@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.components.PanelHeaderBlack
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.components.StickerSmall
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.delay
@@ -178,7 +178,7 @@ fun WalletMainLoadingPage(
             Alignment.CenterHorizontally,
         )
         {
-            Sticker(R.drawable.sticker_main_loading, R.raw.loading)
+            StickerBig(R.drawable.sticker_main_loading, R.raw.loading)
         }
     }
 

@@ -27,7 +27,7 @@ import com.example.tonwallet.NavigationBarHeight
 import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -48,7 +48,7 @@ fun DontHavePhrase(
         Arrangement.Center,
         Alignment.CenterHorizontally,
     ) {
-        Sticker(R.drawable.sticker_too_bad, R.raw.too_bad)
+        StickerBig(R.drawable.sticker_too_bad, R.raw.too_bad)
         Text(
             stringResource(R.string.too_bad),
             Modifier.padding(vertical = 12.dp) .fillMaxWidth(210 / 360f),

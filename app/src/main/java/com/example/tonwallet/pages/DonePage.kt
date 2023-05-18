@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tonwallet.NavigationBarHeight
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
-import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -44,7 +44,7 @@ fun DonePage(
         Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
         Alignment.CenterHorizontally,
     ) {
-        Sticker(R.drawable.sticker_done_page, R.raw.success)
+        StickerBig(R.drawable.sticker_done_page, R.raw.success)
         Text(
             stringResource(R.string.ready_to_go),
             color = Color(0xFF000000),
