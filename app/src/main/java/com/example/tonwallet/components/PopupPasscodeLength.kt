@@ -28,9 +28,8 @@ import com.example.tonwallet.ui.theme.TONWalletTheme
 private const val TAG = "PopupPasscodeLength"
 
 @Composable
-fun popupPasscodeLength(): Int? {
+fun PopupPasscodeLength(onSelect: (Int) -> Unit) {
     Log.v(TAG, "started")
-    var numberOfDigitsChosen: Int? = null
 
     Column(
         Modifier
@@ -39,14 +38,14 @@ fun popupPasscodeLength(): Int? {
             .background(Color.White, RoundedCornerShape(6.dp))
             .border(1.dp, Color(0x1E000000)),
     ) {
-        listOf<Int>(4, 6).forEach { numberOfDigits ->
+        listOf(4, 6).forEach { numberOfDigits ->
             Text(
                 stringResource(R.string.n_digit_code, numberOfDigits),
                 Modifier
+                    .clickable { onSelect(numberOfDigits) }
                     .height(48.dp)
                     .padding(start = 20.dp, top = 15.dp, bottom = 13.dp)
-                    .fillMaxWidth()
-                    .clickable { numberOfDigitsChosen = numberOfDigits },
+                    .fillMaxWidth(),
                 color = Color(0xFF000000),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W400,
@@ -55,7 +54,6 @@ fun popupPasscodeLength(): Int? {
             )
         }
     }
-    return numberOfDigitsChosen
 }
 
 @Preview(
@@ -69,6 +67,6 @@ fun popupPasscodeLength(): Int? {
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        popupPasscodeLength()
+        PopupPasscodeLength {}
     }
 }

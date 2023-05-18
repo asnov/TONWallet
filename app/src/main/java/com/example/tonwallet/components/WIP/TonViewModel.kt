@@ -40,6 +40,8 @@ import kotlin.coroutines.EmptyCoroutineContext
 private const val TAG = "TonViewModel"
 
 class TonViewModel : ViewModel() {
+    var passcode: String = ""
+    var passcodeLength: Int = 4
     private val userLiveData: MutableLiveData<WalletUiState> = MutableLiveData<WalletUiState>()
 
     private val _uiState = MutableStateFlow(WalletUiState())
@@ -227,4 +229,5 @@ class TonViewModel : ViewModel() {
             }
         }
     }
+
 }

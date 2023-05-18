@@ -35,11 +35,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.KeyboardScreen
 import com.example.tonwallet.components.StickerBig
-import com.example.tonwallet.components.popupPasscodeLength
+import com.example.tonwallet.components.WIP.TonViewModel
+import com.example.tonwallet.components.PopupPasscodeLength
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -56,10 +58,11 @@ fun LockPage(
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
-    var numberOfDigits by remember { mutableStateOf(4) }
+
+
+    val walletModel: TonViewModel = viewModel()
     var passcodeEntered by remember { mutableStateOf("") }
     var isMenuVisible by remember { mutableStateOf(false) }
-    var firstPasscode by remember { mutableStateOf("1".repeat(numberOfDigits)) }
 
     Column(
         modifier.background(Color(0xFF31373E)),
@@ -72,7 +75,7 @@ fun LockPage(
 
         Spacer(Modifier.height(20.dp))
         Text(
-            stringResource(R.string.enter_digits, numberOfDigits),
+            stringResource(R.string.enter_digits, walletModel.passcodeLength),
             color = Color(0xFFFFFFFF),
             fontFamily = Roboto,
             fontWeight = FontWeight.W400,
@@ -88,7 +91,7 @@ fun LockPage(
             Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
             Alignment.CenterVertically,
         ) {
-            repeat(numberOfDigits) { index ->
+            repeat(walletModel.passcodeLength) { index ->
                 Image(
                     if (passcodeEntered.length > index)
                         painterResource(R.drawable.circle_filled)
@@ -128,13 +131,12 @@ fun LockPage(
         KeyboardScreen(onKeyPressed = { key ->
             passcodeEntered += key
             Log.v(TAG, "passcodeEntered = '$passcodeEntered'")
-            if (passcodeEntered.length < numberOfDigits) {
+            if (passcodeEntered.length < walletModel.passcodeLength) {
                 return@KeyboardScreen
             }
             GlobalScope.launch {
                 delay(100)
-                // passcodeEntered.length == numberOfDigits
-                if (firstPasscode == passcodeEntered) {
+                if (walletModel.passcode == passcodeEntered) {
                     goForth()
                 }
                 // else switch to repeat mode
@@ -164,11 +166,10 @@ fun LockPage(
             { isMenuVisible = false },
             PopupProperties(focusable = true),
         ) {
-            popupPasscodeLength()?.let {
-                numberOfDigits = it
+            PopupPasscodeLength {
+                walletModel.passcodeLength = it
                 passcodeEntered = ""
                 isMenuVisible = false
-                firstPasscode = "1".repeat(numberOfDigits)
             }
         }
     }
