@@ -2,7 +2,6 @@ package com.example.tonwallet.pages
 
 import android.content.res.Configuration
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -19,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tonwallet.NavigationBarHeight
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
+import com.example.tonwallet.components.Sticker
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -46,12 +44,7 @@ fun DonePage(
         Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
         Alignment.CenterHorizontally,
     ) {
-        Image(
-            painterResource(R.drawable.sticker_done_page), null,
-            Modifier
-                .width(100.dp)
-                .height(100.dp)
-        )
+        Sticker(R.drawable.sticker_done_page, R.raw.success)
         Text(
             stringResource(R.string.ready_to_go),
             color = Color(0xFF000000),

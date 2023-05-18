@@ -2,15 +2,16 @@ package com.example.tonwallet.pages
 
 import android.content.res.Configuration
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -20,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
+import com.example.tonwallet.components.StickerSmall
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -35,7 +36,7 @@ private const val TAG = "OutgoingTransactionViewDNS"
 
 @Composable
 fun OutgoingTransactionViewDNS(
-    goBack: () -> Unit,
+    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -58,13 +59,15 @@ fun OutgoingTransactionViewDNS(
                     )
                 )
                 .fillMaxWidth(),
-                //.fillMaxHeight(2/3f),
+            //.fillMaxHeight(2/3f),
             Arrangement.Bottom,
         )
         {
 
-            Column( modifier = Modifier
-                .padding(top=12.dp, bottom=20.dp, start=20.dp, end=16.dp))
+            Column(
+                modifier = Modifier
+                    .padding(top = 12.dp, bottom = 20.dp, start = 20.dp, end = 16.dp)
+            )
             {
                 Text(
                     text = "Transaction",
@@ -78,7 +81,9 @@ fun OutgoingTransactionViewDNS(
                     )
             }
             Column(
-                Modifier.fillMaxWidth().padding(bottom=12.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp),
                 Arrangement.Center,
                 Alignment.CenterHorizontally,
             ) {
@@ -92,18 +97,13 @@ fun OutgoingTransactionViewDNS(
                 )
                 {
 
-                    Image(
-                        painterResource(R.drawable.icon_crystal),
-                        null,
-                        Modifier
-                            .height(56.dp)
-                            .padding(end = 9.dp)
-                    )
+                    StickerSmall(R.drawable.icon_crystal, R.raw.main)
+                    Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         ("25"),
                         Modifier.padding(),
                         Color(0xFFFE3C30),
-                        fontFamily = Roboto,//should be google sans
+                        fontFamily = Roboto, // FIXME: should be google sans
                         fontWeight = FontWeight.W500,
                         fontSize = 44.sp,
                         lineHeight = 56.sp,
@@ -113,7 +113,7 @@ fun OutgoingTransactionViewDNS(
                         (".375"),
                         Modifier.padding(top = 8.dp),
                         Color(0xFFFE3C30),
-                        fontFamily = Roboto,//should be google sans
+                        fontFamily = Roboto, // FIXME: should be google sans
                         fontWeight = FontWeight.W500,
                         fontSize = 32.sp,
                         lineHeight = 40.sp,
@@ -139,23 +139,26 @@ fun OutgoingTransactionViewDNS(
                     fontWeight = FontWeight.W400,
                 )
 
-            }//column with centered text
+            } // column with centered text
             Column() {
                 Text(
                     "Details",
-                    Modifier.padding(top=20.dp, start=20.dp, bottom=4.dp),
+                    Modifier.padding(top = 20.dp, start = 20.dp, bottom = 4.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
                     fontSize = 15.sp,
                     lineHeight = 16.sp,
                     fontWeight = FontWeight.W500,
                 )
-            }//header Details
-            Column( Modifier.padding(top=14.dp, start=20.dp, end=20.dp,bottom=14.dp)
+            } // header Details
+            Column(
+                Modifier.padding(top = 14.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
             )
             {
-                Row(modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,)
+                Row(
+                    modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                )
                 {
                     Text(
                         "Recipient",
@@ -174,18 +177,21 @@ fun OutgoingTransactionViewDNS(
                         fontWeight = FontWeight.W400,
                     )
                 }
-            }//column with details
-            Divider (
+            } // column with details
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
             )
-            Column( Modifier.padding(top=14.dp, start=20.dp, end=20.dp,bottom=14.dp)
+            Column(
+                Modifier.padding(top = 14.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
             )
             {
-                Row(modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,)
+                Row(
+                    modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                )
                 {
                     Text(
                         "Recipient address",
@@ -204,18 +210,21 @@ fun OutgoingTransactionViewDNS(
                         fontWeight = FontWeight.W400,
                     )
                 }
-            }//column with details
-            Divider (
+            } // column with details
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
-                     )
-            Column( Modifier.padding(top=14.dp, start=20.dp, end=20.dp,bottom=14.dp)
+            )
+            Column(
+                Modifier.padding(top = 14.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
             )
             {
-                Row(modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,)
+                Row(
+                    modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                )
                 {
                     Text(
                         "Transaction",
@@ -234,14 +243,15 @@ fun OutgoingTransactionViewDNS(
                         fontWeight = FontWeight.W400,
                     )
                 }
-            }//column with details
-            Divider (
+            } // column with details
+            Divider(
                 color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()
             )
-            Column( Modifier.padding(top=14.dp, start=20.dp, end=20.dp,bottom=14.dp)
+            Column(
+                Modifier.padding(top = 14.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
             )
             {
                 Text(
@@ -254,8 +264,10 @@ fun OutgoingTransactionViewDNS(
                 )
             }
             Button(
-                {},
-                modifier.fillMaxWidth().padding(16.dp),
+                goForth,
+                modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color(0xFF339CEC),
                     contentColor = Color(0xFFFFFFFF),
@@ -272,15 +284,11 @@ fun OutgoingTransactionViewDNS(
                     fontWeight = FontWeight.W500,
                     letterSpacing = 0.1.sp
                 )
-            }//button
+            } // button
         }
 
-    }//column rounded top corners
-}//main column
-
-
-
-
+    } // column rounded top corners
+} // main column
 
 
 @Preview(

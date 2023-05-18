@@ -3,7 +3,6 @@ package com.example.tonwallet
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,6 +24,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.components.PopupSureDone
+import com.example.tonwallet.components.Sticker
 import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import java.time.LocalTime
@@ -42,8 +41,6 @@ internal val wordListDemo = listOf(
 // ColumnOfRecoveryPhraseWords
 @Composable
 fun WordOfRecoveryPhrase(index: Int, word: String, modifier: Modifier = Modifier) {
-    Log.v(TAG, "started")
-
     Row(modifier.fillMaxWidth()) {
         Text(
             "$index.",
@@ -77,6 +74,8 @@ fun RecoveryPhrasePage(
     modifier: Modifier = Modifier,
     isSeedRemembered: Boolean = false,
 ) {
+    Log.v(TAG, "started")
+
     val walletModel: TonViewModel = viewModel()
     val wordList = if (walletModel.mnemonic.isNotEmpty()) walletModel.mnemonic else wordListDemo
     var isPopupVisible by remember { mutableStateOf(false) }
@@ -98,11 +97,7 @@ fun RecoveryPhrasePage(
         ) {
 
             item {
-                Image(
-                    painterResource(R.drawable.sticker_recovery_page),
-                    null,
-                    Modifier.size(100.dp)
-                )
+                Sticker(R.drawable.sticker_recovery_page, R.raw.recovery_phrase)
             }
 
             stickyHeader {

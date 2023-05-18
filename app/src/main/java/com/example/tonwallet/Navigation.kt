@@ -242,7 +242,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         )
         Log.v(TAG, "after WalletMainTransactionsPage")
         if (merged) {
-            WalletMainTransactionsScrollPage({})
+            WalletMainTransactionsScrollPage()
         }
     }),
 

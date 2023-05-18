@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -40,6 +39,7 @@ import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.KeyboardScreen
+import com.example.tonwallet.components.Sticker
 import com.example.tonwallet.components.popupPasscodeLength
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -58,11 +58,13 @@ fun PasscodePage(
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
+
     var numberOfDigits by remember { mutableStateOf(4) }
     var passcodeEntered by remember { mutableStateOf("") }
     var isMenuVisible by remember { mutableStateOf(false) }
     var isConfirming by remember { mutableStateOf(false) }
     var firstPasscode by remember { mutableStateOf("") }
+
 
     Column(
         modifier,
@@ -71,12 +73,7 @@ fun PasscodePage(
     ) {
         PanelHeader(goBack)
 
-        Image(
-            painterResource(R.drawable.sticker_monkey_closed_eyes), null,
-            Modifier
-                .width(100.dp)
-                .height(100.dp)
-        )
+        Sticker(R.drawable.sticker_monkey_closed_eyes, R.raw.password)
         Text(
             if (isConfirming) stringResource(R.string.confirm_passcode)
             else stringResource(R.string.set_passcode),

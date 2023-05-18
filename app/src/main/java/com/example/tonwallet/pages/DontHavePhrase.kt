@@ -2,7 +2,6 @@ package com.example.tonwallet.pages
 
 import android.content.res.Configuration
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -19,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,6 +27,7 @@ import com.example.tonwallet.NavigationBarHeight
 import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
+import com.example.tonwallet.components.Sticker
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -50,7 +48,7 @@ fun DontHavePhrase(
         Arrangement.Center,
         Alignment.CenterHorizontally,
     ) {
-        Image(painterResource(R.drawable.sticker_too_bad), null, Modifier.size(100.dp))
+        Sticker(R.drawable.sticker_too_bad, R.raw.too_bad)
         Text(
             stringResource(R.string.too_bad),
             Modifier.padding(vertical = 12.dp) .fillMaxWidth(210 / 360f),

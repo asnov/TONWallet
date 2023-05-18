@@ -4,7 +4,6 @@
     <string name="ton_wallet_allows_">TON Wallet allows you to make fast and secure blockchain-based payments without intermediaries.</string>
     <string name="create_my_wallet">Create my wallet</string>
     <string name="import_existing_wallet">Import existing wallet</string>
-    <string name="crystal_image">crystal image</string>
     <string name="congratulations">Congratulations</string>
     <string name="arrow_back">Arrow Back</string>
     <string name="write_down_secret_words">"Your TON Wallet has just been created. \nOnly you control it.\n\nTo be able to always have access to it, please write down secret words and set up a secure passcode."</string>

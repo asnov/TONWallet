@@ -86,6 +86,9 @@ dependencies {
     implementation("org.ton:ton-kotlin:0.3.0-SNAPSHOT")
     implementation("org.ton:ton-kotlin-bitstring:0.3.0-SNAPSHOT")
 
+    // https://mvnrepository.com/artifact/com.airbnb.android/lottie-compose
+//    runtimeOnly("com.airbnb.android:lottie-compose:6.0.0")
+    implementation("com.airbnb.android:lottie-compose:6.0.0")
 }
 
 // https://stackoverflow.com/questions/75274720/a-failure-occurred-while-executing-appcheckdebugduplicateclasses/75315276#75315276

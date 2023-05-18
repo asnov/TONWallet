@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.PanelHeaderBlack
+import com.example.tonwallet.components.StickerSmall
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -38,13 +41,10 @@ private const val TAG = "ConnectTransferDone"
 
 @Composable
 fun ConnectTransferDone(
-    goBack: () -> Unit,
-    goScan: () -> Unit,
-    goSettings: () -> Unit,
+    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
-
 
 
     Column(
@@ -53,7 +53,8 @@ fun ConnectTransferDone(
         Arrangement.Top,
         Alignment.CenterHorizontally,
     ) {
-        PanelHeaderBlack(goScan, goSettings)
+        PanelHeaderBlack({ }, { })
+
         Text(
             ("UQBF…AoKP"),
             Modifier.padding(vertical = 12.dp),
@@ -71,18 +72,13 @@ fun ConnectTransferDone(
             verticalAlignment = Alignment.CenterVertically,
         )
         {
-            Image(
-                painterResource(R.drawable.icon_crystal),
-                null,
-                Modifier
-                    .height(56.dp)
-                    .padding(end = 9.dp)
-            )
+            StickerSmall(R.drawable.icon_crystal, R.raw.main)
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
                 ("56"),
                 Modifier.padding(),
                 Color(0xFFFFFFFF),
-                fontFamily = Roboto, //should be google sans
+                fontFamily = Roboto, // FIXME: should be google sans
                 fontWeight = FontWeight.W500,
                 fontSize = 44.sp,
                 lineHeight = 56.sp,
@@ -113,7 +109,7 @@ fun ConnectTransferDone(
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 Button(
-                    {  },
+                    { },
                     modifier
                         .fillMaxWidth(1 / 2f)
                         .padding(start = 12.dp, end = 6.dp),
@@ -179,167 +175,163 @@ fun ConnectTransferDone(
                     }
                 }
             }
-        }}
+        }
+    }
+
+    Column(
+        modifier
+            .fillMaxHeight(1f)
+            .background(Color(0xAA31373E)),
+        Arrangement.Bottom,
+        Alignment.CenterHorizontally,
+    ) {
 
         Column(
-            modifier.fillMaxHeight(1f)
-                .background(Color(0xAA31373E)),
+            Modifier
+                .background(
+                    Color(0xFFFFFFFF), shape = RoundedCornerShape(
+                        topStart = 10.dp,
+                        topEnd = 10.dp,
+                        bottomStart = 0.dp,
+                        bottomEnd = 0.dp
+                    )
+                )
+                .fillMaxWidth(),
             Arrangement.Bottom,
-            Alignment.CenterHorizontally,
-        ) {
+        )
+        {
 
             Column(
-                Modifier
-                    .background(
-                        Color(0xFFFFFFFF), shape = RoundedCornerShape(
-                            topStart = 10.dp,
-                            topEnd = 10.dp,
-                            bottomStart = 0.dp,
-                            bottomEnd = 0.dp
-                        )
-                    )
-                    .fillMaxWidth(),
-                Arrangement.Bottom,
+                modifier = Modifier
+                    .padding(top = 16.dp, bottom = 20.dp, start = 20.dp, end = 20.dp)
             )
             {
+                Text(
+                    text = "TON Transfer",
+                    Modifier.padding(bottom = 12.dp),
+                    color = Color.Black,
+                    textAlign = TextAlign.Left,
+                    fontSize = 20.sp,
+                    lineHeight = 24.sp,
+                    fontWeight = FontWeight.W500,
 
-                Column(
-                    modifier = Modifier
-                        .padding(top = 16.dp, bottom = 20.dp, start = 20.dp, end = 20.dp)
+                    )
+            }
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp),
+                Arrangement.Center,
+                Alignment.CenterHorizontally,
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 28.dp),
+                    Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                )
+                {
+
+                    StickerSmall(R.drawable.icon_crystal, R.raw.main)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        ("2"),
+                        Modifier.padding(),
+                        Color.Black,
+                        fontFamily = Roboto, // FIXME: should be google sans
+                        fontWeight = FontWeight.W500,
+                        fontSize = 44.sp,
+                        lineHeight = 56.sp,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            } // column with centered text
+            Column(
+                Modifier.padding(top = 14.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
+            )
+            {
+                Row(
+                    modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 )
                 {
                     Text(
-                        text = "TON Transfer",
-                        Modifier.padding(bottom = 12.dp),
+                        "Recipient",
                         color = Color.Black,
                         textAlign = TextAlign.Left,
-                        fontSize = 20.sp,
-                        lineHeight = 24.sp,
-                        fontWeight = FontWeight.W500,
-
-                        )
+                        fontSize = 15.sp,
+                        lineHeight = 20.sp,
+                        fontWeight = FontWeight.W400,
+                    )
+                    Text(
+                        "EQCc…9ZLD",
+                        color = Color.Black,
+                        fontFamily = Roboto,//should be Roboto Mono
+                        textAlign = TextAlign.Right,
+                        fontSize = 15.sp,
+                        lineHeight = 20.sp,
+                        fontWeight = FontWeight.W400,
+                    )
                 }
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 12.dp),
-                    Arrangement.Center,
-                    Alignment.CenterHorizontally,
-                ) {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 28.dp),
-                        Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                    )
-                    {
-
-                        Image(
-                            painterResource(R.drawable.icon_crystal),
-                            null,
-                            Modifier
-                                .height(56.dp)
-                                .padding(end = 4.dp)
-                        )
-                        Text(
-                            ("2"),
-                            Modifier.padding(),
-                            Color.Black,
-                            fontFamily = Roboto,//should be google sans
-                            fontWeight = FontWeight.W500,
-                            fontSize = 44.sp,
-                            lineHeight = 56.sp,
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                }//column with centered text
-                Column(
-                    Modifier.padding(top = 14.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
+            } // column with details
+            Divider(
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+            Column(
+                Modifier.padding(top = 14.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
+            )
+            {
+                Row(
+                    modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 )
                 {
-                    Row(
-                        modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                    Text(
+                        "Fee",
+                        color = Color.Black,
+                        textAlign = TextAlign.Left,
+                        fontSize = 15.sp,
+                        lineHeight = 20.sp,
+                        fontWeight = FontWeight.W400,
                     )
-                    {
-                        Text(
-                            "Recipient",
-                            color = Color.Black,
-                            textAlign = TextAlign.Left,
-                            fontSize = 15.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight.W400,
-                        )
-                        Text(
-                            "EQCc…9ZLD",
-                            color = Color.Black,
-                            fontFamily = Roboto,//should be Roboto Mono
-                            textAlign = TextAlign.Right,
-                            fontSize = 15.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight.W400,
-                        )
-                    }
-                }//column with details
-                Divider(
-                    color = Color(0x14000000),
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                )
-                Column(
-                    Modifier.padding(top = 14.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
-                )
-                {
-                    Row(
-                        modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                    Text(
+                        " ≈ 0.004 TON",
+                        color = Color.Black,
+                        fontFamily = Roboto,//should be Inter
+                        textAlign = TextAlign.Right,
+                        fontSize = 15.sp,
+                        lineHeight = 20.sp,
+                        fontWeight = FontWeight.W400,
                     )
-                    {
-                        Text(
-                            "Fee",
-                            color = Color.Black,
-                            textAlign = TextAlign.Left,
-                            fontSize = 15.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight.W400,
-                        )
-                        Text(
-                            " ≈ 0.004 TON",
-                            color = Color.Black,
-                            fontFamily = Roboto,//should be Inter
-                            textAlign = TextAlign.Right,
-                            fontSize = 15.sp,
-                            lineHeight = 20.sp,
-                            fontWeight = FontWeight.W400,
-                        )
-                    }
-                }//column with details
+                }
+            } // column with details
 
-                Button(
-                    {},
-                    modifier
-                        .fillMaxWidth()
-                        .padding(top = 84.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
-                    elevation = null,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color(0xFFFFFFFF),
-                        contentColor = Color(0xFFFFFFFF),
-                    ),
-                    shape = RoundedCornerShape(8.dp),
-                    //contentPadding = PaddingValues(14.dp),
-                ) {
-                    Image(
-                        painterResource(R.drawable.icon_done),
-                        null, Modifier.size(40.dp)
-                    )
-                }//button
-            }//column rounded top corners
-        }//main column
+            Button(
+                goForth,
+                modifier
+                    .fillMaxWidth()
+                    .padding(top = 84.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
+                elevation = null,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color(0xFFFFFFFF),
+                    contentColor = Color(0xFFFFFFFF),
+                ),
+                shape = RoundedCornerShape(8.dp),
+//                    contentPadding = PaddingValues(14.dp),
+            ) {
+                Image(
+                    painterResource(R.drawable.icon_done),
+                    null, Modifier.size(40.dp)
+                )
+            } // button
+        } // column rounded top corners
+    } // main column
 
 }
-
 
 
 @Preview(
@@ -350,6 +342,6 @@ fun ConnectTransferDone(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        ConnectTransferDone({}, {}, {},)
+        ConnectTransferDone({})
     }
 }

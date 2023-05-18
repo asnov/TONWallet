@@ -2,7 +2,6 @@ package com.example.tonwallet
 
 import android.content.res.Configuration
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -21,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tonwallet.components.Sticker
 import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
@@ -46,6 +45,7 @@ fun TestTimePage(
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
+
     val walletModel: TonViewModel = viewModel()
     val wordList = if (walletModel.mnemonic.isNotEmpty()) walletModel.mnemonic else wordListDemo
 
@@ -59,13 +59,15 @@ fun TestTimePage(
 //    var words4 by remember { mut }
     var isTooltipVisible by remember { mutableStateOf(false) }
 
+
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         PanelHeader(goBack)
+
         Column(
             Modifier.verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Image(painterResource(R.drawable.sticker_test_time_page), null, Modifier.size(100.dp))
+            Sticker(R.drawable.sticker_test_time_page, R.raw.test_time)
             Text(
                 stringResource(R.string.test_time),
                 Modifier.padding(vertical = 12.dp),

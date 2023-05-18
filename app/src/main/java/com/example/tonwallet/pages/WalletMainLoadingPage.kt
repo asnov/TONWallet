@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -30,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.components.PanelHeaderBlack
+import com.example.tonwallet.components.Sticker
+import com.example.tonwallet.components.StickerSmall
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.delay
 
@@ -75,14 +76,8 @@ fun WalletMainLoadingPage(
                     .fillMaxWidth(),
                 Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
-            )
-            {
-                Image(
-                    painterResource(R.drawable.icon_crystal),
-                    null,
-                    Modifier
-                        .height(56.dp)
-                )
+            ) {
+                StickerSmall(R.drawable.icon_crystal, R.raw.main)
             }
             Column(
                 Modifier
@@ -183,11 +178,7 @@ fun WalletMainLoadingPage(
             Alignment.CenterHorizontally,
         )
         {
-            Image(
-                painterResource(R.drawable.sticker_main_loading),
-                null, Modifier.size(100.dp)
-            )
-
+            Sticker(R.drawable.sticker_main_loading, R.raw.loading)
         }
     }
 

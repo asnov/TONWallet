@@ -2,7 +2,6 @@ package com.example.tonwallet.pages
 
 import android.content.res.Configuration
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -10,7 +9,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -21,6 +19,7 @@ import com.example.tonwallet.NavigationBarHeight
 import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
+import com.example.tonwallet.components.Sticker
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -32,9 +31,10 @@ fun SuccessPage(
     goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    Log.v(TAG, "started")
+
     var isBiometricAuth by remember { mutableStateOf(true) }    // TODO: pass it on for processing
 
-    Log.v(TAG, "started")
 
     PanelHeader(goBack)
 
@@ -44,12 +44,7 @@ fun SuccessPage(
         Alignment.CenterHorizontally,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painterResource(R.drawable.sticker_success), null,
-                Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-            )
+            Sticker(R.drawable.sticker_success, R.raw.success)
             Text(
                 stringResource(R.string.perfect),
                 color = Color(0xFF000000),

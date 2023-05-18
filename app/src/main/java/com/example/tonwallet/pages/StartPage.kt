@@ -1,8 +1,6 @@
 package com.example.tonwallet
 
-import android.content.res.Configuration
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -14,17 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
+import com.example.tonwallet.components.Sticker
+
 
 private const val TAG = "StartPage"
 
@@ -36,9 +32,6 @@ fun StartPage(
 ) {
     Log.v(TAG, "started")
 
-    val image =
-        painterResource(R.drawable.tonimage)    // drawable.tonimage - how to use it without R???
-
     Column(
         modifier
             .fillMaxWidth()
@@ -46,12 +39,7 @@ fun StartPage(
         Arrangement.Center,
         Alignment.CenterHorizontally,
     ) {
-        Image(
-            image, stringResource(R.string.crystal_image),
-            Modifier
-                .width(100.dp)
-                .height(100.dp)
-        )
+        Sticker(R.drawable.tonimage, R.raw.start)
         Text(
             stringResource(R.string.ton_wallet),
             Modifier.padding(vertical = 12.dp),

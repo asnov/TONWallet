@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -33,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.PanelHeaderBlack
+import com.example.tonwallet.components.StickerSmall
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -122,13 +125,8 @@ fun StatusSwipeDown(
             )
             {
 
-                Image(
-                    painterResource(R.drawable.icon_crystal),
-                    null,
-                    Modifier
-                        .height(56.dp)
-                        .padding(end = 9.dp)
-                )
+                StickerSmall(R.drawable.icon_crystal, R.raw.main)
+                Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     ("56"),
                     Modifier.padding(),
