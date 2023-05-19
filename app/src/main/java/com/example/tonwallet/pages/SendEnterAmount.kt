@@ -169,7 +169,7 @@ fun SendEnterAmount(
                         onValueChange = {},
                         Modifier.requiredWidth(26.dp),
                         textStyle = TextStyle(
-                            color = Color(0x5000000),
+                            color = Color(0x50000000),
                             fontFamily = Roboto, // Should be Google Sans
                             fontWeight = FontWeight.W400,
                             fontSize = 44.sp,

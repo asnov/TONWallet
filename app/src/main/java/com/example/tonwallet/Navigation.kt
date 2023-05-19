@@ -31,6 +31,7 @@ import com.example.tonwallet.pages.OutgoingTransactionViewDNS
 import com.example.tonwallet.pages.OutgoingTransactionViewPage
 import com.example.tonwallet.pages.PasscodePage
 import com.example.tonwallet.pages.SendDNS
+import com.example.tonwallet.pages.SendEnterAmount
 import com.example.tonwallet.pages.SendEnterAmountDNS
 import com.example.tonwallet.pages.SendEnteredWithLoading
 import com.example.tonwallet.pages.SendInvalidAddress
@@ -290,6 +291,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             SendInvalidAddress()
             SendDNS()
             SendEnterAmountDNS({}, {})
+            SendEnterAmount({}, {})
         }
     }),
 
