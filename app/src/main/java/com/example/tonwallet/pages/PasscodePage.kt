@@ -35,12 +35,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.KeyboardScreen
 import com.example.tonwallet.components.StickerBig
-import com.example.tonwallet.components.popupPasscodeLength
+import com.example.tonwallet.components.WIP.TonViewModel
+import com.example.tonwallet.components.PopupPasscodeLength
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -59,7 +61,7 @@ fun PasscodePage(
 ) {
     Log.v(TAG, "started")
 
-    var numberOfDigits by remember { mutableStateOf(4) }
+    val walletModel: TonViewModel = viewModel()
     var passcodeEntered by remember { mutableStateOf("") }
     var isMenuVisible by remember { mutableStateOf(false) }
     var isConfirming by remember { mutableStateOf(false) }
@@ -86,7 +88,7 @@ fun PasscodePage(
             lineHeight = 28.sp,
         )
         Text(
-            stringResource(R.string.enter_digits, numberOfDigits),
+            stringResource(R.string.enter_digits, walletModel.passcodeLength),
             color = Color(0xFF000000),
             fontFamily = Roboto,
             fontWeight = FontWeight.W400,
@@ -102,9 +104,9 @@ fun PasscodePage(
             Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
             Alignment.CenterVertically,
         ) {
-            repeat(numberOfDigits) { index ->
+            repeat(walletModel.passcodeLength) { index ->
                 Image(
-                    if (passcodeEntered.length > index)
+                    if (index < passcodeEntered.length)
                         painterResource(R.drawable.circle_filled)
                     else
                         painterResource(R.drawable.circle_empty),
@@ -150,7 +152,7 @@ fun PasscodePage(
         KeyboardScreen(onKeyPressed = { key ->
             passcodeEntered += key
             Log.v(TAG, "passcodeEntered = '$passcodeEntered'")
-            if (passcodeEntered.length < numberOfDigits) {
+            if (passcodeEntered.length < walletModel.passcodeLength) {
                 return@KeyboardScreen
             }
             GlobalScope.launch {
@@ -164,6 +166,7 @@ fun PasscodePage(
                 }
                 // isConfirming
                 if (firstPasscode == passcodeEntered) {
+                    walletModel.passcode = firstPasscode
                     goForth()
                     return@launch
                 }
@@ -201,8 +204,8 @@ fun PasscodePage(
             { isMenuVisible = false },
             PopupProperties(focusable = true),
         ) {
-            popupPasscodeLength()?.let {
-                numberOfDigits = it
+            PopupPasscodeLength {
+                walletModel.passcodeLength = it
                 passcodeEntered = ""
                 isMenuVisible = false
             }

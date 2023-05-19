@@ -23,11 +23,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.NavigationBarHeight
 import com.example.tonwallet.PanelHeader
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.StickerBig
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -41,6 +43,9 @@ fun DontHavePhrase(
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
+
+    val walletModel: TonViewModel = viewModel()
+
     PanelHeader(goBack)
 
     Column(
@@ -88,7 +93,7 @@ fun DontHavePhrase(
             contentPadding = PaddingValues(14.dp),
         ) {
             Text(
-                stringResource(R.string.enter_24_secret_words),
+                stringResource(R.string.enter_N_secret_words, walletModel.wordCount),
                 Modifier.height(20.dp),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W500,

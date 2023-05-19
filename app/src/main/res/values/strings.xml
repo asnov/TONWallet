@@ -9,7 +9,7 @@
     <string name="write_down_secret_words">"Your TON Wallet has just been created. \nOnly you control it.\n\nTo be able to always have access to it, please write down secret words and set up a secure passcode."</string>
     <string name="proceed">Proceed</string>
     <string name="your_recovery_phrase">Your Recovery Phrase</string>
-    <string name="write_down_these_words">Write down these 24 words in this exact order and keep them in a secure place. Do not share this list with anyone. If you lose it, you will irrevocably lose access to your TON account.</string>
+    <string name="write_down_these_words">Write down these %d words in this exact order and keep them in a secure place. Do not share this list with anyone. If you lose it, you will irrevocably lose access to your TON account.</string>
     <string name="done">Done</string>
     <string name="test_time">Test Time!</string>
     <string name="enter_the_words">Let’s check that you wrote them down correctly. Please enter the words %d, %d and %d.</string>
@@ -31,12 +31,12 @@
     <string name="passcode_options">Passcode options</string>
     <string name="n_digit_code">%d-digit code</string>
     <string name="i_don_t_have_those">I don\'t have those</string>
-    <string name="you_can_restore_access">You can restore access to your wallet by entering 24 words you wrote when down you creating the wallet.</string>
-    <string name="_24_secret_words">24 Secret Words</string>
+    <string name="you_can_restore_access">You can restore access to your wallet by entering %d words you wrote when down you creating the wallet.</string>
+    <string name="N_secret_words">%d Secret Words</string>
     <string name="wallet_has_been_imported">Your wallet has just been imported!</string>
     <string name="too_bad">Too Bad!</string>
     <string name="you_can_t_restore_access">Without the secret words you can’t restore access to the wallet.</string>
-    <string name="enter_24_secret_words">Enter 24 secret words</string>
+    <string name="enter_N_secret_words">Enter %d secret words</string>
     <string name="create_empty_wallet">Create a new empty wallet instead</string>
     <string name="receive_button">Receive</string>
     <string name="send_button">Send</string>

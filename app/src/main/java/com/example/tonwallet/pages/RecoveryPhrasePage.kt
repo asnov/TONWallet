@@ -116,7 +116,7 @@ fun RecoveryPhrasePage(
             item {
 
                 Text(
-                    stringResource(R.string.write_down_these_words),
+                    stringResource(R.string.write_down_these_words, walletModel.wordCount),
                     Modifier.fillMaxWidth(280 / 360f),
                     Color(0xFF000000),
                     fontFamily = Roboto,
