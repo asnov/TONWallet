@@ -30,9 +30,13 @@ import com.example.tonwallet.pages.LockPage
 import com.example.tonwallet.pages.OutgoingTransactionViewDNS
 import com.example.tonwallet.pages.OutgoingTransactionViewPage
 import com.example.tonwallet.pages.PasscodePage
+import com.example.tonwallet.pages.SendDNS
 import com.example.tonwallet.pages.SendEnterAmountDNS
+import com.example.tonwallet.pages.SendEnteredWithLoading
+import com.example.tonwallet.pages.SendInvalidAddress
 import com.example.tonwallet.pages.SendPagePending
 import com.example.tonwallet.pages.SendPageSuccess
+import com.example.tonwallet.pages.SendRecents
 import com.example.tonwallet.pages.SendStartPage
 import com.example.tonwallet.pages.SettingsPage
 import com.example.tonwallet.pages.StatusConnecting
@@ -281,6 +285,10 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         )
         Log.v(TAG, "after SendStartPage")
         if (merged) {
+            SendRecents({})
+            SendEnteredWithLoading({})
+            SendInvalidAddress()
+            SendDNS()
             SendEnterAmountDNS({}, {})
         }
     }),

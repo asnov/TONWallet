@@ -80,7 +80,7 @@ fun SendEnterAmountDNS(
                     .padding(top = StatusBarHeight),
                 verticalAlignment = Alignment.CenterVertically,
 
-            ) {
+                ) {
                 IconButton(
                     goBack,
                     Modifier
@@ -96,7 +96,8 @@ fun SendEnterAmountDNS(
                 Box(
                     Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 12.dp))
+                        .padding(horizontal = 20.dp, vertical = 12.dp)
+                )
                 {
                     Text(
                         text = "Send TON",
@@ -117,9 +118,12 @@ fun SendEnterAmountDNS(
             }
 
             Column() {
-                Row( Modifier
-                    .fillMaxWidth().padding(vertical = 14.dp, horizontal = 20.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 14.dp, horizontal = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
                     Row() {
                         Text(
                             "Send to:",
@@ -129,10 +133,10 @@ fun SendEnterAmountDNS(
                             fontSize = 15.sp,
                             lineHeight = 20.sp,
                             fontWeight = FontWeight.W400,
-                            )
+                        )
                         Text(
                             "EQCc...9ZLD",
-                            Modifier.padding(start=4.dp),
+                            Modifier.padding(start = 4.dp),
                             color = Color.Black,
                             fontFamily = Roboto,//should be Inter
                             textAlign = TextAlign.Center,
@@ -142,7 +146,7 @@ fun SendEnterAmountDNS(
                         )
                         Text(
                             "grshn.ton",
-                            Modifier.padding(start=4.dp),
+                            Modifier.padding(start = 4.dp),
                             color = Color(0xFF757575),
                             fontFamily = Roboto,//should be Inter
                             textAlign = TextAlign.Center,
@@ -163,7 +167,8 @@ fun SendEnterAmountDNS(
                 }
                 Row(
                     Modifier
-                        .fillMaxWidth().padding(top=50.dp, bottom=53.dp),
+                        .fillMaxWidth()
+                        .padding(top = 50.dp, bottom = 53.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                 )
@@ -175,11 +180,12 @@ fun SendEnterAmountDNS(
                             .height(56.dp)
                             .padding(end = 4.dp)
                     )
-                    BasicTextField(value = "0",
+                    BasicTextField(
+                        value = "0",
                         onValueChange = {},
                         Modifier.requiredWidth(26.dp),
                         textStyle = TextStyle(
-                            color = Color(0x5000000),
+                            color = Color(0x50000000),
                             fontFamily = Roboto,//Should be Google Sans
                             fontWeight = FontWeight.W400,
                             fontSize = 44.sp,
@@ -191,15 +197,17 @@ fun SendEnterAmountDNS(
                         minLines = 1,
                         cursorBrush = SolidColor(Color(0xFF339CEC)),
 
-                    )
+                        )
                 }
             }
             Column(
-                Modifier.padding( bottom = 9.dp)
+                Modifier.padding(bottom = 9.dp)
             )
             {
-                Row( modifier.padding(vertical = 14.dp, horizontal=20.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween) {
+                Row(
+                    modifier.padding(vertical = 14.dp, horizontal = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Row() {
                         Text(
                             "Send all",
@@ -241,7 +249,7 @@ fun SendEnterAmountDNS(
                 goForth,
                 modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end=16.dp, bottom=16.dp),
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 elevation = null,
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color(0xFF339CEC),

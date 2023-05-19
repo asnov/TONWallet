@@ -40,7 +40,6 @@ private const val TAG = "SendRecents"
 
 @Composable
 fun SendRecents(
-    goBack: () -> Unit,
     goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -100,7 +99,7 @@ fun SendRecents(
                     Modifier
                         .fillMaxWidth()
                         .padding(start = 20.dp, top = 12.dp, bottom = 12.dp, end = 20.dp),
-                    //.defaultMinSize(minHeight=64.dp),
+                    // .defaultMinSize(minHeight=64.dp),
                     textStyle = TextStyle(
                         color = Color(0xFF000000),
                         fontFamily = Roboto,
@@ -187,15 +186,16 @@ fun SendRecents(
             Column() {
                 Text(
                     "Recent",
-                    Modifier.padding(start=20.dp, bottom=4.dp),
+                    Modifier.padding(start = 20.dp, bottom = 4.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
                     fontSize = 13.sp,
                     lineHeight = 16.sp,
                     fontWeight = FontWeight.W600,
                 )
-            }//header Recent
-            Column( Modifier.padding(top=13.dp, start=20.dp, end=20.dp,bottom=11.dp)
+            } //header Recent
+            Column(
+                Modifier.padding(top = 13.dp, start = 20.dp, end = 20.dp, bottom = 11.dp)
             )
             {
                 Text(
@@ -215,8 +215,8 @@ fun SendRecents(
                     fontWeight = FontWeight.W400,
                 )
 
-            }//column with details
-            Divider (
+            } //column with details
+            Divider(
                 color = Color(0xFFDBDBDB),
                 modifier = Modifier
                     .height(0.5.dp)
@@ -245,8 +245,8 @@ fun SendRecents(
                     letterSpacing = 0.1.sp
                 )
             } // button
-        }// column rounded top corners
-    }// main column
+        } // column rounded top corners
+    } // main column
 }
 
 
@@ -258,6 +258,6 @@ fun SendRecents(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SendRecents({}, {})
+        SendRecents({})
     }
 }

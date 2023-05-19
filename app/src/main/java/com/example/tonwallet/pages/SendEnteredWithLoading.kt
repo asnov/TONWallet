@@ -42,7 +42,6 @@ private const val TAG = "SendEnteredWithLoading"
 
 @Composable
 fun SendEnteredWithLoading(
-    goBack: () -> Unit,
     goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -207,7 +206,7 @@ fun SendEnteredWithLoading(
                     Box(
                         Modifier
                             .size(16.dp)
-                            .weight(1 /4f),
+                            .weight(1 / 4f),
                     )
                     Text(
                         "Continue",
@@ -242,6 +241,6 @@ fun SendEnteredWithLoading(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SendEnteredWithLoading({}, {})
+        SendEnteredWithLoading({})
     }
 }

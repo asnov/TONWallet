@@ -39,8 +39,6 @@ private const val TAG = "SendInvalidAddress"
 
 @Composable
 fun SendInvalidAddress(
-    goBack: () -> Unit,
-    goForth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.v(TAG, "started")
@@ -186,7 +184,7 @@ fun SendInvalidAddress(
             } // column with icons
             Card(
                 Modifier
-                   // .height(56.dp)
+                    // .height(56.dp)
                     .fillMaxWidth()
                     .padding(8.dp),
                 elevation = 0.dp,
@@ -198,40 +196,44 @@ fun SendInvalidAddress(
                 ),
                 backgroundColor = Color(0xEB2F373F),
                 contentColor = Color.White,
-            ) { Row(Modifier.padding(10.dp),
-               // horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,)
-            {
-                Image(
-                    painterResource(R.drawable.icon_invalid),
-                    null,
-                    Modifier
-                        .size(32.dp),
-                    Alignment.CenterStart, )
-                Column(Modifier.padding(start=10.dp)) {
-                    Text(
-                        "Invalid Address",
-                        Modifier,
-                        color = Color.White,
-                        textAlign = TextAlign.Left,
-                        fontSize = 14.sp,
-                        lineHeight = 18.sp,
-                        fontWeight = FontWeight.W500,
+            ) {
+                Row(
+                    Modifier.padding(10.dp),
+                    // horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                )
+                {
+                    Image(
+                        painterResource(R.drawable.icon_invalid),
+                        null,
+                        Modifier
+                            .size(32.dp),
+                        Alignment.CenterStart,
                     )
-                    Text(
-                        "Address entered does not belong to TON",
-                        Modifier,
-                        color = Color.White,
-                        textAlign = TextAlign.Left,
-                        fontSize = 14.sp,
-                        lineHeight = 18.sp,
-                        fontWeight = FontWeight.W400,
-                    )
+                    Column(Modifier.padding(start = 10.dp)) {
+                        Text(
+                            "Invalid Address",
+                            Modifier,
+                            color = Color.White,
+                            textAlign = TextAlign.Left,
+                            fontSize = 14.sp,
+                            lineHeight = 18.sp,
+                            fontWeight = FontWeight.W500,
+                        )
+                        Text(
+                            "Address entered does not belong to TON",
+                            Modifier,
+                            color = Color.White,
+                            textAlign = TextAlign.Left,
+                            fontSize = 14.sp,
+                            lineHeight = 18.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+                    }
                 }
-            }
 
-                }
-                   }
+            }
+        }
     } // column rounded top corners
 } // main column
 
@@ -244,6 +246,6 @@ fun SendInvalidAddress(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SendInvalidAddress({}, {})
+        SendInvalidAddress()
     }
 }
