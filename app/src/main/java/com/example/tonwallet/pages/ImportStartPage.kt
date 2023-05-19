@@ -146,7 +146,7 @@ fun ImportStartPage(
                 elevation = elevation,
             ) {
                 Text(
-                    stringResource(R.string._24_secret_words),
+                    stringResource(R.string.N_secret_words, walletModel.wordCount),
                     Modifier
                         .padding(vertical = 12.dp)
                         .background(Color(0xFFFFFFFF))
@@ -165,7 +165,7 @@ fun ImportStartPage(
         item {
 
             Text(
-                stringResource(R.string.you_can_restore_access),
+                stringResource(R.string.you_can_restore_access, walletModel.wordCount),
                 Modifier.fillMaxWidth(280 / 360f),
                 Color(0xFF000000),
                 fontFamily = Roboto,

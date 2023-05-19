@@ -1,6 +1,7 @@
 package com.example.tonwallet.components.WIP
 
 import android.util.Log
+import androidx.annotation.RestrictTo
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,6 +16,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import org.ton.api.liteclient.config.LiteClientConfigGlobal
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.bitstring.BitString
 import org.ton.block.AddrStd
@@ -30,11 +34,14 @@ import org.ton.crypto.encodeHex
 import org.ton.crypto.encoding.base64
 import org.ton.crypto.hex
 import org.ton.hashmap.HashMapE
+import org.ton.lite.client.LiteClient
 import org.ton.mnemonic.Mnemonic
 import org.ton.tl.ByteString
 import org.ton.tl.ByteString.Companion.toByteString
 import org.ton.tlb.constructor.tlbCodec
 import org.ton.tlb.storeTlb
+import java.io.File
+import java.net.URL
 import kotlin.coroutines.EmptyCoroutineContext
 
 private const val TAG = "TonViewModel"
@@ -42,6 +49,33 @@ private const val TAG = "TonViewModel"
 class TonViewModel : ViewModel() {
     var passcode: String = ""
     var passcodeLength: Int = 4
+
+    var wordCount = 24
+    var mnemonic: List<String> = List(wordCount) { "" }
+    lateinit var seed: ByteArray
+    lateinit var privateKey: ByteArray
+    lateinit var publicKey: ByteArray
+    lateinit var sharedKey: ByteArray
+
+    val json = Json { ignoreUnknownKeys = true }
+    val config = json.decodeFromString<LiteClientConfigGlobal>(getTonGlobalConfig())
+    val liteClient = LiteClient(viewModelScope.coroutineContext, config)
+    private fun getTonGlobalConfig(): String {
+        val pathname = "data/global-config/ton/20230501.json"
+        val configFile = File(pathname)
+        val networkConfig =
+            if (configFile.exists() && configFile.isFile() && configFile.canRead()) {
+                configFile.readText()
+            } else {
+                val configText =
+                    URL("https://ton-blockchain.github.io/global.config.json").readText()
+                configFile.writeText(configText)
+                return configText
+            }
+        return networkConfig
+    }
+
+
     private val userLiveData: MutableLiveData<WalletUiState> = MutableLiveData<WalletUiState>()
 
     private val _uiState = MutableStateFlow(WalletUiState())
@@ -63,13 +97,6 @@ class TonViewModel : ViewModel() {
     // ton-kotlin-contract-jvm-0.3.0-SNAPSHOT-sources.jar!/commonMain/org/ton/contract/wallet/WalletV3Contract.kt:88
     val CODE_V3R2: Cell =
         Cell("FF0020DD2082014C97BA218201339CBAB19F71B0ED44D0D31FD31F31D70BFFE304E0A4F2608308D71820D31FD31FD31FF82313BBF263ED44D0D31FD31FD3FFD15132BAF2A15144BAF2A204F901541055F910F2A3F8009320D74A96D307D402FB00E8D101A4C8CB1FCB1FCBFFC9ED54")
-
-    var wordCount = 24
-    var mnemonic: List<String> = List(wordCount) { "" }
-    lateinit var seed: ByteArray
-    lateinit var privateKey: ByteArray
-    lateinit var publicKey: ByteArray
-    lateinit var sharedKey: ByteArray
 
     fun generateSeed() {
         Log.v(TAG, "::::: CODE_V4R2: ${CODE_V4R2.bits.toByteArray().encodeHex()}")
@@ -149,7 +176,6 @@ class TonViewModel : ViewModel() {
             )
 
 
-
             val workchain: Int = 0
             val walletId: Int = WalletContract.DEFAULT_WALLET_ID + workchain
 
@@ -159,6 +185,7 @@ class TonViewModel : ViewModel() {
                 storeBytes(PrivateKeyEd25519(seed).publicKey().key.toByteArray())
                 storeBit(false) // plugins
             }
+
             fun createDataInit2(): Cell = buildCell {
                 storeUInt(walletId, 32) // stored_subwallet
                 storeUInt(0, 64) // last_cleaned
