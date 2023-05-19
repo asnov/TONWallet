@@ -35,6 +35,11 @@ import com.example.tonwallet.pages.SendPagePending
 import com.example.tonwallet.pages.SendPageSuccess
 import com.example.tonwallet.pages.SendStartPage
 import com.example.tonwallet.pages.SettingsPage
+import com.example.tonwallet.pages.StatusConnecting
+import com.example.tonwallet.pages.StatusReleaseToRefresh
+import com.example.tonwallet.pages.StatusSwipeDown
+import com.example.tonwallet.pages.StatusUpdating
+import com.example.tonwallet.pages.StatusWaiting
 import com.example.tonwallet.pages.SuccessPage
 import com.example.tonwallet.pages.WalletMainLoadingPage
 import com.example.tonwallet.pages.WalletMainPage
@@ -247,6 +252,11 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         Log.v(TAG, "after WalletMainTransactionsPage")
         if (merged) {
             WalletMainTransactionsScrollPage()
+            StatusSwipeDown({}, {}, {}, {}, {}, {})
+            StatusReleaseToRefresh({}, {}, {}, {}, {}, {})
+            StatusWaiting({}, {}, {}, {}, {}, {})
+            StatusConnecting({}, {}, {}, {}, {}, {})
+            StatusUpdating({}, {}, {}, {}, {}, {})
         }
     }),
 

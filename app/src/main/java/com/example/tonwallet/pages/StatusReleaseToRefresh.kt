@@ -76,17 +76,22 @@ fun StatusReleaseToRefresh(
                     .padding(horizontal = 20.dp),
                 //horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,
-                )
-                {
+            )
+            {
                 Image(
                     painterResource(R.drawable.release_icon),
                     null,
                     Modifier
                         .height(56.dp)
                 )
-                Row(  Modifier.fillMaxHeight().fillMaxWidth().padding(bottom=6.dp),
-                    horizontalArrangement=Arrangement.Center,
-                        verticalAlignment = Alignment.Bottom) {
+                Row(
+                    Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth()
+                        .padding(bottom = 6.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.Bottom
+                ) {
                     Text(
                         "Release to refresh",
                         Modifier,

@@ -86,9 +86,11 @@ fun StatusConnecting(
                     textAlign = TextAlign.Left,
                 )
             }
-            Row(Modifier
-                .weight(1f),
-                horizontalArrangement = Arrangement.End,) {
+            Row(
+                Modifier
+                    .weight(1f),
+                horizontalArrangement = Arrangement.End,
+            ) {
                 Box(
                     Modifier
                         .size(48.dp)

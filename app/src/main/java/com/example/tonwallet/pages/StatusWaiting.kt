@@ -68,7 +68,7 @@ fun StatusWaiting(
                 .height(56.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-           // horizontalArrangement = Arrangement.End,
+            // horizontalArrangement = Arrangement.End,
         ) {
             Row(
                 Modifier
@@ -87,9 +87,11 @@ fun StatusWaiting(
                     textAlign = TextAlign.Left,
                 )
             }
-            Row(Modifier
-                .weight(1f),
-                horizontalArrangement = Arrangement.End,) {
+            Row(
+                Modifier
+                    .weight(1f),
+                horizontalArrangement = Arrangement.End,
+            ) {
                 Box(
                     Modifier
                         .size(48.dp)
