@@ -17,6 +17,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
@@ -167,10 +168,10 @@ fun SendEnterAmount(
                     )
                     BasicTextField(value = "0",
                         onValueChange = {},
-                        Modifier.requiredWidth(26.dp),
+                        Modifier.width(26.dp), // should be min width 26, expanding when entered more
                         textStyle = TextStyle(
                             color = Color(0x50000000),
-                            fontFamily = Roboto, // Should be Google Sans
+                            fontFamily = Roboto,
                             fontWeight = FontWeight.W400,
                             fontSize = 44.sp,
                             lineHeight = 20.sp,
