@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tonwallet.BuildConfig
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.StatusBarHeight
@@ -46,6 +47,7 @@ fun SettingsPage(
     goBack: () -> Unit,
     modifier: Modifier = Modifier,
     openConnectStartPage: () -> Unit = {},
+    openConnectTransferPage: () -> Unit = {},
 ) {
     Log.v(TAG, "started")
     Column(
@@ -388,6 +390,9 @@ fun SettingsPage(
                     .fillMaxWidth()
             )
 
+
+            if (!BuildConfig.DEBUG) return
+
             Column(
                 Modifier
                     .padding(vertical = 14.dp, horizontal = 20.dp)
@@ -402,7 +407,7 @@ fun SettingsPage(
                     Row(verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
-                            text = "Connect to Fragment (delete it)",
+                            text = "Connect to Fragment (demo Page)",
                             color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontFamily = Roboto,//should be Inter
@@ -414,6 +419,45 @@ fun SettingsPage(
                     }
                 }
             } // row
+            Divider(
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
+
+            Column(
+                Modifier
+                    .padding(vertical = 14.dp, horizontal = 20.dp)
+                    .clickable(onClick = openConnectTransferPage)
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+
+                        Text(
+                            text = "Connect Transfer (demo Page)",
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            fontFamily = Roboto,//should be Inter
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+
+                    }
+                }
+            } // row
+            Divider(
+                color = Color(0x14000000),
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+            )
 
 
         }

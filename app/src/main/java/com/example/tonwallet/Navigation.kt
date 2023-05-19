@@ -17,6 +17,9 @@ import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.pages.ConnectDone
 import com.example.tonwallet.pages.ConnectPending
 import com.example.tonwallet.pages.ConnectStart
+import com.example.tonwallet.pages.ConnectTransfer
+import com.example.tonwallet.pages.ConnectTransferDone
+import com.example.tonwallet.pages.ConnectTransferPending
 import com.example.tonwallet.pages.ImportStartPage
 import com.example.tonwallet.pages.ImportSuccessPage
 import com.example.tonwallet.pages.IncomingTransactionView
@@ -27,6 +30,7 @@ import com.example.tonwallet.pages.LockPage
 import com.example.tonwallet.pages.OutgoingTransactionViewDNS
 import com.example.tonwallet.pages.OutgoingTransactionViewPage
 import com.example.tonwallet.pages.PasscodePage
+import com.example.tonwallet.pages.SendEnterAmountDNS
 import com.example.tonwallet.pages.SendPagePending
 import com.example.tonwallet.pages.SendPageSuccess
 import com.example.tonwallet.pages.SendStartPage
@@ -266,6 +270,9 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             goForth = { it.setValue(it, it::value, SEND_PENDING) },
         )
         Log.v(TAG, "after SendStartPage")
+        if (merged) {
+            SendEnterAmountDNS({}, {})
+        }
     }),
 
     SEND_PENDING({
@@ -337,6 +344,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             // should it depends on pathway?
             goBack = goBack,
             openConnectStartPage = { it.setValue(it, it::value, CONNECT_START) },
+            openConnectTransferPage = { it.setValue(it, it::value, CONNECT_TRANSFER) },
         )
         Log.v(TAG, "after SettingsPage")
     }),
@@ -394,14 +402,48 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
     }),
     CONNECT_DONE({
         Log.v(TAG, "before ConnectDone")
-        val goBack = { it.setValue(it, it::value, CONNECT_START) }
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
         BackHandler(onBack = goBack)
 
         ConnectDone(
             goBack = goBack,
-            goForth = { it.setValue(it, it::value, CONNECT_START) },
+            goForth = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
         )
         Log.v(TAG, "after ConnectDone")
+    }),
+
+
+    CONNECT_TRANSFER({
+        Log.v(TAG, "before ConnectTransfer")
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
+        ConnectTransfer(
+            goBack = goBack,
+            goForth = { it.setValue(it, it::value, CONNECT_TRANSFER_PENDING) },
+        )
+        Log.v(TAG, "after ConnectTransfer")
+    }),
+    CONNECT_TRANSFER_PENDING({
+        Log.v(TAG, "before ConnectTransferPending")
+        val goBack = { it.setValue(it, it::value, CONNECT_TRANSFER) }
+        BackHandler(onBack = goBack)
+
+        ConnectTransferPending(
+            goBack = goBack,
+            goForth = { it.setValue(it, it::value, CONNECT_TRANSFER_DONE) },
+        )
+        Log.v(TAG, "after ConnectTransferPending")
+    }),
+    CONNECT_TRANSFER_DONE({
+        Log.v(TAG, "before ConnectTransferDone")
+        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
+        BackHandler(onBack = goBack)
+
+        ConnectTransferDone(
+            goForth = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) },
+        )
+        Log.v(TAG, "after ConnectTransferDone")
     }),
 
 
