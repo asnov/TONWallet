@@ -174,7 +174,7 @@ fun SendEnterAmount(
                             fontFamily = Roboto,
                             fontWeight = FontWeight.W400,
                             fontSize = 44.sp,
-                            lineHeight = 20.sp,
+                            lineHeight = 56.sp,
                             textAlign = TextAlign.Left,
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
