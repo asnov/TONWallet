@@ -42,12 +42,12 @@ private const val TAG = "TestTimePage"
 fun TestTimePage(
     goBack: () -> Unit,
     goForth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
 
-    val walletModel: TonViewModel = viewModel()
-    val wordList = if (walletModel.mnemonic.isNotEmpty()) walletModel.mnemonic else wordListDemo
+    val wordList = walletModel.mnemonic.ifEmpty { wordListDemo } // FIXME: mnemonic is never empty
 
     val numberOfTheWordsToEnter = arrayOf(5, 15, 18)
 //    var words = numberOfTheWordsToEnter.map { wordList[it - 1] }.toTypedArray()
@@ -227,6 +227,6 @@ fun TestTimePage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        TestTimePage({}, {})
+        TestTimePage({}, {}, Modifier, TonViewModel(true))
     }
 }

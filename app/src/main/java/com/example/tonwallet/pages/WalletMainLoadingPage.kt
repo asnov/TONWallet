@@ -27,10 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.R
 import com.example.tonwallet.components.PanelHeaderBlack
 import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.components.StickerSmall
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.delay
 
@@ -44,13 +46,17 @@ fun WalletMainLoadingPage(
     goScan: () -> Unit,
     goSettings: () -> Unit,
     goForth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
 
     LaunchedEffect(true) {
         Log.v(TAG, "delaying")
-        delay(5_000)
+        while (true) {
+            delay(1_000)
+            if (walletModel.isReady()) break
+        }
         Log.v(TAG, "delayed")
         goForth()
         Log.v(TAG, "goForth() called")
@@ -138,9 +144,7 @@ fun WalletMainLoadingPage(
                         shape = RoundedCornerShape(8.dp),
                         contentPadding = PaddingValues(14.dp),
                     ) {
-                        Row(
-
-                        ) {
+                        Row {
                             Image(
                                 painter = painterResource(R.drawable.arrow_up),
                                 contentDescription = "arrow_up",
@@ -193,6 +197,6 @@ fun WalletMainLoadingPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainLoadingPage({}, {}, {}, {}, {})
+        WalletMainLoadingPage({}, {}, {}, {}, {}, Modifier, TonViewModel(true))
     }
 }

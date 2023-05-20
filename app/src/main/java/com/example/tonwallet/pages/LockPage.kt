@@ -55,12 +55,11 @@ private const val TAG = "LockPage"
 @Composable
 fun LockPage(
     goForth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
 
-
-    val walletModel: TonViewModel = viewModel()
     var passcodeEntered by remember { mutableStateOf("") }
     var isMenuVisible by remember { mutableStateOf(false) }
 
@@ -188,6 +187,6 @@ fun LockPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        LockPage({})
+        LockPage({}, Modifier, TonViewModel(true))
     }
 }

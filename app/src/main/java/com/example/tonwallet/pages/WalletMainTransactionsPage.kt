@@ -32,10 +32,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.PanelHeaderBlack
 import com.example.tonwallet.components.StickerSmall
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -49,7 +51,8 @@ fun WalletMainTransactionsPage(
     goSettings: () -> Unit,
     showIncomingTransaction: () -> Unit,
     showOutgoingTransaction: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
 
@@ -69,7 +72,7 @@ fun WalletMainTransactionsPage(
             Alignment.CenterHorizontally,
         ) {
             Text(
-                "UQBF…AoKP",
+                walletModel.addressFormatted(),
                 Modifier.padding(vertical = 12.dp),
                 Color(0xFFFFFFFF),
                 fontFamily = Roboto,
@@ -88,7 +91,7 @@ fun WalletMainTransactionsPage(
                 StickerSmall(R.drawable.icon_crystal, R.raw.main)
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    ("56"),
+                    walletModel.balanceInteger(),
                     Modifier.padding(),
                     Color(0xFFFFFFFF),
                     fontFamily = Roboto,
@@ -98,7 +101,7 @@ fun WalletMainTransactionsPage(
                     textAlign = TextAlign.Center,
                 )
                 Text(
-                    (".2322"),
+                    ".${walletModel.balanceFractional()}",
                     Modifier.padding(top = 8.dp),
                     Color(0xFFFFFFFF),
                     fontFamily = Roboto,
@@ -460,6 +463,6 @@ fun WalletMainTransactionsPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainTransactionsPage({}, {}, {}, {}, {}, {})
+        WalletMainTransactionsPage({}, {}, {}, {}, {}, {}, Modifier, TonViewModel(true))
     }
 }
