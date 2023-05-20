@@ -1,7 +1,6 @@
 package com.example.tonwallet.components.WIP
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,6 +21,7 @@ import org.ton.api.liteclient.config.LiteClientConfigGlobal
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.bitstring.BitString
 import org.ton.block.AccountInfo
+import org.ton.block.AccountState
 import org.ton.block.AddrStd
 import org.ton.block.MsgAddressInt
 import org.ton.block.StateInit
@@ -58,7 +58,7 @@ private const val TAG = "TonViewModel"
 //    }
 //}
 
-open class TonViewModel(private val isPreview: Boolean = false) : ViewModel() {
+open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
 
     var passcode: String = ""
     var passcodeLength: Int = 4
@@ -75,10 +75,13 @@ open class TonViewModel(private val isPreview: Boolean = false) : ViewModel() {
 
     var workchainId: Int = 0
     lateinit var address: BitString
-    fun addressFormatted(): String {
-        if (isPreview) return "UQBF…AoKP"
-        val addrString = AddrStd(0, address).toString()
+    fun addressCutted(): String {
+        val addrString = AddrStd(0, address).toString(true)
         return addrString.substring(0, 4) + "…" + addrString.substring(addrString.length - 4)
+    }
+
+    fun addressFull(): String {
+        return AddrStd(0, address).toString(true)
     }
 
     var balance by Delegates.notNull<Long>()
@@ -112,7 +115,7 @@ open class TonViewModel(private val isPreview: Boolean = false) : ViewModel() {
     init {
         if (this.isPreview) {
             Log.v(TAG, "init preview")
-            address = BitString("01010101")
+            address = AddrStd.parse("EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N").address
             balance = 56_232_200_000
             isLoading = false
         } else {
@@ -162,17 +165,13 @@ open class TonViewModel(private val isPreview: Boolean = false) : ViewModel() {
     val scopeFailureProtected = CoroutineScope(SupervisorJob())
 
     fun generateSeed() {
-        Log.v(TAG, "::::: CODE_V4R2: ${CODE_V4R2.bits.toByteArray().encodeHex()}")
-        Log.v(TAG, "::::: CODE_HILO: ${CODE_HILO.bits.toByteArray().encodeHex()}")
-        Log.v(TAG, "}}}}} CODE_V4R2: ${CODE_V4R2.toString()}")
-        Log.v(TAG, "}}}}} CODE_HILO: ${CODE_HILO.toString()}")
-
         runBlocking {
             mnemonic = Mnemonic.generate()
+            Log.v(TAG, "=== mnemonic: $mnemonic")// TODO: remove
         }
-//        val job = viewModelScope.launch {
-//            mnemonic = Mnemonic.generate()
-//        }
+        val job = viewModelScope.launch {
+            isSeedValid(mnemonic)
+        }
     }
 
     fun isSeedValid(seedPhrase: List<String>): Boolean {
@@ -288,20 +287,27 @@ open class TonViewModel(private val isPreview: Boolean = false) : ViewModel() {
                 val accountState: FullAccountState = liteClient.getAccountState(accountAddress)
                 Log.v(TAG, "*** accountState: <${accountState}>")
                 Log.v(TAG, "*** accountState.account.value: <${accountState.account.value}>")
-                val accountInfo: AccountInfo = accountState.account.value as AccountInfo
-                Log.v(TAG, "*** account: <${accountInfo}>")
-                Log.v(TAG, "*** accountInfo.isActive: <${accountInfo.isActive}>")
-                Log.v(TAG, "*** accountInfo.storageStat: <${accountInfo.storageStat}>")
-                Log.v(TAG, "*** accountInfo.storage: <${accountInfo.storage}>")
-                Log.v(TAG, "*** accountInfo.storage.state: <${accountInfo.storage.state}>")
-                Log.v(TAG, "*** accountInfo.storage.balance: <${accountInfo.storage.balance}>")
-                val amount: VarUInteger = accountInfo.storage.balance.coins.amount
-                Log.v(TAG, "*** amount: <${amount}>")
-                val amountValue: BigInteger = amount.value
-                Log.v(TAG, "*** amountValue: <${amountValue}>")
-                amountValue.toLong()
-                Log.v(TAG, "*** amountValue.toLong(): <${amountValue.toLong()}>")
-                amountValue.toLong()
+                try {
+                    val accountInfo: AccountInfo = accountState.account.value as AccountInfo
+                    Log.v(TAG, "*** account: <${accountInfo}>")
+                    Log.v(TAG, "*** accountInfo.isActive: <${accountInfo.isActive}>")
+                    Log.v(TAG, "*** accountInfo.storageStat: <${accountInfo.storageStat}>")
+                    Log.v(TAG, "*** accountInfo.storage: <${accountInfo.storage}>")
+                    Log.v(TAG, "*** accountInfo.storage.state: <${accountInfo.storage.state}>")
+                    Log.v(TAG, "*** accountInfo.storage.balance: <${accountInfo.storage.balance}>")
+                    val amount: VarUInteger = accountInfo.storage.balance.coins.amount
+                    Log.v(TAG, "*** amount: <${amount}>")
+                    val amountValue: BigInteger = amount.value
+                    Log.v(TAG, "*** amountValue: <${amountValue}>")
+                    amountValue.toLong()
+                    Log.v(TAG, "*** amountValue.toLong(): <${amountValue.toLong()}>")
+                    amountValue.toLong()
+                } catch (e: Exception) {
+                    Log.v(TAG, "*** Exception: <${e}>")
+                    Log.v(TAG, "*** message: ${e.message}")
+                    Log.v(TAG, "*** localizedMessage: ${e.localizedMessage}")
+                    0
+                }
             }
             isLoading = false
         }

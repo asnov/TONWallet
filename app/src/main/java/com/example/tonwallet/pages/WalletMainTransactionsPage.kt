@@ -72,7 +72,7 @@ fun WalletMainTransactionsPage(
             Alignment.CenterHorizontally,
         ) {
             Text(
-                walletModel.addressFormatted(),
+                walletModel.addressCutted(),
                 Modifier.padding(vertical = 12.dp),
                 Color(0xFFFFFFFF),
                 fontFamily = Roboto,
