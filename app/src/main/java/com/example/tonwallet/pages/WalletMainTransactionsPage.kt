@@ -1,7 +1,9 @@
 package com.example.tonwallet.pages
 
+import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,8 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -65,6 +71,9 @@ fun WalletMainTransactionsPage(
     ) {
         PanelHeaderBlack(goScan, goSettings)
 
+        val clipboardManager: ClipboardManager = LocalClipboardManager.current
+        val context: Context = LocalContext.current
+
         Column(
             Modifier
                 .background(Color.Black),
@@ -73,7 +82,14 @@ fun WalletMainTransactionsPage(
         ) {
             Text(
                 walletModel.addressCutted(),
-                Modifier.padding(vertical = 12.dp),
+                Modifier
+                    .padding(vertical = 12.dp)
+                    .clickable {
+                        clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
+                        Toast
+                            .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                            .show()
+                    },
                 Color(0xFFFFFFFF),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W400,
@@ -83,35 +99,37 @@ fun WalletMainTransactionsPage(
             )
             Row(
                 Modifier
-                    .fillMaxWidth(190 / 360f),
+                    .fillMaxWidth(),
+                Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
-            )
-            {
-
+            ) {
                 StickerSmall(R.drawable.icon_crystal, R.raw.main)
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     walletModel.balanceInteger(),
                     Modifier.padding(),
                     Color(0xFFFFFFFF),
-                    fontFamily = Roboto,
+                    fontFamily = Roboto,    // FIXME: should be Google Sans
                     fontWeight = FontWeight.W500,
                     fontSize = 44.sp,
                     lineHeight = 56.sp,
                     textAlign = TextAlign.Center,
                 )
-                Text(
-                    ".${walletModel.balanceFractional()}",
-                    Modifier.padding(top = 8.dp),
-                    Color(0xFFFFFFFF),
-                    fontFamily = Roboto,
-                    fontWeight = FontWeight.W500,
-                    fontSize = 32.sp,
-                    lineHeight = 40.sp,
-                    textAlign = TextAlign.End,
-                )
-
+                val balanceFractional = walletModel.balanceFractional()
+                if (balanceFractional != 0L) {
+                    Text(
+                        "." + balanceFractional.toString().take(4).padEnd(4, '0'),
+                        Modifier.padding(top = 8.dp),
+                        Color(0xFFFFFFFF),
+                        fontFamily = Roboto,
+                        fontWeight = FontWeight.W500,
+                        fontSize = 32.sp,
+                        lineHeight = 40.sp,
+                        textAlign = TextAlign.End,
+                    )
+                }
             }
+
             Column(
                 Modifier
                     .background(Color.Black)
@@ -463,6 +481,9 @@ fun WalletMainTransactionsPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainTransactionsPage({}, {}, {}, {}, {}, {}, Modifier, TonViewModel(true))
+        WalletMainTransactionsPage({}, {}, {}, {}, {}, {}, Modifier,
+            TonViewModel(true).also { walletModel ->
+                walletModel.balance = 9100123999000111111
+            })
     }
 }

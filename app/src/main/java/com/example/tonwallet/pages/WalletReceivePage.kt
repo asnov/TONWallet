@@ -1,9 +1,12 @@
 package com.example.tonwallet.pages
 
+import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +50,9 @@ fun WalletReceivePage(
     walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
+
+    val clipboardManager: ClipboardManager = LocalClipboardManager.current
+    val context: Context = LocalContext.current
 
     Column(
         // main box
@@ -104,7 +114,6 @@ fun WalletReceivePage(
                 )
 
             }
-            val addressString = walletModel.addressFull()
             Column(
                 modifier = Modifier
                     .padding(bottom = 28.dp)
@@ -120,22 +129,26 @@ fun WalletReceivePage(
                     )
                 } else {
                     Image(
-                        painter = rememberQrBitmapPainter(addressString),
+                        painter = rememberQrBitmapPainter(walletModel.addressFull()),
                         contentDescription = "TON QR Code",
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier.size(160.dp),
                     )
                 }
             }
-            val text = addressString.substring(0, addressString.length / 2) +
-                    "\n" + addressString.substring(addressString.length / 2)
             Text(
-                text,
+                walletModel.addressFullTwoLines(),
                 modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
                     .padding(bottom = 28.dp)
-                    .height(40.dp),
+                    .height(40.dp)
+                    .clickable {
+                        clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
+                        Toast
+                            .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                            .show()
+                    },
                 color = Color.Black,
                 fontFamily = Roboto,    //TODO: change to RobotoMono
                 fontWeight = FontWeight.W400,

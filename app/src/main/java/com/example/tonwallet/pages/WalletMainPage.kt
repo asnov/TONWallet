@@ -1,9 +1,13 @@
 package com.example.tonwallet.pages
 
+import android.content.ClipData
+import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,17 +26,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.components.PanelHeaderBlack
 import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.components.StickerSmall
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -44,9 +55,13 @@ fun WalletMainPage(
     goSend: () -> Unit,
     goScan: () -> Unit,
     goSettings: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
+
+    val clipboardManager: ClipboardManager = LocalClipboardManager.current
+    val context: Context = LocalContext.current
 
     Column(
         modifier
@@ -64,8 +79,15 @@ fun WalletMainPage(
             Alignment.CenterHorizontally,
         ) {
             Text(
-                ("UQBF…AoKP"),
-                Modifier.padding(vertical = 12.dp),
+                walletModel.addressCutted(),
+                Modifier
+                    .padding(vertical = 12.dp)
+                    .clickable {
+                        clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
+                        Toast
+                            .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                            .show()
+                    },
                 Color(0xFFFFFFFF),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W400,
@@ -82,7 +104,7 @@ fun WalletMainPage(
                 StickerSmall(R.drawable.icon_crystal, R.raw.main)
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    ("0"),
+                    walletModel.balanceInteger(),
                     Modifier.padding(),
                     Color(0xFFFFFFFF),
                     fontFamily = Roboto, // FIXME: should be google sans
@@ -91,7 +113,21 @@ fun WalletMainPage(
                     lineHeight = 56.sp,
                     textAlign = TextAlign.Center,
                 )
+                val balanceFractional = walletModel.balanceFractional()
+                if (balanceFractional != 0L) {
+                    Text(
+                        "." + balanceFractional.toString().take(4).padEnd(4, '0'),
+                        Modifier.padding(top = 8.dp),
+                        Color(0xFFFFFFFF),
+                        fontFamily = Roboto,
+                        fontWeight = FontWeight.W500,
+                        fontSize = 32.sp,
+                        lineHeight = 40.sp,
+                        textAlign = TextAlign.End,
+                    )
+                }
             }
+
             Column(
                 Modifier
                     .background(Color.Black)
@@ -129,7 +165,7 @@ fun WalletMainPage(
                                     .padding(end = 11.dp)
                             )
                             Text(
-                                text = "Receive",
+                                stringResource(R.string.receive_button),
                                 color = Color.White,
                                 textAlign = TextAlign.Center,
                                 fontSize = 15.sp,
@@ -162,7 +198,7 @@ fun WalletMainPage(
                                     .padding(end = 11.dp)
                             )
                             Text(
-                                "Send",
+                                stringResource(R.string.send_button),
                                 color = Color.White,
                                 textAlign = TextAlign.Center,
                                 fontSize = 15.sp,
@@ -194,7 +230,7 @@ fun WalletMainPage(
             StickerBig(R.drawable.icon_whith_chicken, R.raw.created, true)
 
             Text(
-                "Wallet Created",
+                stringResource(R.string.wallet_created),
                 modifier.padding(top = 12.dp),
                 color = Color.Black,
                 textAlign = TextAlign.Center,
@@ -203,7 +239,7 @@ fun WalletMainPage(
                 fontWeight = FontWeight.W500,
             )
             Text(
-                "Your wallet address",
+                stringResource(R.string.your_wallet_address),
                 modifier.padding(top = 20.dp),
                 color = Color(0xFF757575),
                 textAlign = TextAlign.Center,
@@ -213,8 +249,15 @@ fun WalletMainPage(
                 fontWeight = FontWeight.W400
             )
             Text(
-                "UQBFz01R2CU7YA8pevUaNIYEzi1mRo4cX-r3W2Dwx-WEAoKP",
-                modifier.padding(top = 6.dp, start = 70.dp, end = 70.dp, bottom = 57.dp),
+                walletModel.addressFull(),
+                modifier
+                    .padding(top = 6.dp, start = 70.dp, end = 70.dp, bottom = 57.dp)
+                    .clickable {
+                        clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
+                        Toast
+                            .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                            .show()
+                    },
                 color = Color.Black,
                 textAlign = TextAlign.Center,
                 fontSize = 15.sp,
@@ -238,7 +281,11 @@ fun WalletMainPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainPage({}, {}, {}, {})
+        WalletMainPage({}, {}, {}, {}, Modifier,
+            TonViewModel(true).also { walletModel ->
+                walletModel.balance = 0
+            }
+        )
     }
 }
 
@@ -253,6 +300,6 @@ private fun DefaultPreview() {
 @Composable
 private fun DefaultPreview2() {
     TONWalletTheme {
-        WalletMainPage({}, {}, {}, {})
+        WalletMainPage({}, {}, {}, {}, Modifier, TonViewModel(true))
     }
 }

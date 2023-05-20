@@ -84,14 +84,20 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         return AddrStd(0, address).toString(true)
     }
 
+    fun addressFullTwoLines(): String {
+        val addressString = addressFull()
+        return addressString.substring(0, addressString.length / 2) +
+                "\n" + addressString.substring(addressString.length / 2)
+    }
+
     var balance by Delegates.notNull<Long>()
     fun balanceInteger(): String {
         return (balance / 1_000_000_000).toString()
     }
 
-    fun balanceFractional(): String {
+    fun balanceFractional(): Long {
         val nanotons = balance % 1_000_000_000
-        return nanotons.toString().substring(0, 4)
+        return nanotons // .toString().take(4).padEnd(4, '0')
     }
 
     protected var isLoading = true

@@ -56,4 +56,6 @@
     <string name="import_incorrect_words">Sorry, you have entered incorrect secret words. Please double check and try again.</string>
     <string name="popup_ok">OK</string>
     <string name="incorrect_words">Incorrect words</string>
+    <string name="wallet_created">Wallet Created</string>
+    <string name="your_wallet_address">Your wallet address</string>
 </resources>
