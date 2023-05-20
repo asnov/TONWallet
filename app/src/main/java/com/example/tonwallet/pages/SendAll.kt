@@ -155,7 +155,7 @@ fun SendAll(
                     Modifier
                         .fillMaxWidth().padding(top=50.dp, bottom=53.dp),
                     horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.Bottom,
                 )
                 {
                     Image(
@@ -184,9 +184,9 @@ fun SendAll(
                     )
                     BasicTextField(value = ".2322",
                         onValueChange = {},
-                        Modifier.width(82.dp),
+                        Modifier.width(82.dp).padding(bottom=4.dp),
                         textStyle = TextStyle(
-                            color = Color(0xFF000000),
+                            color = Color(0xB3000000),
                             fontFamily = Roboto,
                             fontWeight = FontWeight.W400,
                             fontSize = 32.sp,
