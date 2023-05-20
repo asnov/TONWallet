@@ -365,6 +365,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             goBack = goBack,
             openConnectStartPage = { it.setValue(it, it::value, CONNECT_START) },
             openConnectTransferPage = { it.setValue(it, it::value, CONNECT_TRANSFER) },
+            goStartPage = { it.setValue(it, it::value, START) },
         )
         Log.v(TAG, "after SettingsPage")
     }),

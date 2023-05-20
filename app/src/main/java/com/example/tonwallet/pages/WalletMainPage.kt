@@ -210,7 +210,9 @@ fun WalletMainPage(
                     }
                 }
             }
-        }
+        } // black part
+
+
         Column(
             Modifier
                 .background(
@@ -225,8 +227,7 @@ fun WalletMainPage(
                 .fillMaxHeight(),
             Arrangement.Center,
             Alignment.CenterHorizontally,
-        )
-        {
+        ) {
             StickerBig(R.drawable.icon_whith_chicken, R.raw.created, true)
 
             Text(
@@ -249,7 +250,7 @@ fun WalletMainPage(
                 fontWeight = FontWeight.W400
             )
             Text(
-                walletModel.addressFull(),
+                walletModel.addressFullTwoLines(),
                 modifier
                     .padding(top = 6.dp, start = 70.dp, end = 70.dp, bottom = 57.dp)
                     .clickable {

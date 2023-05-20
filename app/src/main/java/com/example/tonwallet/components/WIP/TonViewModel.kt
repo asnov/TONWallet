@@ -75,6 +75,11 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
 
     var workchainId: Int = 0
     lateinit var address: BitString
+    var balance by Delegates.notNull<Long>()
+
+    protected var isLoading = true
+
+
     fun addressCutted(): String {
         val addrString = AddrStd(0, address).toString(true)
         return addrString.substring(0, 4) + "…" + addrString.substring(addrString.length - 4)
@@ -90,7 +95,6 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                 "\n" + addressString.substring(addressString.length / 2)
     }
 
-    var balance by Delegates.notNull<Long>()
     fun balanceInteger(): String {
         return (balance / 1_000_000_000).toString()
     }
@@ -99,8 +103,6 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         val nanotons = balance % 1_000_000_000
         return nanotons // .toString().take(4).padEnd(4, '0')
     }
-
-    protected var isLoading = true
 
     fun isReady(): Boolean {
         val isReady = ::address.isInitialized && balance != null && !isLoading
@@ -321,6 +323,18 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
 
     fun clearSeed() {
         mnemonic = List(wordCount) { "" }
+    }
+
+    fun deleteWallet() {
+        clearSeed()
+        passcode = ""
+        seed = ByteArray(0)
+        privateKey = ByteArray(0)
+        publicKey = ByteArray(0)
+        sharedKey = ByteArray(0)
+        workchainId = 0
+        address = BitString(0)
+        balance = 0
     }
 
     fun loadAccount() {
