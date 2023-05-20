@@ -233,7 +233,8 @@ fun SettingsPage(
 
                     }
                     Text(
-                        text = "USD",
+//                        text = "USD",
+                        text = "TONCoin",
                         color = Color(0xFF339CEC),
                         textAlign = TextAlign.Right,
                         fontFamily = Roboto,//should be Inter
