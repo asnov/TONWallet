@@ -1,7 +1,6 @@
 package com.example.tonwallet.components.WIP
 
 import android.util.Log
-import androidx.annotation.RestrictTo
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,32 +20,46 @@ import kotlinx.serialization.json.Json
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.bitstring.BitString
+import org.ton.block.AccountInfo
+import org.ton.block.AccountState
 import org.ton.block.AddrStd
+import org.ton.block.MsgAddressInt
 import org.ton.block.StateInit
+import org.ton.block.VarUInteger
 import org.ton.boc.BagOfCells
 import org.ton.cell.Cell
 import org.ton.cell.CellBuilder
 import org.ton.cell.buildCell
 import org.ton.contract.wallet.WalletContract
-import org.ton.contract.wallet.WalletV3R2Contract.Companion.CODE
 import org.ton.crypto.Ed25519
 import org.ton.crypto.encodeHex
 import org.ton.crypto.encoding.base64
 import org.ton.crypto.hex
 import org.ton.hashmap.HashMapE
 import org.ton.lite.client.LiteClient
+import org.ton.lite.client.internal.FullAccountState
 import org.ton.mnemonic.Mnemonic
-import org.ton.tl.ByteString
 import org.ton.tl.ByteString.Companion.toByteString
 import org.ton.tlb.constructor.tlbCodec
 import org.ton.tlb.storeTlb
-import java.io.File
+import java.math.BigInteger
 import java.net.URL
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.properties.Delegates
+
 
 private const val TAG = "TonViewModel"
 
-class TonViewModel : ViewModel() {
+//class TonViewModelMocked : TonViewModel() {
+//    init {
+//        address = BitString("0:00")
+//        balance = 0
+//        isLoading = false
+//    }
+//}
+
+open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
+
     var passcode: String = ""
     var passcodeLength: Int = 4
 
@@ -57,22 +70,95 @@ class TonViewModel : ViewModel() {
     lateinit var publicKey: ByteArray
     lateinit var sharedKey: ByteArray
 
-    val json = Json { ignoreUnknownKeys = true }
-    val config = json.decodeFromString<LiteClientConfigGlobal>(getTonGlobalConfig())
-    val liteClient = LiteClient(viewModelScope.coroutineContext, config)
-    private fun getTonGlobalConfig(): String {
-        val pathname = "data/global-config/ton/20230501.json"
-        val configFile = File(pathname)
-        val networkConfig =
-            if (configFile.exists() && configFile.isFile() && configFile.canRead()) {
-                configFile.readText()
-            } else {
-                val configText =
-                    URL("https://ton-blockchain.github.io/global.config.json").readText()
-                configFile.writeText(configText)
-                return configText
+    private lateinit var networkConfig: String
+    private lateinit var liteClient: LiteClient
+
+    var workchainId: Int = 0
+    lateinit var address: BitString
+    fun addressCutted(): String {
+        val addrString = AddrStd(0, address).toString(true)
+        return addrString.substring(0, 4) + "…" + addrString.substring(addrString.length - 4)
+    }
+
+    fun addressFull(): String {
+        return AddrStd(0, address).toString(true)
+    }
+
+    fun addressFullTwoLines(): String {
+        val addressString = addressFull()
+        return addressString.substring(0, addressString.length / 2) +
+                "\n" + addressString.substring(addressString.length / 2)
+    }
+
+    var balance by Delegates.notNull<Long>()
+    fun balanceInteger(): String {
+        return (balance / 1_000_000_000).toString()
+    }
+
+    fun balanceFractional(): Long {
+        val nanotons = balance % 1_000_000_000
+        return nanotons // .toString().take(4).padEnd(4, '0')
+    }
+
+    protected var isLoading = true
+
+    fun isReady(): Boolean {
+        val isReady = ::address.isInitialized && balance != null && !isLoading
+        Log.v(TAG, "isReady: ${isReady}")
+        return isReady
+    }
+
+    // org/ton/tonkotlinusecase/contracts/wallet/WalletV4R2.kt:35
+    lateinit var CODE_V4R2: Cell
+
+    // org/ton/tonkotlinusecase/contracts/wallet/HighloadWallet.kt:35
+    lateinit var CODE_HILO: Cell
+
+    // ton-kotlin-contract-jvm-0.3.0-SNAPSHOT-sources.jar!/commonMain/org/ton/contract/wallet/WalletV3Contract.kt:88
+    val CODE_V3R2: Cell =
+        Cell("FF0020DD2082014C97BA218201339CBAB19F71B0ED44D0D31FD31F31D70BFFE304E0A4F2608308D71820D31FD31FD31FF82313BBF263ED44D0D31FD31FD3FFD15132BAF2A15144BAF2A204F901541055F910F2A3F8009320D74A96D307D402FB00E8D101A4C8CB1FCB1FCBFFC9ED54")
+
+    init {
+        if (this.isPreview) {
+            Log.v(TAG, "init preview")
+            address = AddrStd.parse("EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N").address
+            balance = 56_232_200_000
+            isLoading = false
+        } else {
+            Log.v(TAG, "init")
+
+            CODE_V4R2 = BagOfCells(
+                base64("te6cckECFAEAAtQAART/APSkE/S88sgLAQIBIAIDAgFIBAUE+PKDCNcYINMf0x/THwL4I7vyZO1E0NMf0x/T//QE0VFDuvKhUVG68qIF+QFUEGT5EPKj+AAkpMjLH1JAyx9SMMv/UhD0AMntVPgPAdMHIcAAn2xRkyDXSpbTB9QC+wDoMOAhwAHjACHAAuMAAcADkTDjDQOkyMsfEssfy/8QERITAubQAdDTAyFxsJJfBOAi10nBIJJfBOAC0x8hghBwbHVnvSKCEGRzdHK9sJJfBeAD+kAwIPpEAcjKB8v/ydDtRNCBAUDXIfQEMFyBAQj0Cm+hMbOSXwfgBdM/yCWCEHBsdWe6kjgw4w0DghBkc3RyupJfBuMNBgcCASAICQB4AfoA9AQw+CdvIjBQCqEhvvLgUIIQcGx1Z4MesXCAGFAEywUmzxZY+gIZ9ADLaRfLH1Jgyz8gyYBA+wAGAIpQBIEBCPRZMO1E0IEBQNcgyAHPFvQAye1UAXKwjiOCEGRzdHKDHrFwgBhQBcsFUAPPFiP6AhPLassfyz/JgED7AJJfA+ICASAKCwBZvSQrb2omhAgKBrkPoCGEcNQICEekk30pkQzmkD6f+YN4EoAbeBAUiYcVnzGEAgFYDA0AEbjJftRNDXCx+AA9sp37UTQgQFA1yH0BDACyMoHy//J0AGBAQj0Cm+hMYAIBIA4PABmtznaiaEAga5Drhf/AABmvHfaiaEAQa5DrhY/AAG7SB/oA1NQi+QAFyMoHFcv/ydB3dIAYyMsFywIizxZQBfoCFMtrEszMyXP7AMhAFIEBCPRR8qcCAHCBAQjXGPoA0z/IVCBHgQEI9FHyp4IQbm90ZXB0gBjIywXLAlAGzxZQBPoCFMtqEssfyz/Jc/sAAgBsgQEI1xj6ANM/MFIkgQEI9Fnyp4IQZHN0cnB0gBjIywXLAlAFzxZQA/oCE8tqyx8Syz/Jc/sAAAr0AMntVGliJeU=")
+            ).first()
+            CODE_HILO = BagOfCells(
+                hex("B5EE9C724101090100E5000114FF00F4A413F4BCF2C80B010201200203020148040501EAF28308D71820D31FD33FF823AA1F5320B9F263ED44D0D31FD33FD3FFF404D153608040F40E6FA131F2605173BAF2A207F901541087F910F2A302F404D1F8007F8E16218010F4786FA5209802D307D43001FB009132E201B3E65B8325A1C840348040F4438AE63101C8CB1F13CB3FCBFFF400C9ED54080004D03002012006070017BD9CE76A26869AF98EB85FFC0041BE5F976A268698F98E99FE9FF98FA0268A91040207A0737D098C92DBFC95DD1F140034208040F4966FA56C122094305303B9DE2093333601926C21E2B39F9E545A")
+            ).first()
+
+            val job = viewModelScope.launch(context = Dispatchers.IO) {
+                Log.v(TAG, "viewModelScope job started")
+
+                val serverVersion = withContext(Dispatchers.IO) {
+                    networkConfig = getTonGlobalConfig()
+
+                    val json = Json { ignoreUnknownKeys = true }
+                    val config = json.decodeFromString<LiteClientConfigGlobal>(networkConfig)
+                    liteClient = LiteClient(viewModelScope.coroutineContext, config)
+                    liteClient.getServerVersion()
+                }
+                Log.v(TAG, "liteClient ServerVersion: ${serverVersion}")
+
             }
-        return networkConfig
+            Log.v(TAG, "initialized.")
+        }
+    }
+
+    private fun getTonGlobalConfig(): String {
+        // TODO: caching
+        val configText: String =
+            URL("https://ton-blockchain.github.io/global.config.json").readText()
+        Log.v(TAG, "configText.length: ${configText.length}")
+
+        return configText
     }
 
 
@@ -84,32 +170,14 @@ class TonViewModel : ViewModel() {
     private val scope = CoroutineScope(Job() + Dispatchers.Main) //  + exceptionHandler ???
     val scopeFailureProtected = CoroutineScope(SupervisorJob())
 
-    // org/ton/tonkotlinusecase/contracts/wallet/WalletV4R2.kt:35
-    val CODE_V4R2: Cell = BagOfCells(
-        base64("te6cckECFAEAAtQAART/APSkE/S88sgLAQIBIAIDAgFIBAUE+PKDCNcYINMf0x/THwL4I7vyZO1E0NMf0x/T//QE0VFDuvKhUVG68qIF+QFUEGT5EPKj+AAkpMjLH1JAyx9SMMv/UhD0AMntVPgPAdMHIcAAn2xRkyDXSpbTB9QC+wDoMOAhwAHjACHAAuMAAcADkTDjDQOkyMsfEssfy/8QERITAubQAdDTAyFxsJJfBOAi10nBIJJfBOAC0x8hghBwbHVnvSKCEGRzdHK9sJJfBeAD+kAwIPpEAcjKB8v/ydDtRNCBAUDXIfQEMFyBAQj0Cm+hMbOSXwfgBdM/yCWCEHBsdWe6kjgw4w0DghBkc3RyupJfBuMNBgcCASAICQB4AfoA9AQw+CdvIjBQCqEhvvLgUIIQcGx1Z4MesXCAGFAEywUmzxZY+gIZ9ADLaRfLH1Jgyz8gyYBA+wAGAIpQBIEBCPRZMO1E0IEBQNcgyAHPFvQAye1UAXKwjiOCEGRzdHKDHrFwgBhQBcsFUAPPFiP6AhPLassfyz/JgED7AJJfA+ICASAKCwBZvSQrb2omhAgKBrkPoCGEcNQICEekk30pkQzmkD6f+YN4EoAbeBAUiYcVnzGEAgFYDA0AEbjJftRNDXCx+AA9sp37UTQgQFA1yH0BDACyMoHy//J0AGBAQj0Cm+hMYAIBIA4PABmtznaiaEAga5Drhf/AABmvHfaiaEAQa5DrhY/AAG7SB/oA1NQi+QAFyMoHFcv/ydB3dIAYyMsFywIizxZQBfoCFMtrEszMyXP7AMhAFIEBCPRR8qcCAHCBAQjXGPoA0z/IVCBHgQEI9FHyp4IQbm90ZXB0gBjIywXLAlAGzxZQBPoCFMtqEssfyz/Jc/sAAgBsgQEI1xj6ANM/MFIkgQEI9Fnyp4IQZHN0cnB0gBjIywXLAlAFzxZQA/oCE8tqyx8Syz/Jc/sAAAr0AMntVGliJeU=")
-    ).first()
-
-    // org/ton/tonkotlinusecase/contracts/wallet/HighloadWallet.kt:35
-    val CODE_HILO: Cell = BagOfCells(
-        hex("B5EE9C724101090100E5000114FF00F4A413F4BCF2C80B010201200203020148040501EAF28308D71820D31FD33FF823AA1F5320B9F263ED44D0D31FD33FD3FFF404D153608040F40E6FA131F2605173BAF2A207F901541087F910F2A302F404D1F8007F8E16218010F4786FA5209802D307D43001FB009132E201B3E65B8325A1C840348040F4438AE63101C8CB1F13CB3FCBFFF400C9ED54080004D03002012006070017BD9CE76A26869AF98EB85FFC0041BE5F976A268698F98E99FE9FF98FA0268A91040207A0737D098C92DBFC95DD1F140034208040F4966FA56C122094305303B9DE2093333601926C21E2B39F9E545A")
-    ).first()
-
-    // ton-kotlin-contract-jvm-0.3.0-SNAPSHOT-sources.jar!/commonMain/org/ton/contract/wallet/WalletV3Contract.kt:88
-    val CODE_V3R2: Cell =
-        Cell("FF0020DD2082014C97BA218201339CBAB19F71B0ED44D0D31FD31F31D70BFFE304E0A4F2608308D71820D31FD31FD31FF82313BBF263ED44D0D31FD31FD3FFD15132BAF2A15144BAF2A204F901541055F910F2A3F8009320D74A96D307D402FB00E8D101A4C8CB1FCB1FCBFFC9ED54")
-
     fun generateSeed() {
-        Log.v(TAG, "::::: CODE_V4R2: ${CODE_V4R2.bits.toByteArray().encodeHex()}")
-        Log.v(TAG, "::::: CODE_HILO: ${CODE_HILO.bits.toByteArray().encodeHex()}")
-        Log.v(TAG, "}}}}} CODE_V4R2: ${CODE_V4R2.toString()}")
-        Log.v(TAG, "}}}}} CODE_HILO: ${CODE_HILO.toString()}")
-
         runBlocking {
             mnemonic = Mnemonic.generate()
+            Log.v(TAG, "=== mnemonic: $mnemonic")// TODO: remove
         }
-//        val job = viewModelScope.launch {
-//            mnemonic = Mnemonic.generate()
-//        }
+        val job = viewModelScope.launch {
+            isSeedValid(mnemonic)
+        }
     }
 
     fun isSeedValid(seedPhrase: List<String>): Boolean {
@@ -194,17 +262,13 @@ class TonViewModel : ViewModel() {
             }
 
 
-            2
             val stateInit: StateInit = StateInit(
 //                code = CODE,
                 code = CODE_V4R2,
                 data = createDataInit()
             )
-            val address: BitString = buildCell { storeTlb(StateInit, stateInit) }.hash()
-            val addrStd = AddrStd(
-                workchainId = 0,
-                address = address,
-            )
+            address = buildCell { storeTlb(StateInit, stateInit) }.hash()
+            val addrStd = AddrStd(workchainId, address)
             Log.v(TAG, "=== addrStd: ${addrStd.toString()}")
             Log.v(TAG, "=== addrStd: ${addrStd.toString(false)}")
             Log.v(TAG, "=== addrStd: ${addrStd.toString(true)}")
@@ -215,9 +279,44 @@ class TonViewModel : ViewModel() {
             val isPasswordSeed = Mnemonic.isPasswordSeed(privateKey)  // false
             Log.v(TAG, "=== isPasswordSeed: $isPasswordSeed")
 
+            fulfillBalance()
+
             return true
         }
         return false
+    }
+
+    private fun fulfillBalance() {
+        val job = viewModelScope.launch {
+            balance = withContext(Dispatchers.IO) {
+                val accountAddress: MsgAddressInt = AddrStd(workchainId, address)
+                val accountState: FullAccountState = liteClient.getAccountState(accountAddress)
+                Log.v(TAG, "*** accountState: <${accountState}>")
+                Log.v(TAG, "*** accountState.account.value: <${accountState.account.value}>")
+                try {
+                    val accountInfo: AccountInfo = accountState.account.value as AccountInfo
+                    Log.v(TAG, "*** account: <${accountInfo}>")
+                    Log.v(TAG, "*** accountInfo.isActive: <${accountInfo.isActive}>")
+                    Log.v(TAG, "*** accountInfo.storageStat: <${accountInfo.storageStat}>")
+                    Log.v(TAG, "*** accountInfo.storage: <${accountInfo.storage}>")
+                    Log.v(TAG, "*** accountInfo.storage.state: <${accountInfo.storage.state}>")
+                    Log.v(TAG, "*** accountInfo.storage.balance: <${accountInfo.storage.balance}>")
+                    val amount: VarUInteger = accountInfo.storage.balance.coins.amount
+                    Log.v(TAG, "*** amount: <${amount}>")
+                    val amountValue: BigInteger = amount.value
+                    Log.v(TAG, "*** amountValue: <${amountValue}>")
+                    amountValue.toLong()
+                    Log.v(TAG, "*** amountValue.toLong(): <${amountValue.toLong()}>")
+                    amountValue.toLong()
+                } catch (e: Exception) {
+                    Log.v(TAG, "*** Exception: <${e}>")
+                    Log.v(TAG, "*** message: ${e.message}")
+                    Log.v(TAG, "*** localizedMessage: ${e.localizedMessage}")
+                    0
+                }
+            }
+            isLoading = false
+        }
     }
 
     fun clearSeed() {

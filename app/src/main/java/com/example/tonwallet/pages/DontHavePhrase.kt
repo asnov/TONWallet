@@ -40,11 +40,10 @@ fun DontHavePhrase(
     goBack: () -> Unit,
     goForth: () -> Unit,
     goCreate: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
-
-    val walletModel: TonViewModel = viewModel()
 
     PanelHeader(goBack)
 
@@ -56,7 +55,9 @@ fun DontHavePhrase(
         StickerBig(R.drawable.sticker_too_bad, R.raw.too_bad)
         Text(
             stringResource(R.string.too_bad),
-            Modifier.padding(vertical = 12.dp) .fillMaxWidth(210 / 360f),
+            Modifier
+                .padding(vertical = 12.dp)
+                .fillMaxWidth(210 / 360f),
             Color(0xFF222222),
             fontFamily = Roboto,
             fontWeight = FontWeight.W500,
@@ -138,6 +139,6 @@ fun DontHavePhrase(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        DontHavePhrase({}, {}, {})
+        DontHavePhrase({}, {}, {}, Modifier, TonViewModel(true))
     }
 }

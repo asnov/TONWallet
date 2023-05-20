@@ -478,6 +478,7 @@ fun Navigation() {
     Log.v(TAG, "started")
 
 //    val tonModel: TonViewModel = ViewModelProvider().get(TonViewModel::class.java)
+    viewModel<TonViewModel>()
 
     TONWalletTheme {
         // A surface container using the 'background' color from the theme

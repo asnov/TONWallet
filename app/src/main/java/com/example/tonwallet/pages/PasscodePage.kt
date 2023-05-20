@@ -57,11 +57,11 @@ private const val TAG = "PasscodePage"
 fun PasscodePage(
     goBack: () -> Unit,
     goForth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
 
-    val walletModel: TonViewModel = viewModel()
     var passcodeEntered by remember { mutableStateOf("") }
     var isMenuVisible by remember { mutableStateOf(false) }
     var isConfirming by remember { mutableStateOf(false) }
@@ -226,6 +226,6 @@ fun PasscodePage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        PasscodePage({}, {})
+        PasscodePage({}, {}, Modifier, TonViewModel(true))
     }
 }

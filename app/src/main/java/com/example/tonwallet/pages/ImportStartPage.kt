@@ -73,11 +73,11 @@ fun ImportStartPage(
     goBack: () -> Unit,
     goNoPhrase: () -> Unit,
     goForth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
 
-    val walletModel: TonViewModel = viewModel()
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     val numberOfTheWordsToEnter = walletModel.wordCount
     val (words, setWordsLocal) = remember { mutableStateOf(walletModel.mnemonic.toTypedArray()) }
@@ -412,6 +412,6 @@ fun ImportStartPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        ImportStartPage({}, {}, {}, Modifier.background(Color(0xFFFFFFFF)))
+        ImportStartPage({}, {}, {}, Modifier.background(Color(0xFFFFFFFF)), TonViewModel(true))
     }
 }

@@ -33,7 +33,7 @@ fun SuccessPage(
 ) {
     Log.v(TAG, "started")
 
-    var isBiometricAuth by remember { mutableStateOf(true) }    // TODO: pass it on for processing
+    var isBiometricAuth by remember { mutableStateOf(false) }    // TODO: pass it on for processing
 
 
     PanelHeader(goBack)
@@ -77,7 +77,9 @@ fun SuccessPage(
         ) {
             Checkbox(
                 isBiometricAuth,
-                { isBiometricAuth = !isBiometricAuth },
+                {
+//                    isBiometricAuth = !isBiometricAuth
+                },
                 Modifier,
                 colors = CheckboxDefaults.colors(Color(0xFF339CEC)),
             )
