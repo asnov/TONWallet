@@ -160,15 +160,37 @@ fun SendConfirm(
                         }
                     )//basictextfield
 
+                Column(Modifier.padding(top = 12.dp, start = 20.dp, bottom = 12.dp)) {
                     Text(
                         "The comment is visible to everyone. You must include the note when sending to an exchange.",
-                        Modifier.padding(top = 12.dp, start = 20.dp, bottom = 12.dp),
+
                         color = Color(0xFF757575),
                         textAlign = TextAlign.Left,
                         fontSize = 13.sp,
                         lineHeight = 16.sp,
                         fontWeight = FontWeight.W400,
                     )
+                    // warning, should appear when some characters left
+//                    Text(
+//                        "24 characters left",
+//                        color = Color(0xFFFE9330),
+//                        textAlign = TextAlign.Left,
+//                        fontSize = 13.sp,
+//                        lineHeight = 16.sp,
+//                        fontWeight = FontWeight.W400,
+//                         )
+                    // other warning should appear when exceeded
+//                    Text(
+//                        "Message size has been exceeded by 6 characters",
+//                        color = Color(0xFFFE483D),
+//                        textAlign = TextAlign.Left,
+//                        fontSize = 13.sp,
+//                        lineHeight = 16.sp,
+//                        fontWeight = FontWeight.W400,
+//                    )
+
+                     }
+
                 }
 
 
