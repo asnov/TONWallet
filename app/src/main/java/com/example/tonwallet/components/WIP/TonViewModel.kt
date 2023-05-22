@@ -46,7 +46,6 @@ import org.ton.lite.client.internal.FullAccountState
 import org.ton.lite.client.internal.TransactionId
 import org.ton.lite.client.internal.TransactionInfo
 import org.ton.mnemonic.Mnemonic
-import org.ton.tl.ByteString.Companion.toByteString
 import org.ton.tlb.CellRef
 import org.ton.tlb.constructor.tlbCodec
 import org.ton.tlb.storeTlb
@@ -85,12 +84,14 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
     var balance by Delegates.notNull<Long>()
     private var transactionList: List<TransactionInfo> = mutableStateListOf()
     var transViewList: List<TransactionView> = mutableStateListOf()
+    var transactionId: String? = null
 
     protected var isLoading = true
 
 
-    fun addressCutted(): String {
-        val addrString = AddrStd(0, address).toString(true)
+    fun addressShort(
+        addrString: String = AddrStd(0, address).toString(true)
+    ): String {
         return addrString.substring(0, 4) + "…" + addrString.substring(addrString.length - 4)
     }
 
@@ -377,7 +378,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
 
             transactionList = transactionList.plus(transactionListToAdd)
 
-            updateTransactionView(transactionListToAdd)
+            this.updateTransactionView(transactionListToAdd)
 
             val lastTransaction = transactionListToAdd.last().transaction.value
             lastTransactionId =

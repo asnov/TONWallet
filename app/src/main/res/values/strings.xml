@@ -62,4 +62,7 @@
     <string name="account_will_be_removed">This blockchain account will be removed from your wallet. You will not be able to access your account without your seed phrase.</string>
     <string name="no_cancel">No, cancel</string>
     <string name="yes_remove_it">Yes, remove it</string>
+    <string name="view_in_explorer">View in explorer</string>
+    <string name="sender_address">Sender address</string>
+    <string name="recipient_address">Recipient address</string>
 </resources>

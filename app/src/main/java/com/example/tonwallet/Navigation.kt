@@ -22,13 +22,12 @@ import com.example.tonwallet.pages.ConnectTransferDone
 import com.example.tonwallet.pages.ConnectTransferPending
 import com.example.tonwallet.pages.ImportStartPage
 import com.example.tonwallet.pages.ImportSuccessPage
-import com.example.tonwallet.pages.IncomingTransactionView
+import com.example.tonwallet.pages.TransactionDetailsView
 import com.example.tonwallet.pages.IncomingTransactionViewCanceled
 import com.example.tonwallet.pages.IncomingTransactionViewPending
 import com.example.tonwallet.pages.IncomingTransactionWithComment
 import com.example.tonwallet.pages.LockPage
 import com.example.tonwallet.pages.OutgoingTransactionViewDNS
-import com.example.tonwallet.pages.OutgoingTransactionViewPage
 import com.example.tonwallet.pages.PasscodePage
 import com.example.tonwallet.pages.SendDNS
 import com.example.tonwallet.pages.SendEnterAmount
@@ -251,8 +250,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             goSend = { it.setValue(it, it::value, SEND) },
             goScan = { it.setValue(it, it::value, CAMERA) },
             goSettings = { it.setValue(it, it::value, SETTINGS) },
-            showIncomingTransaction = { it.setValue(it, it::value, INCOMING_VIEW) },
-            showOutgoingTransaction = { it.setValue(it, it::value, OUTGOING_VIEW) },
+            showTransaction = { it.setValue(it, it::value, TRANSACTION_VIEW) },
         )
         Log.v(TAG, "after WalletMainTransactionsPage")
         if (merged) {
@@ -319,15 +317,15 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         Log.v(TAG, "after SendPageSuccess")
     }),
 
-    INCOMING_VIEW({
-        Log.v(TAG, "before IncomingTransactionView")
+    TRANSACTION_VIEW({
+        Log.v(TAG, "before TransactionDetailsView")
         val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
         BackHandler(onBack = goBack)
 
-        IncomingTransactionView(
+        TransactionDetailsView(
             goForth = { it.setValue(it, it::value, SEND) }
         )
-        Log.v(TAG, "after IncomingTransactionView")
+        Log.v(TAG, "after TransactionDetailsView")
         if (merged) {
             IncomingTransactionWithComment(
                 goSend = { it.setValue(it, it::value, SEND) }
@@ -338,22 +336,10 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
             IncomingTransactionViewCanceled(
                 goSend = { it.setValue(it, it::value, SEND) }
             )
-        }
-    }),
-
-    OUTGOING_VIEW({
-        Log.v(TAG, "before OutgoingTransactionViewPage")
-        val goBack = { it.setValue(it, it::value, MAIN_WITH_TRANSACTIONS) }
-        BackHandler(onBack = goBack)
-
-        OutgoingTransactionViewPage(
-            goForth = { it.setValue(it, it::value, SEND) }
-        )
-        Log.v(TAG, "after OutgoingTransactionViewPage")
-        if (merged) {
             OutgoingTransactionViewDNS({})
         }
     }),
+
 
     SETTINGS({
         Log.v(TAG, "before SettingsPage")

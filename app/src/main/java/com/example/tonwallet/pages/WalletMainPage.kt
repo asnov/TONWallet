@@ -78,7 +78,7 @@ fun WalletMainPage(
             Alignment.CenterHorizontally,
         ) {
             Text(
-                walletModel.addressCutted(),
+                walletModel.addressShort(),
                 Modifier
                     .padding(vertical = 12.dp)
                     .clickable {

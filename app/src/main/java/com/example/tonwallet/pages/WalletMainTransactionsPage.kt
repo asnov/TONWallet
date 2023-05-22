@@ -60,8 +60,7 @@ fun WalletMainTransactionsPage(
     goSend: () -> Unit,
     goScan: () -> Unit,
     goSettings: () -> Unit,
-    showIncomingTransaction: () -> Unit,
-    showOutgoingTransaction: () -> Unit,
+    showTransaction: () -> Unit,
     modifier: Modifier = Modifier,
     walletModel: TonViewModel = viewModel(),
 ) {
@@ -86,7 +85,7 @@ fun WalletMainTransactionsPage(
             Alignment.CenterHorizontally,
         ) {
             Text(
-                walletModel.addressCutted(),
+                walletModel.addressShort(),
                 Modifier
                     .padding(vertical = 12.dp)
                     .clickable {
@@ -272,11 +271,11 @@ fun WalletMainTransactionsPage(
                 // item
                 Column(
                     Modifier
+                        .clickable {
+                            walletModel.transactionId = transactionView.id
+                            showTransaction()
+                        }
                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                        .clickable(
-                            onClick = if (transactionView.isIncome) showIncomingTransaction
-                            else showOutgoingTransaction
-                        )
                 ) {
                     Row(
                         Modifier
@@ -330,7 +329,7 @@ fun WalletMainTransactionsPage(
                             )
                         }
                         Text(
-                            text = transactionView.date.format(DateTimeFormatter.ofPattern("hh:mm")),
+                            text = transactionView.date.format(DateTimeFormatter.ofPattern("HH:mm")),
                             color = Color(0xFF757575),
                             textAlign = TextAlign.Right,
                             fontSize = 14.sp,
@@ -352,9 +351,11 @@ fun WalletMainTransactionsPage(
                         fontWeight = FontWeight.W400,
                     )
                     Text(
-                        "-${walletModel.balanceInteger(transactionView.fee)}." +
-                                walletModel.balanceFractional(transactionView.fee).toString()
-                                    .padStart(9, '0').trimEnd('0') + " storage fee",
+                        if (transactionView.fee == 0L) "0" else {
+                            "-${walletModel.balanceInteger(transactionView.fee)}." +
+                                    walletModel.balanceFractional(transactionView.fee).toString()
+                                        .padStart(9, '0').trimEnd('0')
+                        } + " storage fee",
                         Modifier.padding(bottom = 10.dp),
                         Color(0xFF757575),
                         textAlign = TextAlign.Center,
@@ -420,7 +421,7 @@ fun WalletMainTransactionsPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainTransactionsPage({}, {}, {}, {}, {}, {}, Modifier,
+        WalletMainTransactionsPage({}, {}, {}, {}, {}, Modifier,
             TonViewModel(true).also { walletModel ->
                 walletModel.balance = 56_232_210_000
                 walletModel.transViewList = listOf(
