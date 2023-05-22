@@ -7,6 +7,7 @@ data class TransactionView(
     var id: String,
     var now: Long,
     var date: LocalDateTime,
+    var header: String,
     var amount: Long,
     var isIncome: Boolean,
     var address: String,

@@ -146,7 +146,11 @@ fun WalletReceivePage(
                     .clickable {
                         clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
                         Toast
-                            .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                            .makeText(
+                                context,
+                                "${walletModel.addressFull()} copied to clipboard",
+                                Toast.LENGTH_SHORT
+                            )
                             .show()
                     },
                 color = Color.Black,

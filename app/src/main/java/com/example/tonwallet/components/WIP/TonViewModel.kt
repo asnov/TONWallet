@@ -54,6 +54,7 @@ import java.math.BigInteger
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.properties.Delegates
 
@@ -82,7 +83,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
     lateinit var address: BitString
     lateinit var accountState: FullAccountState
     var balance by Delegates.notNull<Long>()
-    val transViewList: List<TransactionView> = mutableStateListOf()
+    var transViewList: List<TransactionView> = mutableStateListOf()
     private val transactionList: List<TransactionInfo> = mutableStateListOf()
 
     protected var isLoading = true
@@ -103,12 +104,12 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                 "\n" + addressString.substring(addressString.length / 2)
     }
 
-    fun balanceInteger(): String {
-        return (balance / 1_000_000_000).toString()
+    fun balanceInteger(balanceParam: Long = balance): String {
+        return (balanceParam / 1_000_000_000).toString()
     }
 
-    fun balanceFractional(): Long {
-        val nanotons = balance % 1_000_000_000
+    fun balanceFractional(balanceParam: Long = balance): Long {
+        val nanotons = balanceParam % 1_000_000_000
         return nanotons // .toString().take(4).padEnd(4, '0')
     }
 
@@ -452,9 +453,9 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
             Log.v(TAG, "${transactionListToAdd.size} transactions found:")
 
             transactionListToAdd.isEmpty() && break
-            updateTransactions(transactionListToAdd)
 
             transactionList.plus(transactionListToAdd)
+            updateTransactionView(transactionListToAdd)
 
             val lastTransaction = transactionListToAdd.last().transaction.value
             lastTransactionId =
@@ -462,17 +463,19 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         }
     }
 
-    private fun updateTransactions(transactionList: List<TransactionInfo>) {
+    private fun updateTransactionView(transactionList: List<TransactionInfo>) {
         transactionList.forEach { transactionInfo ->
             val now = transactionInfo.transaction.value.now.toLong()
             val localDateTime = LocalDateTime.ofEpochSecond(now, 0, ZoneOffset.UTC)
             val r1Value: TransactionAux = transactionInfo.transaction.value.r1.value
             val isIncome = transactionInfo.transaction.value.outMsgCnt == 0
+            val header = localDateTime.format(DateTimeFormatter.ofPattern("MMM d"))
 
             val transactionView = TransactionView(
                 id = transactionInfo.id.hash.toByteArray().encodeBase64(),
                 now = now,
                 date = localDateTime,
+                header = if (transViewList.last().header == header) "" else header,
                 amount = 0,
                 isIncome = isIncome,
                 address = "",
@@ -498,7 +501,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                 transactionView.amount = infoCasted.value.coins.amount.toLong()
             }
 
-            transViewList.plus(transactionInfo)
+            transViewList.plus(transactionInfo) // FIXME: transactionView
         }
     }
 

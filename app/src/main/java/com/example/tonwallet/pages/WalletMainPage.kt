@@ -1,6 +1,5 @@
 package com.example.tonwallet.pages
 
-import android.content.ClipData
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
@@ -85,7 +84,11 @@ fun WalletMainPage(
                     .clickable {
                         clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
                         Toast
-                            .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                            .makeText(
+                                context,
+                                "${walletModel.addressFull()} copied to clipboard",
+                                Toast.LENGTH_SHORT
+                            )
                             .show()
                     },
                 Color(0xFFFFFFFF),
@@ -256,7 +259,11 @@ fun WalletMainPage(
                     .clickable {
                         clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
                         Toast
-                            .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                            .makeText(
+                                context,
+                                "${walletModel.addressFull()} copied to clipboard",
+                                Toast.LENGTH_SHORT
+                            )
                             .show()
                     },
                 color = Color.Black,
