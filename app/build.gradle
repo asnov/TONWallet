@@ -50,6 +50,9 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
+
     // https://developer.android.com/jetpack/androidx/releases/lifecycle#kts
     def lifecycle_version = "2.6.1"
     // ViewModel utilities for Compose
