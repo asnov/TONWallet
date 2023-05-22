@@ -1,6 +1,5 @@
 package com.example.tonwallet.pages
 
-import android.content.ClipData
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
@@ -85,7 +84,11 @@ fun WalletMainPage(
                     .clickable {
                         clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
                         Toast
-                            .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                            .makeText(
+                                context,
+                                "${walletModel.addressFull()} copied to clipboard",
+                                Toast.LENGTH_SHORT
+                            )
                             .show()
                     },
                 Color(0xFFFFFFFF),
@@ -210,7 +213,9 @@ fun WalletMainPage(
                     }
                 }
             }
-        }
+        } // black part
+
+
         Column(
             Modifier
                 .background(
@@ -225,8 +230,7 @@ fun WalletMainPage(
                 .fillMaxHeight(),
             Arrangement.Center,
             Alignment.CenterHorizontally,
-        )
-        {
+        ) {
             StickerBig(R.drawable.icon_whith_chicken, R.raw.created, true)
 
             Text(
@@ -249,13 +253,17 @@ fun WalletMainPage(
                 fontWeight = FontWeight.W400
             )
             Text(
-                walletModel.addressFull(),
+                walletModel.addressFullTwoLines(),
                 modifier
                     .padding(top = 6.dp, start = 70.dp, end = 70.dp, bottom = 57.dp)
                     .clickable {
                         clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
                         Toast
-                            .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                            .makeText(
+                                context,
+                                "${walletModel.addressFull()} copied to clipboard",
+                                Toast.LENGTH_SHORT
+                            )
                             .show()
                     },
                 color = Color.Black,

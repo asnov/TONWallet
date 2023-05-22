@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,6 +25,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,10 +38,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.BuildConfig
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.StatusBarHeight
+import com.example.tonwallet.components.ImportErrorPopup
+import com.example.tonwallet.components.PopupSureDelete
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -48,8 +59,13 @@ fun SettingsPage(
     modifier: Modifier = Modifier,
     openConnectStartPage: () -> Unit = {},
     openConnectTransferPage: () -> Unit = {},
+    goStartPage: () -> Unit = {},
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
+
+    var isDeleteWalletPopupVisible by remember { mutableStateOf(false) }
+
     Column(
         modifier
             .background(Color.Black),
@@ -217,7 +233,8 @@ fun SettingsPage(
 
                     }
                     Text(
-                        text = "USD",
+//                        text = "USD",
+                        text = "TONCoin",
                         color = Color(0xFF339CEC),
                         textAlign = TextAlign.Right,
                         fontFamily = Roboto,//should be Inter
@@ -319,10 +336,10 @@ fun SettingsPage(
             } // row
 
             Divider(
-                color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                color = Color(0x14000000),
             )
             Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
                 Row(
@@ -355,20 +372,23 @@ fun SettingsPage(
             } // row
 
             Divider(
-                color = Color(0x14000000),
                 modifier = Modifier
                     .height(1.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                color = Color(0x14000000),
             )
-            Column(Modifier.padding(vertical = 14.dp, horizontal = 20.dp)) {
+            Column(
+                Modifier
+                    .padding(vertical = 14.dp, horizontal = 20.dp)
+                    .clickable {
+                        isDeleteWalletPopupVisible = true
+                    }) {
                 Row(
-                    Modifier
-                        .fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom,
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-
                         Text(
                             text = stringResource(R.string.settings_delete_wallet),
                             color = Color(0xFFFE3C30),
@@ -378,7 +398,6 @@ fun SettingsPage(
                             lineHeight = 20.sp,
                             fontWeight = FontWeight.W400,
                         )
-
                     }
                 }
             } // row
@@ -463,6 +482,31 @@ fun SettingsPage(
         }
     }
 
+
+
+
+    if (isDeleteWalletPopupVisible) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(Color(0x4C000000))
+        ) {}
+        Popup(
+            Alignment.Center,
+            onDismissRequest = { isDeleteWalletPopupVisible = false },
+            properties = PopupProperties(focusable = true)
+        ) {
+            PopupSureDelete(
+                { isDeleteWalletPopupVisible = false },
+                {
+                    walletModel.deleteWallet()
+                    goStartPage()
+                },
+            )
+        }
+    }
+
+
 }
 
 
@@ -474,6 +518,6 @@ fun SettingsPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SettingsPage({})
+        SettingsPage({}, Modifier, {}, {}, {}, TonViewModel(true))
     }
 }
