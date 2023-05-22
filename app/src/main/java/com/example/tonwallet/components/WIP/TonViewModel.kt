@@ -83,8 +83,8 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
     lateinit var address: BitString
     lateinit var accountState: FullAccountState
     var balance by Delegates.notNull<Long>()
+    private var transactionList: List<TransactionInfo> = mutableStateListOf()
     var transViewList: List<TransactionView> = mutableStateListOf()
-    private val transactionList: List<TransactionInfo> = mutableStateListOf()
 
     protected var isLoading = true
 
@@ -184,7 +184,6 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
     fun generateSeed() {
         runBlocking {
             mnemonic = Mnemonic.generate()
-            Log.v(TAG, "=== mnemonic: $mnemonic")// TODO: remove
         }
         val job = viewModelScope.launch {
             isSeedValid(mnemonic)
@@ -202,58 +201,8 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
             privateKey = PrivateKeyEd25519(seed).key.toByteArray()
             publicKey = Ed25519.publicKey(privateKey)
             sharedKey = Ed25519.sharedKey(privateKey, publicKey)
-
-            Log.v(TAG, "=== seed.size: ${seed.size}")
-            Log.v(TAG, "=== seed.toByteString().encodeHex(): ${seed.toByteString().encodeHex()}")
-
-            Log.v(TAG, "=== privateKey.size: ${privateKey.size}")
-            Log.v(TAG, "=== privateKey: ${privateKey.toString()}")
-            Log.v(
-                TAG,
-                "=== privateKey.toByteString().decodeToString(): ${
-                    privateKey.toByteString().decodeToString()
-                }"
-            )
-            Log.v(
-                TAG,
-                "=== privateKey.toByteString().encodeBase64(): ${
-                    privateKey.toByteString().encodeBase64()
-                }"
-            )
-            Log.v(
-                TAG,
-                "=== privateKey.toByteString().encodeHex(): ${
-                    privateKey.toByteString().encodeHex()
-                }"
-            )
-
-            Log.v(TAG, "=== publicKey.size: ${publicKey.size}")
-            Log.v(
-                TAG,
-                "=== publicKey.toByteString().encodeHex(): ${publicKey.toByteString().encodeHex()}"
-            )
-
-            Log.v(TAG, "=== sharedKey.size: ${sharedKey.size}")
-            Log.v(
-                TAG,
-                "=== sharedKey.toByteString().encodeHex(): ${sharedKey.toByteString().encodeHex()}"
-            )
-
-            publicKey = PrivateKeyEd25519(seed).publicKey().key.toByteArray()
-            sharedKey = PrivateKeyEd25519(seed).sharedKey(PrivateKeyEd25519(seed).publicKey())
-
-            Log.v(TAG, "=== publicKey.size: ${publicKey.size}")
-            Log.v(
-                TAG,
-                "=== publicKey.toByteString().encodeHex(): ${publicKey.toByteString().encodeHex()}"
-            )
-
-            Log.v(TAG, "=== sharedKey.size: ${sharedKey.size}")
-            Log.v(
-                TAG,
-                "=== sharedKey.toByteString().encodeHex(): ${sharedKey.toByteString().encodeHex()}"
-            )
-
+//            publicKey = PrivateKeyEd25519(seed).publicKey().key.toByteArray()
+//            sharedKey = PrivateKeyEd25519(seed).sharedKey(PrivateKeyEd25519(seed).publicKey())
 
             val workchain = 0
             val walletId: Int = WalletContract.DEFAULT_WALLET_ID + workchain
@@ -279,51 +228,23 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                 data = createDataInit()
             )
             address = buildCell { storeTlb(StateInit, stateInit) }.hash()
-            val addrStd = AddrStd(workchainId, address)
-            Log.v(TAG, "=== addrStd: ${addrStd.toString()}")
-            Log.v(TAG, "=== addrStd: ${addrStd.toString(false)}")
-            Log.v(TAG, "=== addrStd: ${addrStd.toString(true)}")
-
-
-            val isBasicSeed = Mnemonic.isBasicSeed(privateKey)        // false
-            Log.v(TAG, "=== isBasicSeed: $isBasicSeed")
-            val isPasswordSeed = Mnemonic.isPasswordSeed(privateKey)  // false
-            Log.v(TAG, "=== isPasswordSeed: $isPasswordSeed")
 
             fulfillBalance()
-
             return true
         }
         return false
     }
 
-    private fun fulfillBalance() {
-        val job = viewModelScope.launch {
+    fun fulfillBalance() {
+        val job = viewModelScope.launch(context = Dispatchers.IO) {
             balance = withContext(Dispatchers.IO) {
                 val accountAddress: MsgAddressInt = AddrStd(workchainId, address)
                 accountState = liteClient.getAccountState(accountAddress)
-                Log.v(TAG, "*** accountState: <${accountState}>")
-                Log.v(TAG, "*** accountState.account.value: <${accountState.account.value}>")
-                Log.v(
-                    TAG,
-                    "*** accountState.lastTransactionId: <${accountState.lastTransactionId}>"
-                )
                 try {
                     val accountInfo: AccountInfo = accountState.account.value as AccountInfo
-                    Log.v(TAG, "*** account: <${accountInfo}>")
-                    Log.v(TAG, "*** accountInfo.isActive: <${accountInfo.isActive}>")
-                    Log.v(TAG, "*** accountInfo.storageStat: <${accountInfo.storageStat}>")
-                    Log.v(TAG, "*** accountInfo.storage: <${accountInfo.storage}>")
-                    Log.v(TAG, "*** accountInfo.storage.state: <${accountInfo.storage.state}>")
-                    Log.v(TAG, "*** accountInfo.storage.balance: <${accountInfo.storage.balance}>")
                     val amount: VarUInteger = accountInfo.storage.balance.coins.amount
-                    Log.v(TAG, "*** amount: <${amount}>")
                     val amountValue: BigInteger = amount.value
-                    Log.v(TAG, "*** amountValue: <${amountValue}>")
                     amountValue.toLong()
-                    Log.v(TAG, "*** amountValue.toLong(): <${amountValue.toLong()}>")
-                    amountValue.toLong()
-
                 } catch (e: Exception) {
                     Log.v(TAG, "*** Exception: <${e}>")
                     Log.v(TAG, "*** message: ${e.message}")
@@ -438,7 +359,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         var lastTransactionId = fullAccountState.lastTransactionId ?: return
 
         for (batchIndex in 0..Int.MAX_VALUE) {
-            Log.v(TAG, "batch:${batchIndex}, id=${lastTransactionId}")
+            Log.v(TAG, ">>> batch:${batchIndex}, id=${lastTransactionId}")
 
             val transactionListToAdd: List<TransactionInfo> = try {
                 liteClient.getTransactions(
@@ -447,20 +368,24 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                     Int.MAX_VALUE
                 )
             } catch (e: Exception) {
-                Log.v(TAG, "Exception: ${e.message}")
+                Log.v(TAG, ">>> Exception: ${e.message}")
                 emptyList()
             }
-            Log.v(TAG, "${transactionListToAdd.size} transactions found:")
+            Log.v(TAG, ">>> ${transactionListToAdd.size} transactions found:")
 
             transactionListToAdd.isEmpty() && break
 
-            transactionList.plus(transactionListToAdd)
+            transactionList = transactionList.plus(transactionListToAdd)
+
             updateTransactionView(transactionListToAdd)
 
             val lastTransaction = transactionListToAdd.last().transaction.value
             lastTransactionId =
                 TransactionId(lastTransaction.prevTransHash, lastTransaction.prevTransLt.toLong())
         }
+        Log.v(TAG, ">>> transactionList.size: ${transactionList.size}")
+        Log.v(TAG, ">>> transViewList.size: ${transViewList.size}")
+        isLoading = false
     }
 
     private fun updateTransactionView(transactionList: List<TransactionInfo>) {
@@ -475,7 +400,8 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                 id = transactionInfo.id.hash.toByteArray().encodeBase64(),
                 now = now,
                 date = localDateTime,
-                header = if (transViewList.last().header == header) "" else header,
+                header = if (transViewList.isNotEmpty() && transViewList.last().header == header) ""
+                else header,
                 amount = 0,
                 isIncome = isIncome,
                 address = "",
@@ -501,7 +427,8 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                 transactionView.amount = infoCasted.value.coins.amount.toLong()
             }
 
-            transViewList.plus(transactionInfo) // FIXME: transactionView
+//            transViewList.plus(transactionInfo) // TODO: report bug doesn't check for type matching
+            transViewList = transViewList.plus(transactionView)
         }
     }
 

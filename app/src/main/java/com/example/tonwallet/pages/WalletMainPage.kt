@@ -116,10 +116,10 @@ fun WalletMainPage(
                     lineHeight = 56.sp,
                     textAlign = TextAlign.Center,
                 )
-                val balanceFractional = walletModel.balanceFractional()
-                if (balanceFractional != 0L) {
+                if (walletModel.balanceFractional() != 0L) {
                     Text(
-                        "." + balanceFractional.toString().take(4).padEnd(4, '0'),
+                        "." + walletModel.balanceFractional().toString()
+                            .padStart(9, '0').take(4).trimEnd('0'),
                         Modifier.padding(top = 8.dp),
                         Color(0xFFFFFFFF),
                         fontFamily = Roboto,
