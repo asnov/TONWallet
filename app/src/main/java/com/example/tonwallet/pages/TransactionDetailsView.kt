@@ -148,6 +148,7 @@ fun TransactionDetailsView(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
+                    // TODO : add time zone and local format
                     transactionView.date
                         .format(DateTimeFormatter.ofPattern("MMM d, yyyy HH:mm")).toString(),
                     Modifier.padding(bottom = 16.dp),

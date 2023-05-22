@@ -279,7 +279,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         BackHandler(onBack = goBack)
 
         SendStartPage(
-            goBack = goBack,
+            goScan = { it.setValue(it, it::value, CAMERA) },
             goForth = { it.setValue(it, it::value, SEND_PENDING) },
         )
         Log.v(TAG, "after SendStartPage")
@@ -474,6 +474,7 @@ fun Navigation() {
             color = MaterialTheme.colors.background
         ) {
             visiblePage.value.show(visiblePage)
+//            SendStartPage({}, {})
         }
     }
 }

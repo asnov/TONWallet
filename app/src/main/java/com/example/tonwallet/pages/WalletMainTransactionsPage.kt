@@ -329,7 +329,9 @@ fun WalletMainTransactionsPage(
                             )
                         }
                         Text(
-                            text = transactionView.date.format(DateTimeFormatter.ofPattern("HH:mm")),
+                            // TODO : add time zone and local format
+                            text = transactionView.date
+                                .format(DateTimeFormatter.ofPattern("HH:mm")),
                             color = Color(0xFF757575),
                             textAlign = TextAlign.Right,
                             fontSize = 14.sp,

@@ -273,6 +273,10 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         workchainId = 0
         address = BitString(0)
         balance = 0
+        transactionList = listOf()
+        transViewList = listOf()
+        transactionId = null
+        isLoading = true
     }
 
     fun loadAccount() {
