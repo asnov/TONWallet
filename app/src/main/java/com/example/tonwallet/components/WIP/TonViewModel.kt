@@ -1,9 +1,12 @@
 package com.example.tonwallet.components.WIP
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tonwallet.TransactionView
+import io.ktor.util.encodeBase64
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,10 +24,13 @@ import org.ton.api.liteclient.config.LiteClientConfigGlobal
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.bitstring.BitString
 import org.ton.block.AccountInfo
-import org.ton.block.AccountState
 import org.ton.block.AddrStd
+import org.ton.block.IntMsgInfo
+import org.ton.block.Message
 import org.ton.block.MsgAddressInt
 import org.ton.block.StateInit
+import org.ton.block.Transaction
+import org.ton.block.TransactionAux
 import org.ton.block.VarUInteger
 import org.ton.boc.BagOfCells
 import org.ton.cell.Cell
@@ -32,31 +38,30 @@ import org.ton.cell.CellBuilder
 import org.ton.cell.buildCell
 import org.ton.contract.wallet.WalletContract
 import org.ton.crypto.Ed25519
-import org.ton.crypto.encodeHex
 import org.ton.crypto.encoding.base64
 import org.ton.crypto.hex
 import org.ton.hashmap.HashMapE
 import org.ton.lite.client.LiteClient
 import org.ton.lite.client.internal.FullAccountState
+import org.ton.lite.client.internal.TransactionId
+import org.ton.lite.client.internal.TransactionInfo
 import org.ton.mnemonic.Mnemonic
 import org.ton.tl.ByteString.Companion.toByteString
+import org.ton.tlb.CellRef
 import org.ton.tlb.constructor.tlbCodec
 import org.ton.tlb.storeTlb
 import java.math.BigInteger
 import java.net.URL
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.properties.Delegates
 
 
 private const val TAG = "TonViewModel"
 
-//class TonViewModelMocked : TonViewModel() {
-//    init {
-//        address = BitString("0:00")
-//        balance = 0
-//        isLoading = false
-//    }
-//}
+fun AddrStd.isEmpty(): Boolean = workchainId == 0 && address == BitString(256)
+
 
 open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
 
@@ -75,7 +80,10 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
 
     var workchainId: Int = 0
     lateinit var address: BitString
+    lateinit var accountState: FullAccountState
     var balance by Delegates.notNull<Long>()
+    val transViewList: List<TransactionView> = mutableStateListOf()
+    private val transactionList: List<TransactionInfo> = mutableStateListOf()
 
     protected var isLoading = true
 
@@ -246,7 +254,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
             )
 
 
-            val workchain: Int = 0
+            val workchain = 0
             val walletId: Int = WalletContract.DEFAULT_WALLET_ID + workchain
 
             fun createDataInit() = CellBuilder.createCell {
@@ -264,7 +272,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
             }
 
 
-            val stateInit: StateInit = StateInit(
+            val stateInit = StateInit(
 //                code = CODE,
                 code = CODE_V4R2,
                 data = createDataInit()
@@ -292,9 +300,13 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         val job = viewModelScope.launch {
             balance = withContext(Dispatchers.IO) {
                 val accountAddress: MsgAddressInt = AddrStd(workchainId, address)
-                val accountState: FullAccountState = liteClient.getAccountState(accountAddress)
+                accountState = liteClient.getAccountState(accountAddress)
                 Log.v(TAG, "*** accountState: <${accountState}>")
                 Log.v(TAG, "*** accountState.account.value: <${accountState.account.value}>")
+                Log.v(
+                    TAG,
+                    "*** accountState.lastTransactionId: <${accountState.lastTransactionId}>"
+                )
                 try {
                     val accountInfo: AccountInfo = accountState.account.value as AccountInfo
                     Log.v(TAG, "*** account: <${accountInfo}>")
@@ -310,6 +322,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                     amountValue.toLong()
                     Log.v(TAG, "*** amountValue.toLong(): <${amountValue.toLong()}>")
                     amountValue.toLong()
+
                 } catch (e: Exception) {
                     Log.v(TAG, "*** Exception: <${e}>")
                     Log.v(TAG, "*** message: ${e.message}")
@@ -318,6 +331,8 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                 }
             }
             isLoading = false
+//            loadTransactions()
+            getTransactions(liteClient, accountState)
         }
     }
 
@@ -347,13 +362,146 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
     }
 
     fun loadTransactions() {
+        val lastTransactionId = accountState.lastTransactionId ?: return
+
         // if a task fails, cancel others
         val job = scope.launch {
-            withContext(Dispatchers.IO) {
+            val transactionsInfo: List<TransactionInfo> = withContext(Dispatchers.IO) {
+                liteClient.getTransactions(
+                    AddrStd(workchainId, address),
+                    lastTransactionId,
+                    Int.MAX_VALUE,
+                )
+            }
+            Log.v(TAG, "*** transactionsInfo.size: <${transactionsInfo.size}>")
+            Log.v(TAG, "*** transactionsInfo: <${transactionsInfo}>")
+            transactionsInfo.forEachIndexed { index, transactionInfo ->
+                Log.v(TAG, "*** $index transactionInfo: <${transactionInfo}>")
+
+                transactionInfo.id
+                Log.v(TAG, "*** $index transactionInfo.id: <${transactionInfo.id}>")
+                Log.v(TAG, "*** $index transactionInfo.id: <${transactionInfo.id.hash}>") // ???
+                Log.v(TAG, "*** $index transactionInfo.id: <${transactionInfo.id.lt}>")
+
+                transactionInfo.blockId
+                Log.v(TAG, "*** $index transactionInfo.blockId: <${transactionInfo.blockId}>")
+
+                transactionInfo.transaction
+                Log.v(
+                    TAG,
+                    "*** $index transactionInfo.transaction: <${transactionInfo.transaction}>"
+                )
+                Log.v(
+                    TAG,
+                    "*** $index transactionInfo.transaction: <${transactionInfo.transaction.value}>"
+                )
+
+                val transaction: Transaction = transactionInfo.transaction.value
+
+                Log.v(TAG, "*** $index transaction.lt: <${transaction.lt}>")
+                transaction.accountAddr
+                Log.v(TAG, "*** $index transaction.accountAddr: <${transaction.accountAddr}>")
+                transaction.now
+                Log.v(TAG, "*** $index transaction.now: <${transaction.now}>")
+                transaction.description
+                Log.v(TAG, "*** $index transaction.description: <${transaction.description}>")
+                transaction.totalFees
+                Log.v(TAG, "*** $index transaction.totalFees: <${transaction.totalFees}>")
+                transaction.outMsgCnt
+                Log.v(TAG, "*** $index transaction.outMsgCnt: <${transaction.outMsgCnt}>")
+
+                val tranAux: TransactionAux = transaction.r1.value
+                val inMsg: CellRef<Message<Cell>>? = tranAux.inMsg.value
+                Log.v(TAG, "*** $index message: <${inMsg}>")
+                if (inMsg != null) {
+                    Log.v(TAG, "*** $index inMsg.value: <${inMsg.value}>")
+                    Log.v(TAG, "*** $index inMsg.value.body: <${inMsg.value.body}>")
+                    Log.v(TAG, "*** $index inMsg.value.init: <${inMsg.value.init}>")
+                    Log.v(TAG, "*** $index inMsg.value.info: <${inMsg.value.info}>")
+                }
+
+                val outMsgs: HashMapE<CellRef<Message<Cell>>> = tranAux.outMsgs
+                Log.v(TAG, "*** $index outMsgs: <${outMsgs}>")
+
+                val firstOutMsg: Pair<BitString, CellRef<Message<Cell>>> = outMsgs.iterator().next()
+                for (outMsg in outMsgs) {
+                    Log.v(TAG, "*** $index outMsg: <${outMsg}>")
+                    outMsg
+                }
 
             }
         }
     }
+
+    suspend fun getTransactions(liteClient: LiteClient, fullAccountState: FullAccountState) {
+        var lastTransactionId = fullAccountState.lastTransactionId ?: return
+
+        for (batchIndex in 0..Int.MAX_VALUE) {
+            Log.v(TAG, "batch:${batchIndex}, id=${lastTransactionId}")
+
+            val transactionListToAdd: List<TransactionInfo> = try {
+                liteClient.getTransactions(
+                    fullAccountState.address,
+                    lastTransactionId,
+                    Int.MAX_VALUE
+                )
+            } catch (e: Exception) {
+                Log.v(TAG, "Exception: ${e.message}")
+                emptyList()
+            }
+            Log.v(TAG, "${transactionListToAdd.size} transactions found:")
+
+            transactionListToAdd.isEmpty() && break
+            updateTransactions(transactionListToAdd)
+
+            transactionList.plus(transactionListToAdd)
+
+            val lastTransaction = transactionListToAdd.last().transaction.value
+            lastTransactionId =
+                TransactionId(lastTransaction.prevTransHash, lastTransaction.prevTransLt.toLong())
+        }
+    }
+
+    private fun updateTransactions(transactionList: List<TransactionInfo>) {
+        transactionList.forEach { transactionInfo ->
+            val now = transactionInfo.transaction.value.now.toLong()
+            val localDateTime = LocalDateTime.ofEpochSecond(now, 0, ZoneOffset.UTC)
+            val r1Value: TransactionAux = transactionInfo.transaction.value.r1.value
+            val isIncome = transactionInfo.transaction.value.outMsgCnt == 0
+
+            val transactionView = TransactionView(
+                id = transactionInfo.id.hash.toByteArray().encodeBase64(),
+                now = now,
+                date = localDateTime,
+                amount = 0,
+                isIncome = isIncome,
+                address = "",
+                fee = transactionInfo.transaction.value.totalFees.coins.amount.toLong(),
+                description = "",
+            )
+            var infoCasted: IntMsgInfo
+            if (isIncome) {
+                r1Value.inMsg.value?.let { inMsg ->
+                    try {
+                        infoCasted = inMsg.value.info as IntMsgInfo
+                        transactionView.address = MsgAddressInt.toString(infoCasted.src)
+                        transactionView.amount = infoCasted.value.coins.amount.toLong()
+                    } catch (e: Exception) {
+                        Log.wtf(TAG, "IntMsgInfo casted error: ${e.message}")
+                    }
+                } ?: {
+                    Log.wtf(TAG, "There is no inMsg in transaction ${transactionView}")
+                }
+            } else {
+                infoCasted = r1Value.outMsgs.first().second.value.info as IntMsgInfo
+                transactionView.address = MsgAddressInt.toString(infoCasted.dest)
+                transactionView.amount = infoCasted.value.coins.amount.toLong()
+            }
+
+            transViewList.plus(transactionInfo)
+        }
+    }
+
 
     suspend fun loadTransactions2() {
         // if a task fails, continue with others
