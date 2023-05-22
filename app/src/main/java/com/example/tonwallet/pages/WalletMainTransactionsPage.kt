@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
@@ -58,8 +60,7 @@ fun WalletMainTransactionsPage(
     goSend: () -> Unit,
     goScan: () -> Unit,
     goSettings: () -> Unit,
-    showIncomingTransaction: () -> Unit,
-    showOutgoingTransaction: () -> Unit,
+    showTransaction: () -> Unit,
     modifier: Modifier = Modifier,
     walletModel: TonViewModel = viewModel(),
 ) {
@@ -84,7 +85,7 @@ fun WalletMainTransactionsPage(
             Alignment.CenterHorizontally,
         ) {
             Text(
-                walletModel.addressCutted(),
+                walletModel.addressShort(),
                 Modifier
                     .padding(vertical = 12.dp)
                     .clickable {
@@ -122,11 +123,10 @@ fun WalletMainTransactionsPage(
                     lineHeight = 56.sp,
                     textAlign = TextAlign.Center,
                 )
-                val balanceFractional = walletModel.balanceFractional()
-                if (balanceFractional != 0L) {
+                if (walletModel.balanceFractional() != 0L) {
                     Text(
-                        "." + balanceFractional.toString().padStart(9, '0')
-                            .take(4).trimEnd('0'),
+                        "." + walletModel.balanceFractional().toString()
+                            .padStart(9, '0').take(4).trimEnd('0'),
                         Modifier.padding(top = 8.dp),
                         Color(0xFFFFFFFF),
                         fontFamily = Roboto,
@@ -241,8 +241,8 @@ fun WalletMainTransactionsPage(
                 )
                 .fillMaxWidth()
                 .fillMaxHeight()
-        )
-        {
+                .verticalScroll(rememberScrollState())
+        ) {
 
             for (transactionView in walletModel.transViewList) {
                 // header
@@ -256,7 +256,7 @@ fun WalletMainTransactionsPage(
                         )
                     ) {
                         Text(
-                            text = "September 5",
+                            text = transactionView.header,
                             color = Color.Black,
                             textAlign = TextAlign.Center,
                             fontSize = 15.sp,
@@ -271,11 +271,11 @@ fun WalletMainTransactionsPage(
                 // item
                 Column(
                     Modifier
+                        .clickable {
+                            walletModel.transactionId = transactionView.id
+                            showTransaction()
+                        }
                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                        .clickable(
-                            onClick = if (transactionView.isIncome) showIncomingTransaction
-                            else showOutgoingTransaction
-                        )
                 ) {
                     Row(
                         Modifier
@@ -304,7 +304,9 @@ fun WalletMainTransactionsPage(
                             )
                             if (walletModel.balanceFractional(transactionView.amount) != 0L) {
                                 Text(
-                                    text = ".${walletModel.balanceFractional(transactionView.amount)}",
+                                    text = "." + walletModel.balanceFractional(transactionView.amount)
+                                        .toString()
+                                        .padStart(9, '0').trimEnd('0'),
                                     Modifier.padding(top = 2.dp),
                                     color = if (transactionView.isIncome) Color(0xFF37A818)
                                     else Color(0xFFFE3C30),
@@ -327,7 +329,9 @@ fun WalletMainTransactionsPage(
                             )
                         }
                         Text(
-                            text = transactionView.date.format(DateTimeFormatter.ofPattern("mm:ss")),
+                            // TODO : add time zone and local format
+                            text = transactionView.date
+                                .format(DateTimeFormatter.ofPattern("HH:mm")),
                             color = Color(0xFF757575),
                             textAlign = TextAlign.Right,
                             fontSize = 14.sp,
@@ -349,8 +353,11 @@ fun WalletMainTransactionsPage(
                         fontWeight = FontWeight.W400,
                     )
                     Text(
-                        "-${walletModel.balanceInteger(transactionView.fee)}." +
-                                "${walletModel.balanceFractional(transactionView.fee)} storage fee",
+                        if (transactionView.fee == 0L) "0" else {
+                            "-${walletModel.balanceInteger(transactionView.fee)}." +
+                                    walletModel.balanceFractional(transactionView.fee).toString()
+                                        .padStart(9, '0').trimEnd('0')
+                        } + " storage fee",
                         Modifier.padding(bottom = 10.dp),
                         Color(0xFF757575),
                         textAlign = TextAlign.Center,
@@ -358,29 +365,34 @@ fun WalletMainTransactionsPage(
                         lineHeight = 18.sp,
                         fontWeight = FontWeight.W400,
                     )
-                    Column() {
-                        Card(
-                            elevation = 0.dp,
-                            shape = RoundedCornerShape(
-                                topStart = 4.dp,
-                                topEnd = 10.dp,
-                                bottomStart = 10.dp,
-                                bottomEnd = 10.dp
-                            ),
-                            backgroundColor = Color(0xfff1f1f4),
-                            contentColor = Color.Black,
-                        ) {
-                            Text(
-                                transactionView.description,
-                                Modifier.padding(vertical = 10.dp, horizontal = 12.dp),
-                                color = Color.Black,
-                                textAlign = TextAlign.Center,
-                                fontSize = 15.sp,
-                                lineHeight = 20.sp,
-                                fontWeight = FontWeight.W400,
-                            )
-                        } // card
-                    } // column with card
+
+                    if (transactionView.description.isNotBlank()) {
+                        Column() {
+                            Card(
+                                elevation = 0.dp,
+                                shape = RoundedCornerShape(
+                                    topStart = 4.dp,
+                                    topEnd = 10.dp,
+                                    bottomStart = 10.dp,
+                                    bottomEnd = 10.dp
+                                ),
+                                backgroundColor = Color(0xfff1f1f4),
+                                contentColor = Color.Black,
+                            ) {
+                                Text(
+                                    transactionView.description,
+                                    Modifier.padding(vertical = 10.dp, horizontal = 12.dp),
+                                    color = Color.Black,
+                                    textAlign = TextAlign.Center,
+                                    fontSize = 15.sp,
+                                    lineHeight = 20.sp,
+                                    fontWeight = FontWeight.W400,
+                                )
+                            } // card
+                        } // column with card
+                    } // if description not blank
+
+
                 } // row transaction
 
                 Divider(
@@ -411,7 +423,7 @@ fun WalletMainTransactionsPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        WalletMainTransactionsPage({}, {}, {}, {}, {}, {}, Modifier,
+        WalletMainTransactionsPage({}, {}, {}, {}, {}, Modifier,
             TonViewModel(true).also { walletModel ->
                 walletModel.balance = 56_232_210_000
                 walletModel.transViewList = listOf(
