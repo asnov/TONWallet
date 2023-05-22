@@ -1,5 +1,3 @@
-# TONWallet
-TON Wallet Challenge: the contest for Android, iOS, and desktop developers will last until 22 May 18:00 UTC.
 
 ## Project Title
 TONPay  for TON Wallet Challenge 
