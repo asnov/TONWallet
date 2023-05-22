@@ -47,8 +47,7 @@ fun TestTimePage(
 ) {
     Log.v(TAG, "started")
 
-    val wordList = walletModel.mnemonic.ifEmpty { wordListDemo } // FIXME: mnemonic is never empty
-
+    val wordList = walletModel.mnemonic
     val numberOfTheWordsToEnter = arrayOf(5, 15, 18)
 //    var words = numberOfTheWordsToEnter.map { wordList[it - 1] }.toTypedArray()
     val (words, setWords) = remember { mutableStateOf(arrayOf("", "", "")) }
@@ -227,6 +226,10 @@ fun TestTimePage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        TestTimePage({}, {}, Modifier, TonViewModel(true))
+        TestTimePage({}, {}, Modifier,
+            TonViewModel(true).also { walletModel ->
+                walletModel.mnemonic = wordListDemo
+            }
+        )
     }
 }

@@ -94,15 +94,25 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
     RECOVERY_PHRASE({
         Log.v(TAG, "before RecoveryPhrasePage")
-        val goBack = { it.setValue(it, it::value, CONGRATULATION) }
+        val walletModel: TonViewModel = viewModel()
+
+        val goBack = {
+            walletModel.unsegure()
+            it.setValue(it, it::value, CONGRATULATION)
+        }
         BackHandler(onBack = goBack)
 
+        walletModel.segure()
         RecoveryPhrasePage(
             goBack = goBack,
             goForth = if (isSeedWrittenDown) {
-                { it.setValue(it, it::value, SUCCESS) }
+                { walletModel.unsegure()
+                    it.setValue(it, it::value, SUCCESS)
+                }
             } else {
-                { it.setValue(it, it::value, TEST_TIME) }
+                {
+                    walletModel.unsegure()
+                    it.setValue(it, it::value, TEST_TIME) }
             },
             isSeedRemembered = isSeedRemembered,
         )
@@ -459,13 +469,9 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
 @Composable
 fun Navigation() {
-//    val visiblePage = remember { mutableStateOf(Pages.START) }
     val visiblePage = rememberSaveable { mutableStateOf(Pages.START) }
 
     Log.v(TAG, "started")
-
-//    val tonModel: TonViewModel = ViewModelProvider().get(TonViewModel::class.java)
-    viewModel<TonViewModel>()
 
     TONWalletTheme {
         // A surface container using the 'background' color from the theme

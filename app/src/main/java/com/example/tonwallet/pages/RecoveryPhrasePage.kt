@@ -77,7 +77,7 @@ fun RecoveryPhrasePage(
 ) {
     Log.v(TAG, "started")
 
-    val wordList = walletModel.mnemonic.ifEmpty { wordListDemo } // FIXME: mnemonic is never empty
+    val wordList = walletModel.mnemonic
     var isPopupVisible by remember { mutableStateOf(false) }
     var isSecondTime by remember { mutableStateOf(false) }
     val secondsForWriting = if (isSeedRemembered) 0L else
@@ -215,7 +215,11 @@ fun RecoveryPhrasePage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        RecoveryPhrasePage({}, {}, Modifier, false, TonViewModel(true))
+        RecoveryPhrasePage({}, {}, Modifier, false,
+            TonViewModel(true).also { walletModel ->
+                walletModel.mnemonic = wordListDemo
+            }
+        )
     }
 }
 
@@ -229,6 +233,10 @@ private fun DefaultPreview() {
 @Composable
 private fun DefaultPreview2() {
     TONWalletTheme {
-        RecoveryPhrasePage({}, {}, Modifier, false, TonViewModel(true))
+        RecoveryPhrasePage({}, {}, Modifier, false,
+            TonViewModel(true).also { walletModel ->
+                walletModel.mnemonic = wordListDemo
+            }
+        )
     }
 }

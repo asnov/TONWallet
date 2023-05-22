@@ -1,6 +1,8 @@
 package com.example.tonwallet.components.WIP
 
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -64,6 +66,22 @@ fun AddrStd.isEmpty(): Boolean = workchainId == 0 && address == BitString(256)
 
 
 open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
+
+    lateinit var window: Window
+    fun segure() {
+        if (isPreview) return
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
+    }
+
+    fun unsegure() {
+        if (isPreview) return
+        window.clearFlags(
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
+    }
 
     var passcode: String = ""
     var passcodeLength: Int = 4
