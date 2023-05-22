@@ -305,7 +305,9 @@ fun WalletMainTransactionsPage(
                             )
                             if (walletModel.balanceFractional(transactionView.amount) != 0L) {
                                 Text(
-                                    text = ".${walletModel.balanceFractional(transactionView.amount)}",
+                                    text = "." + walletModel.balanceFractional(transactionView.amount)
+                                        .toString()
+                                        .padStart(9, '0').trimEnd('0'),
                                     Modifier.padding(top = 2.dp),
                                     color = if (transactionView.isIncome) Color(0xFF37A818)
                                     else Color(0xFFFE3C30),
@@ -352,7 +354,7 @@ fun WalletMainTransactionsPage(
                     Text(
                         "-${walletModel.balanceInteger(transactionView.fee)}." +
                                 walletModel.balanceFractional(transactionView.fee).toString()
-                                    .padStart(9, '0') + " storage fee",
+                                    .padStart(9, '0').trimEnd('0') + " storage fee",
                         Modifier.padding(bottom = 10.dp),
                         Color(0xFF757575),
                         textAlign = TextAlign.Center,
