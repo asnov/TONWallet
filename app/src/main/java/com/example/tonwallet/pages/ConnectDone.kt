@@ -31,7 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.R
-import com.example.tonwallet.Roboto
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -129,36 +128,16 @@ fun ConnectDone(
                         .fillMaxWidth()
                 )
 
-                Row() {//here should be buildAnnotatedString, but i don'n know how to use it, to make part of this text in other color, this UQBF…AoKP should be in color grey and font roboto mono
-                    Text(
-                        stringResource(R.string.fragment_io_is_requesting_access_to_your_wallet_address),
-                        Modifier.padding(horizontal = 40.dp),
-                        color = Color.Black,
-                        textAlign = TextAlign.Center,
-                        fontSize = 15.sp,
-                        lineHeight = 20.sp,
-                        fontWeight = FontWeight.W400,
-                    )
-                    Text(
-                        "UQBF…AoKP",
-                        Modifier.padding(horizontal = 40.dp),
-                        color = Color(0xFF757575),
-                        fontFamily = Roboto, // should be Roboto Mono
-                        textAlign = TextAlign.Center,
-                        fontSize = 15.sp,
-                        lineHeight = 20.sp,
-                        fontWeight = FontWeight.W400,
-                    )
-                    Text(
-                        stringResource(R.string.v4r2),
-                        Modifier.padding(horizontal = 40.dp),
-                        color = Color.Black,
-                        textAlign = TextAlign.Center,
-                        fontSize = 15.sp,
-                        lineHeight = 20.sp,
-                        fontWeight = FontWeight.W400,
-                    )
-                }
+                Text(
+//here should be buildAnnotatedString, but i don'n know how to use it, to make part of this text in other color, this UQBF…AoKP should be in color grey and font roboto mono
+                    stringResource(R.string.fragment_io_is_requesting_access_to_your_wallet_address_uqbf_aokp_v4r2),
+                    Modifier.padding(horizontal = 40.dp),
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    fontSize = 15.sp,
+                    lineHeight = 20.sp,
+                    fontWeight = FontWeight.W400,
+                )
                 Spacer(
                     Modifier
                         .height(36.dp)
