@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwallet.NavigationBarHeight
 import com.example.tonwallet.PanelHeader
+import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
@@ -48,7 +50,7 @@ fun CameraPermission(
 
         ) {
         Text(
-            "No Camera Access",
+            stringResource(R.string.no_camera_access),
             Modifier
                 .padding(vertical = 12.dp)
                 .fillMaxWidth(205 / 360f),
@@ -60,7 +62,7 @@ fun CameraPermission(
             textAlign = TextAlign.Center,
         )
         Text(
-            "TON Wallet doesn’t have access to the camera. Please enable camera access to scan QR codes.",
+            stringResource(R.string.ton_wallet_doesn_t_have_access_to_the_camera_please_enable_camera_access_to_scan_qr_codes),
             Modifier.fillMaxWidth(256 / 360f),
             Color(0xFFFFFFFF),
             fontFamily = Roboto,
@@ -92,7 +94,7 @@ fun CameraPermission(
             contentPadding = PaddingValues(14.dp),
         ) {
             Text(
-                "Open Settings",
+                stringResource(R.string.open_settings),
                 Modifier.height(20.dp),
                 fontFamily = Roboto,
                 fontWeight = FontWeight.W500,
