@@ -37,7 +37,6 @@ import org.ton.block.VarUInteger
 import org.ton.boc.BagOfCells
 import org.ton.cell.Cell
 import org.ton.cell.CellBuilder
-import org.ton.cell.EmptyCell.bits
 import org.ton.cell.buildCell
 import org.ton.contract.wallet.WalletContract
 import org.ton.crypto.Ed25519
@@ -432,36 +431,36 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                 fee = transactionInfo.transaction.value.totalFees.coins.amount.toLong(),
                 description = "",
             )
-            var infoCasted: IntMsgInfo
-            if (isIncome) {
-                r1Value.inMsg.value?.let { inMsg ->
-                    try {
-                        infoCasted = inMsg.value.info as IntMsgInfo
-                        transactionView.address = MsgAddressInt.toString(infoCasted.src)
-                        transactionView.amount = infoCasted.value.coins.amount.toLong()
-                        val body = inMsg.value.body.x ?: inMsg.value.body.y?.value ?: Cell()
 
-                        if (body.bits.size >= 32) {
-                            transactionView.description = body.bits
-                                .slice(32 until body.bits.size)
-                                .toByteArray()
-                                .decodeToString()
-                        }
+            val message = if (isIncome) r1Value.inMsg.value else r1Value.outMsgs.first().second
+            val commonMsgInfo = message?.value?.info
 
-
-                    } catch (e: Exception) {
-                        Log.wtf(TAG, "IntMsgInfo casted error: ${e.message}")
-                    }
-                } ?: {
-                    Log.wtf(TAG, "There is no inMsg in transaction ${transactionView}")
+            try {
+                val intMsgInfo = commonMsgInfo as IntMsgInfo
+                transactionView.address = if (isIncome) {
+                    MsgAddressInt.toString(intMsgInfo.src)
+                } else {
+                    MsgAddressInt.toString(intMsgInfo.dest)
                 }
-            } else {
-                infoCasted = r1Value.outMsgs.first().second.value.info as IntMsgInfo
-                transactionView.address = MsgAddressInt.toString(infoCasted.dest)
-                transactionView.amount = infoCasted.value.coins.amount.toLong()
+                transactionView.amount = intMsgInfo.value.coins.amount.toLong()
+            } catch (e: Exception) {
+                Log.wtf(TAG, "IntMsgInfo casted error: ${e.message}")
             }
 
-//            transViewList.plus(transactionInfo) // TODO: report bug doesn't check for type matching
+            if (message != null) {
+                val body = message.value.body.x ?: message.value.body.y?.value ?: Cell()
+                if (body.bits.size >= 32) {
+                    transactionView.description = body.bits
+                        .slice(32 until body.bits.size)
+                        .toByteArray()
+                        .decodeToString()
+                }
+            } else {
+                Log.wtf(TAG, "There is no Messages in transaction ${transactionView}")
+            }
+
+
+//            transViewList.plus(transactionInfo) // TODO: report bug which doesn't check for type matching
             transViewList = transViewList.plus(transactionView)
         }
     }
