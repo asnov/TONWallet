@@ -37,6 +37,7 @@ import org.ton.block.VarUInteger
 import org.ton.boc.BagOfCells
 import org.ton.cell.Cell
 import org.ton.cell.CellBuilder
+import org.ton.cell.EmptyCell.bits
 import org.ton.cell.buildCell
 import org.ton.contract.wallet.WalletContract
 import org.ton.crypto.Ed25519
@@ -438,6 +439,16 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                         infoCasted = inMsg.value.info as IntMsgInfo
                         transactionView.address = MsgAddressInt.toString(infoCasted.src)
                         transactionView.amount = infoCasted.value.coins.amount.toLong()
+                        val body = inMsg.value.body.x ?: inMsg.value.body.y?.value ?: Cell()
+
+                        if (body.bits.size >= 32) {
+                            transactionView.description = body.bits
+                                .slice(32 until body.bits.size)
+                                .toByteArray()
+                                .decodeToString()
+                        }
+
+
                     } catch (e: Exception) {
                         Log.wtf(TAG, "IntMsgInfo casted error: ${e.message}")
                     }
