@@ -65,4 +65,11 @@
     <string name="view_in_explorer">View in explorer</string>
     <string name="sender_address">Sender address</string>
     <string name="recipient_address">Recipient address</string>
+    <string name="no_camera_access">No Camera Access</string>
+    <string name="ton_wallet_doesn_t_have_access_to_the_camera_please_enable_camera_access_to_scan_qr_codes"><![CDATA[TON Wallet doesn’t have access to the camera. Please enable camera access to scan QR codes.]]></string>
+    <string name="open_settings">Open Settings</string>
+    <string name="connect_to_fragment">Connect to Fragment</string>
+    <string name="be_sure_to_check_the_service_address_before_connecting_the_wallet"><![CDATA[Be sure to check the service address before connecting the wallet.]]></string>
+    <string name="fragment_io_is_requesting_access_to_your_wallet_address"><![CDATA["fragment.io is requesting access to your wallet address "]]></string>
+    <string name="v4r2">" v4R2."</string>
 </resources>

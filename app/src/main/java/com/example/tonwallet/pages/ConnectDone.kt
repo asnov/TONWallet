@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -114,7 +115,7 @@ fun ConnectDone(
                         .fillMaxWidth()
                 )
                 Text(
-                    text = "Connect to Fragment",
+                    stringResource(R.string.connect_to_fragment),
                     color = Color.Black,
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp,
@@ -126,9 +127,10 @@ fun ConnectDone(
                         .height(8.dp)
                         .fillMaxWidth()
                 )
+
                 Text(
 //here should be buildAnnotatedString, but i don'n know how to use it, to make part of this text in other color, this UQBF…AoKP should be in color grey and font roboto mono
-                    text = "fragment.io is requesting access to your wallet address UQBF…AoKP v4R2. ",
+                    stringResource(R.string.fragment_io_is_requesting_access_to_your_wallet_address_uqbf_aokp_v4r2),
                     Modifier.padding(horizontal = 40.dp),
                     color = Color.Black,
                     textAlign = TextAlign.Center,
@@ -142,7 +144,7 @@ fun ConnectDone(
                         .fillMaxWidth()
                 )
                 Text(
-                    text = "Be sure to check the service address before connecting the wallet.",
+                    stringResource(R.string.be_sure_to_check_the_service_address_before_connecting_the_wallet),
                     Modifier.padding(horizontal = 40.dp),
                     color = Color(0xFF757575),
                     textAlign = TextAlign.Center,
