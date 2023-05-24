@@ -29,10 +29,11 @@ import com.example.tonwallet.pages.IncomingTransactionWithComment
 import com.example.tonwallet.pages.LockPage
 import com.example.tonwallet.pages.OutgoingTransactionViewDNS
 import com.example.tonwallet.pages.PasscodePage
+import com.example.tonwallet.pages.SendConfirm
 import com.example.tonwallet.pages.SendDNS
 import com.example.tonwallet.pages.SendEnterAmount
 import com.example.tonwallet.pages.SendEnterAmountDNS
-import com.example.tonwallet.pages.SendEnteredWithLoading
+import com.example.tonwallet.pages.SendErrorAmount
 import com.example.tonwallet.pages.SendInvalidAddress
 import com.example.tonwallet.pages.SendPagePending
 import com.example.tonwallet.pages.SendPageSuccess
@@ -106,13 +107,15 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         RecoveryPhrasePage(
             goBack = goBack,
             goForth = if (isSeedWrittenDown) {
-                { walletModel.unsegure()
+                {
+                    walletModel.unsegure()
                     it.setValue(it, it::value, SUCCESS)
                 }
             } else {
                 {
                     walletModel.unsegure()
-                    it.setValue(it, it::value, TEST_TIME) }
+                    it.setValue(it, it::value, TEST_TIME)
+                }
             },
             isSeedRemembered = isSeedRemembered,
         )
@@ -290,17 +293,42 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 
         SendStartPage(
             goScan = { it.setValue(it, it::value, CAMERA) },
-            goForth = { it.setValue(it, it::value, SEND_PENDING) },
+            goForth = { it.setValue(it, it::value, SEND_ENTER_AMOUNT) },
         )
         Log.v(TAG, "after SendStartPage")
         if (merged) {
             SendRecents({})
-            SendEnteredWithLoading({})
             SendInvalidAddress()
             SendDNS()
-            SendEnterAmountDNS({}, {})
-            SendEnterAmount({}, {})
         }
+    }),
+
+    SEND_ENTER_AMOUNT({
+        Log.v(TAG, "before SendEnterAmount page")
+        val goBack = { it.setValue(it, it::value, SEND) }
+        BackHandler(onBack = goBack)
+
+        SendEnterAmount(
+            goBack = goBack,
+            goForth = { it.setValue(it, it::value, SEND_CONFIRM) },
+        )
+        Log.v(TAG, "after SendEnterAmount page")
+        if (merged) {
+            SendEnterAmountDNS({}, {})
+            SendErrorAmount({}, {})
+        }
+    }),
+
+    SEND_CONFIRM({
+        Log.v(TAG, "before SendConfirm page")
+        val goBack = { it.setValue(it, it::value, SEND_ENTER_AMOUNT) }
+        BackHandler(onBack = goBack)
+
+        SendConfirm(
+            goBack = goBack,
+            goForth = { it.setValue(it, it::value, SEND_PENDING) },
+        )
+        Log.v(TAG, "after SendConfirm page")
     }),
 
     SEND_PENDING({

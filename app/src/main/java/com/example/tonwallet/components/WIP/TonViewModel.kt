@@ -454,6 +454,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                         .slice(32 until body.bits.size)
                         .toByteArray()
                         .decodeToString()
+                    Log.v(TAG, ">>> description: ${transactionView.description}")
                 }
             } else {
                 Log.wtf(TAG, "There is no Messages in transaction ${transactionView}")
