@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,7 +69,7 @@ fun IncomingTransactionViewCanceled(
                 .padding(top=12.dp, bottom=20.dp, start=20.dp, end=16.dp))
             {
                 Text(
-                    text = "Transaction",
+                    stringResource(R.string.transaction),
                     Modifier.padding(bottom = 12.dp),
                     color = Color.Black,
                     textAlign = TextAlign.Left,
@@ -128,7 +129,7 @@ fun IncomingTransactionViewCanceled(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "Canceled",
+                    stringResource(R.string.canceled),
                     Modifier.padding(start=8.dp, bottom = 16.dp),
                     Color(0xFFFE3C30),
                     textAlign = TextAlign.Center,
@@ -141,7 +142,7 @@ fun IncomingTransactionViewCanceled(
             }//column with centered text
             Column() {
                 Text(
-                    "Details",
+                    stringResource(R.string.details),
                     Modifier.padding(top=20.dp, start=20.dp, bottom=4.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
@@ -157,7 +158,7 @@ fun IncomingTransactionViewCanceled(
                     horizontalArrangement = Arrangement.SpaceBetween,)
                 {
                     Text(
-                        "Sender address",
+                        stringResource(R.string.sender_address),
                         color = Color.Black,
                         textAlign = TextAlign.Left,
                         fontSize = 15.sp,
@@ -187,7 +188,7 @@ fun IncomingTransactionViewCanceled(
                     horizontalArrangement = Arrangement.SpaceBetween,)
                 {
                     Text(
-                        "Transaction",
+                        stringResource(R.string.transaction),
                         color = Color.Black,
                         textAlign = TextAlign.Left,
                         fontSize = 15.sp,
@@ -214,7 +215,7 @@ fun IncomingTransactionViewCanceled(
             )
             {
                 Text(
-                    "View in explorer",
+                    stringResource(R.string.view_in_explorer),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Right,
                     fontSize = 15.sp,
@@ -235,7 +236,7 @@ fun IncomingTransactionViewCanceled(
                 contentPadding = PaddingValues(14.dp),
             ) {
                 Text(
-                    "Send TON to this address",
+                    stringResource(R.string.send_ton_to_this_address),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
