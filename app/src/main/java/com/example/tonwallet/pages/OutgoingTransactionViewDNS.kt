@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,7 +71,7 @@ fun OutgoingTransactionViewDNS(
             )
             {
                 Text(
-                    text = "Transaction",
+                    stringResource(R.string.transaction),
                     Modifier.padding(bottom = 12.dp),
                     color = Color.Black,
                     textAlign = TextAlign.Left,
@@ -142,7 +143,7 @@ fun OutgoingTransactionViewDNS(
             } // column with centered text
             Column() {
                 Text(
-                    "Details",
+                    stringResource(R.string.details),
                     Modifier.padding(top = 20.dp, start = 20.dp, bottom = 4.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
@@ -161,7 +162,7 @@ fun OutgoingTransactionViewDNS(
                 )
                 {
                     Text(
-                        "Recipient",
+                        stringResource(R.string.recipient),
                         color = Color.Black,
                         textAlign = TextAlign.Left,
                         fontSize = 15.sp,
@@ -194,7 +195,7 @@ fun OutgoingTransactionViewDNS(
                 )
                 {
                     Text(
-                        "Recipient address",
+                        stringResource(R.string.recipient_address),
                         color = Color.Black,
                         textAlign = TextAlign.Left,
                         fontSize = 15.sp,
@@ -227,7 +228,7 @@ fun OutgoingTransactionViewDNS(
                 )
                 {
                     Text(
-                        "Transaction",
+                        stringResource(R.string.transaction),
                         color = Color.Black,
                         textAlign = TextAlign.Left,
                         fontSize = 15.sp,
@@ -255,7 +256,7 @@ fun OutgoingTransactionViewDNS(
             )
             {
                 Text(
-                    "View in explorer",
+                    stringResource(R.string.view_in_explorer),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Right,
                     fontSize = 15.sp,
@@ -276,7 +277,7 @@ fun OutgoingTransactionViewDNS(
                 contentPadding = PaddingValues(14.dp),
             ) {
                 Text(
-                    "Send TON to this address",
+                    stringResource(R.string.send_ton_to_this_address),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
