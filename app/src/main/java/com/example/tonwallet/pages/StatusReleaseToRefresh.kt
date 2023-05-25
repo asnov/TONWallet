@@ -93,7 +93,7 @@ fun StatusReleaseToRefresh(
                     verticalAlignment = Alignment.Bottom
                 ) {
                     Text(
-                        "Release to refresh",
+                        stringResource(R.string.release_to_refresh),
                         Modifier,
                         Color(0xFFFFFFFF),
                         fontFamily = Roboto,
@@ -348,7 +348,7 @@ fun StatusReleaseToRefresh(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732 storage fee",
+                    "-0.000065732" + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
@@ -449,7 +449,7 @@ fun StatusReleaseToRefresh(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732 storage fee",
+                    "-0.000065732"+ stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
