@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -177,7 +178,7 @@ fun WalletMainTransactionsScrollPage(
                             fontWeight = FontWeight.W500,
                         )
                         Text(
-                            text = "from",
+                            stringResource(R.string.from_transaction),
                             Modifier.padding(top = 2.dp, start = 3.dp),
                             color = Color(0xFF757575),
                             textAlign = TextAlign.Center,
@@ -205,7 +206,7 @@ fun WalletMainTransactionsScrollPage(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732 storage fee",
+                    "-0.000065732" + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
@@ -277,7 +278,7 @@ fun WalletMainTransactionsScrollPage(
                         )
 
                         Text(
-                            text = "to",
+                            stringResource(R.string.to_transaction),
                             Modifier.padding(top = 2.dp, start = 3.dp),
                             color = Color(0xFF757575),
                             textAlign = TextAlign.Center,
@@ -305,7 +306,7 @@ fun WalletMainTransactionsScrollPage(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732 storage fee",
+                    "-0.000065732" + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
@@ -391,7 +392,7 @@ fun WalletMainTransactionsScrollPage(
                         )
 
                         Text(
-                            text = "from",
+                            stringResource(R.string.from_transaction),
                             Modifier.padding(top = 2.dp, start = 3.dp),
                             color = Color(0xFF757575),
                             textAlign = TextAlign.Center,
@@ -419,7 +420,7 @@ fun WalletMainTransactionsScrollPage(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732 storage fee",
+                    "-0.000065732" + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
@@ -487,7 +488,7 @@ fun WalletMainTransactionsScrollPage(
                         )
 
                         Text(
-                            text = "to",
+                            stringResource(R.string.to_transaction),
                             Modifier.padding(top = 2.dp, start = 3.dp),
                             color = Color(0xFF757575),
                             textAlign = TextAlign.Center,
@@ -515,7 +516,7 @@ fun WalletMainTransactionsScrollPage(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732 storage fee",
+                    "-0.000065732" + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
