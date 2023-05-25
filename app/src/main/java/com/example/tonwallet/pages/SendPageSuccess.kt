@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -94,6 +95,7 @@ fun SendPageSuccess(
         Column(
             Modifier
                 .weight(0.9f)
+                .padding(horizontal=40.dp)
                 .fillMaxWidth(),
             Arrangement.Center,
             Alignment.CenterHorizontally
@@ -103,7 +105,7 @@ fun SendPageSuccess(
                 null, Modifier.size(100.dp)
             )
             Text(
-                "Done!",
+                stringResource(R.string.done),
                 modifier.padding(top = 12.dp),
                 color = Color(0xFF222222),
                 textAlign = TextAlign.Center,
@@ -112,7 +114,8 @@ fun SendPageSuccess(
                 fontWeight = FontWeight.W500,
             )
             Text(
-                "2.2 Toncoin have been sent to",
+                "2.2" +
+                         stringResource(R.string.toncoin_have_been_sent_to),
                 modifier.padding(top = 12.dp),
                 color = Color.Black,
                 textAlign = TextAlign.Center,
@@ -122,8 +125,7 @@ fun SendPageSuccess(
                 fontWeight = FontWeight.W400
             )
             Text(
-                "UQBFz01R2CU7YA8pevUaNIYE\n" +
-                        "zi1mRo4cX-r3W2Dwx-WEAoKP",
+                "UQBFz01R2CU7YA8pevUaNIYE\n zi1mRo4cX-r3W2Dwx-WEAoKP",
                 modifier.padding(top = 24.dp),
                 color = Color.Black,
                 textAlign = TextAlign.Center,
@@ -153,7 +155,7 @@ fun SendPageSuccess(
                 contentPadding = PaddingValues(14.dp),
             ) {
                 Text(
-                    "View My Wallet",
+                    stringResource(R.string.view_my_wallet),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,

@@ -101,4 +101,5 @@
     <string name="insufficient_funds">Insufficient funds</string>
     <string name="sending_ton">Sending TON</string>
     <string name="please_wait_a_few_sec_">Please wait a few seconds for your\n transaction to be processed…</string>
+    <string name="toncoin_have_been_sent_to">" Toncoin have been sent to"</string>
 </resources>
