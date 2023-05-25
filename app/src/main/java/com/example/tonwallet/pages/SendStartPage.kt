@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -88,7 +89,7 @@ fun SendStartPage(
                     .padding(top = 16.dp, bottom = 12.dp, start = 20.dp, end = 16.dp)
             ) {
                 Text(
-                    text = "Send TON",
+                    stringResource(R.string.send_ton),
                     Modifier.padding(bottom = 12.dp),
                     color = Color.Black,
                     textAlign = TextAlign.Left,
@@ -100,7 +101,7 @@ fun SendStartPage(
 
             Column() {
                 Text(
-                    "Wallet Address or Domain",
+                    stringResource(R.string.wallet_address_or_domain),
                     Modifier.padding(start = 20.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
@@ -199,7 +200,7 @@ fun SendStartPage(
 
 
                 Text(
-                    "Paste the 24-letter wallet address of the recipient here or TON DNS.",
+                    stringResource(R.string.paste_wallet_address_dns),
                     Modifier.padding(top = 12.dp, start = 20.dp, bottom = 4.dp),
                     color = Color(0xFF757575),
                     textAlign = TextAlign.Left,
@@ -234,7 +235,7 @@ fun SendStartPage(
                                 .padding(end = 4.dp)
                         )
                         Text(
-                            "Paste",
+                            stringResource(R.string.paste),
                             color = Color(0xFF339CEC),
                             textAlign = TextAlign.Right,
                             fontSize = 15.sp,
@@ -253,7 +254,7 @@ fun SendStartPage(
                                 .padding(end = 4.dp)
                         )
                         Text(
-                            "Scan",
+                            stringResource(R.string.scan),
                             color = Color(0xFF339CEC),
                             textAlign = TextAlign.Right,
                             fontSize = 15.sp,
@@ -289,7 +290,7 @@ fun SendStartPage(
                 ) {
                     Spacer(Modifier.width(20.dp))
                     Text(
-                        "Continue",
+                        stringResource(R.string.continu_),
                         color = Color.White,
                         fontSize = 15.sp,
                         lineHeight = 20.sp,
