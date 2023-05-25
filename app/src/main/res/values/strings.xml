@@ -98,4 +98,5 @@
     <string name="scan">Scan</string>
     <string name="invalid_address">Invalid Address</string>
     <string name="address_dnot_belong_ton">Address entered does not belong to TON</string>
+    <string name="insufficient_funds">Insufficient funds</string>
 </resources>

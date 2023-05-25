@@ -99,7 +99,7 @@ fun SendErrorAmount(
                         .padding(horizontal = 20.dp, vertical = 12.dp))
                 {
                     Text(
-                        text = "Send TON",
+                        stringResource(R.string.send_ton),
                         Modifier,
                         color = Color.Black,
                         textAlign = TextAlign.Left,
@@ -124,7 +124,7 @@ fun SendErrorAmount(
                     horizontalArrangement = Arrangement.SpaceBetween,) {
                     Row() {
                         Text(
-                            "Send to:",
+                            stringResource(R.string.send_to),
                             color = Color(0xFF757575),
                             fontFamily = Roboto, // should be Inter
                             textAlign = TextAlign.Left,
@@ -144,7 +144,7 @@ fun SendErrorAmount(
                         )
                     }//row left
                     Text(
-                        "Edit",
+                        stringResource(R.string.edit),
                         color = Color(0xFF339CEC),
                         fontFamily = Roboto, // should be Inter
                         textAlign = TextAlign.Right,
@@ -190,7 +190,7 @@ fun SendErrorAmount(
                             )
                     } // row with big crystal
                     Text(
-                        "Insufficient funds",
+                        stringResource(R.string.insufficient_funds),
                         color = Color(0xFFFE3C30),
                         fontFamily = Roboto,
                         textAlign = TextAlign.Center,
@@ -209,7 +209,7 @@ fun SendErrorAmount(
                     horizontalArrangement = Arrangement.SpaceBetween) {
                     Row() {
                         Text(
-                            "Send all",
+                            stringResource(R.string.send_all),
                             color = Color.Black,
                             fontFamily = Roboto, // should be Inter
                             textAlign = TextAlign.Right,
@@ -260,7 +260,7 @@ fun SendErrorAmount(
                 contentPadding = PaddingValues(14.dp),
             ) {
                 Text(
-                    "Continue",
+                    stringResource(R.string.continu_),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
