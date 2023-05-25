@@ -94,7 +94,7 @@ fun StatusSwipeDown(
                     verticalAlignment = Alignment.Bottom
                 ) {
                     Text(
-                        "Swipe down to refresh",
+                        stringResource(R.string.swipe_down_to_refresh),
                         Modifier,
                         Color(0xFFFFFFFF),
                         fontFamily = Roboto,
@@ -349,7 +349,7 @@ fun StatusSwipeDown(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732 storage fee",
+                    "-0.000065732" + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
@@ -450,7 +450,7 @@ fun StatusSwipeDown(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732 storage fee",
+                    "-0.000065732" + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
