@@ -88,7 +88,6 @@
     <string name="send_to">Send to:</string>
     <string name="edit">Edit</string>
     <string name="send_all">Send all</string>
-    <string name="continue_button">Continue</string>
     <string name="comment_optional">Comment (Optional)</string>
     <string name="comment_send_confirm_page">The comment is visible to everyone. You must include the note when sending to an exchange.</string>
     <string name="amount">Amount</string>

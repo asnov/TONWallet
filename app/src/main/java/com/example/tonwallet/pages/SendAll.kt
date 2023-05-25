@@ -260,7 +260,7 @@ fun SendAll(
                 contentPadding = PaddingValues(14.dp),
             ) {
                 Text(
-                    stringResource(R.string.continue_button),
+                    stringResource(R.string.continu_),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
