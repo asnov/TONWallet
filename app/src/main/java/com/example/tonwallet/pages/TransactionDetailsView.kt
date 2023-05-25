@@ -83,7 +83,7 @@ fun TransactionDetailsView(
             )
             {
                 Text(
-                    text = "Transaction",
+                    stringResource(R.string.transaction),
                     Modifier.padding(bottom = 12.dp),
                     color = Color.Black,
                     textAlign = TextAlign.Left,
@@ -139,7 +139,7 @@ fun TransactionDetailsView(
                         "${walletModel.balanceInteger(transactionView.fee)}." +
                                 walletModel.balanceFractional(transactionView.fee).toString()
                                     .padStart(9, '0').trimEnd('0')
-                    } + " transaction fee",
+                    } + stringResource(R.string.transaction_fee),
                     Modifier.padding(bottom = 4.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
@@ -162,7 +162,7 @@ fun TransactionDetailsView(
             }//column with centered text
             Column() {
                 Text(
-                    "Details",
+                    stringResource(R.string.details),
                     Modifier.padding(top = 20.dp, start = 20.dp, bottom = 4.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
@@ -215,7 +215,7 @@ fun TransactionDetailsView(
                 )
                 {
                     Text(
-                        "Transaction",
+                        stringResource(R.string.transaction),
                         color = Color.Black,
                         textAlign = TextAlign.Left,
                         fontSize = 15.sp,
@@ -268,7 +268,7 @@ fun TransactionDetailsView(
                 contentPadding = PaddingValues(14.dp),
             ) {
                 Text(
-                    "Send TON to this address",
+                    stringResource(R.string.send_ton_to_this_address),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
