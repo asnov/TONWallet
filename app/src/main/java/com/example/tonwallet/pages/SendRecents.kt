@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -72,7 +73,7 @@ fun SendRecents(
             )
             {
                 Text(
-                    text = "Send TON",
+                    stringResource(R.string.send_ton),
                     Modifier.padding(bottom = 12.dp),
                     color = Color.Black,
                     textAlign = TextAlign.Left,
@@ -84,7 +85,7 @@ fun SendRecents(
 
             Column() {
                 Text(
-                    "Wallet Address or Domain",
+                    stringResource(R.string.wallet_address_or_domain),
                     Modifier.padding(start = 20.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
@@ -94,7 +95,7 @@ fun SendRecents(
                 )
 
                 //down should be good working textfield acording to design
-                BasicTextField(value = "Enter Wallet Address or Domain...",
+                BasicTextField(value = stringResource(R.string.enter_wallet_address_or_domain),
                     onValueChange = {},
                     Modifier
                         .fillMaxWidth()
@@ -132,7 +133,7 @@ fun SendRecents(
                 )//basictextfield
 
                 Text(
-                    "Paste the 24-letter wallet address of the recipient here or TON DNS.",
+                    stringResource(R.string.paste_wallet_address_dns),
                     Modifier.padding(top = 12.dp, start = 20.dp, bottom = 4.dp),
                     color = Color(0xFF757575),
                     textAlign = TextAlign.Left,
@@ -156,7 +157,7 @@ fun SendRecents(
                                 .padding(end = 4.dp)
                         )
                         Text(
-                            "Paste",
+                            stringResource(R.string.paste),
                             color = Color(0xFF339CEC),
                             textAlign = TextAlign.Right,
                             fontSize = 15.sp,
@@ -173,7 +174,7 @@ fun SendRecents(
                                 .padding(end = 4.dp)
                         )
                         Text(
-                            "Scan",
+                            stringResource(R.string.scan),
                             color = Color(0xFF339CEC),
                             textAlign = TextAlign.Right,
                             fontSize = 15.sp,
@@ -185,7 +186,7 @@ fun SendRecents(
             } // column with icons
             Column() {
                 Text(
-                    "Recent",
+                    stringResource(R.string.recent),
                     Modifier.padding(start = 20.dp, bottom = 4.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
@@ -236,7 +237,7 @@ fun SendRecents(
                 contentPadding = PaddingValues(14.dp),
             ) {
                 Text(
-                    "Continue",
+                    stringResource(R.string.continu_),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
