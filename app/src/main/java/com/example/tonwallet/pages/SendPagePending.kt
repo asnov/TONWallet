@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -106,13 +107,14 @@ fun SendPagePending(
         Column(
             Modifier
                 .weight(0.9f)
+                .padding(horizontal=40.dp)
                 .fillMaxWidth(),
             Arrangement.Center,
             Alignment.CenterHorizontally
         ) {
             StickerBig(R.drawable.icon_flying_money, R.raw.waiting_ton)
             Text(
-                "Sending TON",
+                stringResource(R.string.sending_ton),
                 modifier.padding(top = 12.dp),
                 color = Color(0xFF222222),
                 textAlign = TextAlign.Center,
@@ -121,8 +123,7 @@ fun SendPagePending(
                 fontWeight = FontWeight.W500,
             )
             Text(
-                "Please wait a few seconds for your\n" +
-                        "transaction to be processed…",
+                stringResource(R.string.please_wait_a_few_sec_),
                 modifier.padding(top = 12.dp),
                 color = Color.Black,
                 textAlign = TextAlign.Center,
@@ -153,7 +154,7 @@ fun SendPagePending(
                 contentPadding = PaddingValues(14.dp),
             ) {
                 Text(
-                    "View My Wallet",
+                    stringResource(R.string.view_my_wallet),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,

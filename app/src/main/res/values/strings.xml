@@ -99,4 +99,6 @@
     <string name="invalid_address">Invalid Address</string>
     <string name="address_dnot_belong_ton">Address entered does not belong to TON</string>
     <string name="insufficient_funds">Insufficient funds</string>
+    <string name="sending_ton">Sending TON</string>
+    <string name="please_wait_a_few_sec_">Please wait a few seconds for your\n transaction to be processed…</string>
 </resources>
