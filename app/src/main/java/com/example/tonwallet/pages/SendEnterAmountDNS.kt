@@ -16,7 +16,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -101,7 +100,7 @@ fun SendEnterAmountDNS(
                 )
                 {
                     Text(
-                        text = "Send TON",
+                        stringResource(R.string.send_ton),
                         Modifier,
                         color = Color.Black,
                         textAlign = TextAlign.Left,
@@ -127,7 +126,7 @@ fun SendEnterAmountDNS(
                 ) {
                     Row() {
                         Text(
-                            "Send to:",
+                            stringResource(R.string.send_to),
                             color = Color(0xFF757575),
                             fontFamily = Roboto,//should be Inter
                             textAlign = TextAlign.Left,
@@ -157,7 +156,7 @@ fun SendEnterAmountDNS(
                         )
                     }//row left
                     Text(
-                        "Edit",
+                        stringResource(R.string.edit),
                         color = Color(0xFF339CEC),
                         fontFamily = Roboto,//should be Inter
                         textAlign = TextAlign.Right,
@@ -211,7 +210,7 @@ fun SendEnterAmountDNS(
                 ) {
                     Row() {
                         Text(
-                            "Send all",
+                            stringResource(R.string.send_all),
                             color = Color.Black,
                             textAlign = TextAlign.Right,
                             fontSize = 15.sp,
@@ -260,7 +259,7 @@ fun SendEnterAmountDNS(
                 contentPadding = PaddingValues(14.dp),
             ) {
                 Text(
-                    "Continue",
+                    stringResource(R.string.continu_),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
