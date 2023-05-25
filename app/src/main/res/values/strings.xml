@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">TON Wallet</string>
     <string name="ton_wallet">TON Wallet</string>
-    <string name="ton_wallet_allows_">TON Wallet allows you to make fast and secure blockchain-based payments without intermediaries.</string>
     <string name="create_my_wallet">Create my wallet</string>
+    <string name="ton_wallet_allows_">TON Wallet allows you to make fast and secure blockchain-based payments without intermediaries.</string>
     <string name="import_existing_wallet">Import existing wallet</string>
     <string name="congratulations">Congratulations</string>
     <string name="arrow_back">Arrow Back</string>
@@ -31,7 +31,7 @@
     <string name="passcode_options">Passcode options</string>
     <string name="n_digit_code">%d-digit code</string>
     <string name="i_don_t_have_those">I don\'t have those</string>
-    <string name="you_can_restore_access">You can restore access to your wallet by entering %d words you wrote when down you creating the wallet.</string>
+    <string name="you_can_restore_access">You can restore access to your wallet by entering %d words you wrote down when you creating the wallet.</string>
     <string name="N_secret_words">%d Secret Words</string>
     <string name="wallet_has_been_imported">Your wallet has just been imported!</string>
     <string name="too_bad">Too Bad!</string>
