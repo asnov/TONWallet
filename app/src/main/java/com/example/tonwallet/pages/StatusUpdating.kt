@@ -76,7 +76,7 @@ fun StatusUpdating(
                 horizontalArrangement = Arrangement.Start,
             ) {
                 Text(
-                    "Updating...",
+                    stringResource(R.string.updating),
                     Modifier,
                     Color(0xFFFFFFFF),
                     fontFamily = Roboto,
@@ -360,7 +360,7 @@ fun StatusUpdating(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732 storage fee",
+                    "-0.000065732" + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
@@ -461,7 +461,7 @@ fun StatusUpdating(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732 storage fee",
+                    "-0.000065732" + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
