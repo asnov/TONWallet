@@ -99,7 +99,7 @@ fun SendAll(
                         .padding(horizontal = 20.dp, vertical = 12.dp))
                 {
                     Text(
-                        text = "Send TON",
+                        stringResource(R.string.send_ton),
                         Modifier,
                         color = Color.Black,
                         textAlign = TextAlign.Left,
@@ -122,7 +122,7 @@ fun SendAll(
                     horizontalArrangement = Arrangement.SpaceBetween,) {
                     Row() {
                         Text(
-                            "Send to:",
+                            stringResource(R.string.send_to),
                             color = Color(0xFF757575),
                             fontFamily = Roboto, // should be Inter
                             textAlign = TextAlign.Left,
@@ -142,7 +142,7 @@ fun SendAll(
                         )
                     }//row left
                     Text(
-                        "Edit",
+                        stringResource(R.string.edit),
                         color = Color(0xFF339CEC),
                         fontFamily = Roboto, // should be Inter
                         textAlign = TextAlign.Right,
@@ -209,7 +209,7 @@ fun SendAll(
                     horizontalArrangement = Arrangement.SpaceBetween) {
                     Row() {
                         Text(
-                            "Send all",
+                            stringResource(R.string.send_all),
                             color = Color.Black,
                             fontFamily = Roboto, // should be Inter
                             textAlign = TextAlign.Right,
@@ -260,7 +260,7 @@ fun SendAll(
                 contentPadding = PaddingValues(14.dp),
             ) {
                 Text(
-                    "Continue",
+                    stringResource(R.string.continue_button),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     fontSize = 15.sp,
