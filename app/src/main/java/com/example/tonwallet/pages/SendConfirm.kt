@@ -101,7 +101,7 @@ fun SendConfirm(
                         .padding(horizontal = 20.dp, vertical = 16.dp))
                 {
                     Text(
-                        text = "Send TON",
+                        stringResource(R.string.send_ton),
                         Modifier,
                         color = Color.Black,
                         textAlign = TextAlign.Left,
@@ -114,7 +114,7 @@ fun SendConfirm(
             Column() {
                 Column( ) {
                     Text(
-                        "Comment (Optional)",
+                        stringResource(R.string.comment_optional),
                         Modifier.padding(start=20.dp, bottom=4.dp, top=8.dp),
                         color = Color(0xFF339CEC),
                         textAlign = TextAlign.Left,
@@ -162,7 +162,7 @@ fun SendConfirm(
 
                 Column(Modifier.padding(top = 12.dp, start = 20.dp, bottom = 12.dp)) {
                     Text(
-                        "The comment is visible to everyone. You must include the note when sending to an exchange.",
+                        stringResource(R.string.comment_send_confirm_page),
 
                         color = Color(0xFF757575),
                         textAlign = TextAlign.Left,
@@ -196,7 +196,7 @@ fun SendConfirm(
 
                 Column() {
                     Text(
-                        "Details",
+                        stringResource(R.string.details),
                         Modifier.padding(start=20.dp, bottom=4.dp, top=20.dp),
                         color = Color(0xFF339CEC),
                         textAlign = TextAlign.Left,
@@ -217,7 +217,7 @@ fun SendConfirm(
                         verticalAlignment = Alignment.Bottom,
                     ) {
                         Text(
-                            text = "Recipient",
+                            stringResource(R.string.recipient),
                             color = Color(0xFF000000),
                             textAlign = TextAlign.Right,
                             fontSize = 15.sp,
@@ -255,7 +255,7 @@ fun SendConfirm(
                         verticalAlignment = Alignment.Bottom,
                     ) {
                         Text(
-                            text = "Amount",
+                            text = stringResource(R.string.amount),
                             color = Color(0xFF000000),
                             textAlign = TextAlign.Right,
                             fontSize = 15.sp,
@@ -301,7 +301,7 @@ fun SendConfirm(
                         verticalAlignment = Alignment.Bottom,
                     ) {
                         Text(
-                            text = "Fee",
+                            stringResource(R.string.fee),
                             color = Color(0xFF000000),
                             textAlign = TextAlign.Right,
                             fontSize = 15.sp,
@@ -347,7 +347,7 @@ fun SendConfirm(
                     contentPadding = PaddingValues(14.dp),
                 ) {
                     Text(
-                        "Confirm and send",
+                        stringResource(R.string.confirm_and_send),
                         color = Color.White,
                         textAlign = TextAlign.Center,
                         fontSize = 15.sp,
