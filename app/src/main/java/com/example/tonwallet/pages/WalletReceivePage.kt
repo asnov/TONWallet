@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -86,7 +87,7 @@ fun WalletReceivePage(
             )
             {
                 Text(
-                    text = "Receive TON",
+                    text = stringResource(R.string.receive_ton),
                     color = Color.Black,
                     textAlign = TextAlign.Left,
                     fontSize = 20.sp,
@@ -103,8 +104,7 @@ fun WalletReceivePage(
             )
             {
                 Text(
-                    text = "Share this address with other TON\n" +
-                            "wallet owners to receive TON from them.",
+                    text = stringResource(R.string.share_this_address_to_recieve),
                     color = Color(0xFF757575),
                     fontFamily = Roboto,
                     textAlign = TextAlign.Center,
@@ -173,7 +173,7 @@ fun WalletReceivePage(
 
             ) {
                 Text(
-                    text = "Share Wallet Address",
+                    text = stringResource(R.string.share_wallet_address),
                     modifier.padding(vertical = 14.dp),
                     color = Color.White,
                     fontFamily = Roboto,
