@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -70,7 +71,7 @@ fun SendInvalidAddress(
             )
             {
                 Text(
-                    text = "Send TON",
+                    stringResource(R.string.send_ton),
                     Modifier.padding(bottom = 12.dp),
                     color = Color.Black,
                     textAlign = TextAlign.Left,
@@ -82,7 +83,7 @@ fun SendInvalidAddress(
 
             Column() {
                 Text(
-                    "Wallet Address or Domain",
+                    stringResource(R.string.wallet_address_or_domain),
                     Modifier.padding(start = 20.dp),
                     color = Color(0xFF339CEC),
                     textAlign = TextAlign.Left,
@@ -129,7 +130,7 @@ fun SendInvalidAddress(
                 )
 
                 Text(
-                    "Paste the 24-letter wallet address of the recipient here or TON DNS.",
+                    stringResource(R.string.paste_wallet_address_dns),
                     Modifier.padding(top = 12.dp, start = 20.dp, bottom = 4.dp),
                     color = Color(0xFF757575),
                     textAlign = TextAlign.Left,
@@ -154,7 +155,7 @@ fun SendInvalidAddress(
                                 .padding(end = 4.dp)
                         )
                         Text(
-                            "Paste",
+                            stringResource(R.string.paste),
                             color = Color(0xFF339CEC),
                             textAlign = TextAlign.Right,
                             fontSize = 15.sp,
@@ -171,7 +172,7 @@ fun SendInvalidAddress(
                                 .padding(end = 4.dp)
                         )
                         Text(
-                            "Scan",
+                            stringResource(R.string.scan),
                             color = Color(0xFF339CEC),
                             textAlign = TextAlign.Right,
                             fontSize = 15.sp,
@@ -212,7 +213,7 @@ fun SendInvalidAddress(
                     )
                     Column(Modifier.padding(start = 10.dp)) {
                         Text(
-                            "Invalid Address",
+                            stringResource(R.string.invalid_address),
                             Modifier,
                             color = Color.White,
                             textAlign = TextAlign.Left,
@@ -221,7 +222,7 @@ fun SendInvalidAddress(
                             fontWeight = FontWeight.W500,
                         )
                         Text(
-                            "Address entered does not belong to TON",
+                            stringResource(R.string.address_dnot_belong_ton),
                             Modifier,
                             color = Color.White,
                             textAlign = TextAlign.Left,
