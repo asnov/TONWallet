@@ -93,4 +93,10 @@
     <string name="comment_send_confirm_page">The comment is visible to everyone. You must include the note when sending to an exchange.</string>
     <string name="amount">Amount</string>
     <string name="confirm_and_send">Confirm and send</string>
+    <string name="wallet_address_or_domain">Wallet Address or Domain</string>
+    <string name="paste_wallet_address_dns">Paste the 24-letter wallet address of the recipient here or TON DNS.</string>
+    <string name="paste">Paste</string>
+    <string name="scan">Scan</string>
+    <string name="invalid_address">Invalid Address</string>
+    <string name="address_dnot_belong_ton">Address entered does not belong to TON</string>
 </resources>
