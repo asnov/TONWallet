@@ -173,7 +173,7 @@ fun SendStartPage(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         label = {},
                         placeholder = {
-                            Text("Enter Wallet Address or Domain...")
+                            Text( stringResource(R.string.enter_wallet_address_or_domain))
                             Modifier
                                 .offset(x = 30.dp)
                         },
