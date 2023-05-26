@@ -357,7 +357,7 @@ fun WalletMainTransactionsPage(
                             "-${walletModel.balanceInteger(transactionView.fee)}." +
                                     walletModel.balanceFractional(transactionView.fee).toString()
                                         .padStart(9, '0').trimEnd('0')
-                        } + " storage fee",
+                        } + " " +  stringResource(R.string.storage_fee),
                         Modifier.padding(bottom = 10.dp),
                         Color(0xFF757575),
                         textAlign = TextAlign.Center,
