@@ -89,8 +89,8 @@ fun StartPage(
                 .padding(
                     top = 8.dp,
                     bottom = 44.dp + NavigationBarHeight,
-                )
-                .fillMaxWidth(200 / 360f),
+                ),
+                //.fillMaxWidth(200 / 360f),
             border = null,
             elevation = ButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp),
             colors = ButtonDefaults.buttonColors(
