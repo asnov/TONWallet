@@ -67,21 +67,6 @@ fun AddrStd.isEmpty(): Boolean = workchainId == 0 && address == BitString(256)
 
 open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
 
-    lateinit var window: Window
-    fun segure() {
-        if (isPreview) return
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
-        )
-    }
-
-    fun unsegure() {
-        if (isPreview) return
-        window.clearFlags(
-            WindowManager.LayoutParams.FLAG_SECURE
-        )
-    }
 
     var passcode: String = ""
     var passcodeLength: Int = 4
@@ -99,7 +84,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
     var workchainId: Int = 0
     lateinit var address: BitString
     lateinit var accountState: FullAccountState
-    var balance by Delegates.notNull<Long>()
+    var balance: Long = 0
     private var transactionList: List<TransactionInfo> = mutableStateListOf()
     var transViewList: List<TransactionView> = mutableStateListOf()
     var transactionId: String? = null
@@ -133,7 +118,8 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
     }
 
     fun isReady(): Boolean {
-        val isReady = ::address.isInitialized && balance != null && !isLoading
+        // TODO: case when balance == 0
+        val isReady = ::address.isInitialized && balance != 0L && !isLoading
         Log.v(TAG, "isReady: ${isReady}")
         return isReady
     }
@@ -481,5 +467,23 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
             }
         }
     }
+
+
+    lateinit var window: Window
+    fun segure() {
+        if (isPreview) return
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
+    }
+
+    fun unsegure() {
+        if (isPreview) return
+        window.clearFlags(
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
+    }
+
 
 }
