@@ -114,7 +114,7 @@ fun SendPageSuccess(
                 fontWeight = FontWeight.W500,
             )
             Text(
-                "2.2" +
+                "2.2 " +
                          stringResource(R.string.toncoin_have_been_sent_to),
                 modifier.padding(top = 12.dp),
                 color = Color.Black,

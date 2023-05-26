@@ -206,7 +206,7 @@ fun WalletMainTransactionsScrollPage(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732" + stringResource(R.string.storage_fee),
+                    "-0.000065732 " + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
@@ -306,7 +306,7 @@ fun WalletMainTransactionsScrollPage(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732" + stringResource(R.string.storage_fee),
+                    "-0.000065732 " + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
@@ -420,7 +420,7 @@ fun WalletMainTransactionsScrollPage(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732" + stringResource(R.string.storage_fee),
+                    "-0.000065732 " + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,
@@ -516,7 +516,7 @@ fun WalletMainTransactionsScrollPage(
                     fontWeight = FontWeight.W400,
                 )
                 Text(
-                    "-0.000065732" + stringResource(R.string.storage_fee),
+                    "-0.000065732 " + stringResource(R.string.storage_fee),
                     Modifier.padding(bottom = 10.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,

@@ -139,7 +139,7 @@ fun TransactionDetailsView(
                         "${walletModel.balanceInteger(transactionView.fee)}." +
                                 walletModel.balanceFractional(transactionView.fee).toString()
                                     .padStart(9, '0').trimEnd('0')
-                    } + stringResource(R.string.transaction_fee),
+                    } + " " + stringResource(R.string.transaction_fee),
                     Modifier.padding(bottom = 4.dp),
                     Color(0xFF757575),
                     textAlign = TextAlign.Center,

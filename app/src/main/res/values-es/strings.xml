@@ -9,7 +9,7 @@
     <string name="write_down_secret_words">"Tu Cartera TON acaba de ser creada. \n Sólo tú la controlas. \n Para poder acceder a ella en cualquier momento, anote palabras secretas y establezca una contraseña segura."</string>
     <string name="proceed">Proceder</string>
     <string name="your_recovery_phrase">Su frase de recuperación</string>
-    <string name="write_down_these_words">Escribe estas %d palabras en este orden exacto y guárdalas en un lugar seguro. No compartas esta lista con nadie. Si la pierdes, perderás irrevocablemente el acceso a tu cuenta TON..</string>
+    <string name="write_down_these_words">Escribe estas %d palabras en este orden exacto y guárdalas en un lugar seguro. No compartas esta lista con nadie. Si la pierdes, perderás irrevocablemente el acceso a tu cuenta TON.</string>
     <string name="done">Listo</string>
     <string name="test_time">Tiempo de prueba!</string>
     <string name="enter_the_words">Comprobemos que las has escrito correctamente. Por favor, escribe las palabras %d, %d y %d.</string>
@@ -53,7 +53,7 @@
     <string name="settings_change_passcode">Cambiar la contraseña</string>
     <string name="settings_biometric_auth">Autenticación biométrica</string>
     <string name="settings_delete_wallet">Eliminar billetera</string>
-    <string name="import_incorrect_words">Lo sentimos, ha introducido palabras secretas incorrectas. Vuelva a comprobarlo e inténtelo de nuevo..</string>
+    <string name="import_incorrect_words">Lo sentimos, ha introducido palabras secretas incorrectas. Vuelva a comprobarlo e inténtelo de nuevo.</string>
     <string name="popup_ok">OK</string>
     <string name="incorrect_words">Palabras incorrectas</string>
     <string name="wallet_created">Billetera creada</string>
@@ -101,16 +101,16 @@
     <string name="insufficient_funds">Fondos insuficientes</string>
     <string name="sending_ton">Enviando TON</string>
     <string name="please_wait_a_few_sec_">Espere unos segundos a que se procese su transacción&#8230;</string>
-    <string name="toncoin_have_been_sent_to">" Toncoin han sido enviados a"</string>
+    <string name="toncoin_have_been_sent_to">"Toncoin han sido enviados a"</string>
     <string name="enter_wallet_address_or_domain">Introduzca la dirección de la billetera o el dominio&#8230;</string>
     <string name="recent">Recientes</string>
     <string name="connecting">"Conectando&#8230;"</string>
-    <string name="storage_fee">" tasa de almacenamiento"</string>
+    <string name="storage_fee">"tasa de almacenamiento"</string>
     <string name="release_to_refresh">Liberar para actualizar</string>
     <string name="swipe_down_to_refresh">Deslizar hacia abajo para actualizar</string>
     <string name="updating">Actualizando&#8230;</string>
     <string name="waiting_for_network">En espera de la red&#8230;</string>
-    <string name="transaction_fee">" comisión por transacción"</string>
+    <string name="transaction_fee">"comisión por transacción"</string>
     <string name="receive_ton">Recibir TON</string>
     <string name="share_this_address_to_recieve">Comparte esta dirección con otros propietarios de billeteras TON para recibir TON de ellos.</string>
     <string name="share_wallet_address">Compartir dirección de la billetera</string>
