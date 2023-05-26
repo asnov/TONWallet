@@ -112,6 +112,6 @@
     <string name="waiting_for_network">Ожидание сети&#8230;</string>
     <string name="transaction_fee">"комиссия за транзакцию"</string>
     <string name="receive_ton">Получить TON</string>
-    <string name="share_this_address_to_recieve">Поделитесь этим адресом с другими владельцами кошельков TON\n, чтобы получать от них TON.</string>
+    <string name="share_this_address_to_recieve">Поделитесь этим адресом с другими владельцами кошельков TON,\n чтобы получать от них TON.</string>
     <string name="share_wallet_address">Поделиться адресом кошелька</string>
 </resources>
