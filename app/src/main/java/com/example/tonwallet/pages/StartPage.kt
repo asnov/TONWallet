@@ -79,10 +79,8 @@ fun StartPage(
                 walletModel.generateSeed(goCreate)
             },
             Modifier
-                .defaultMinSize(minWidth = 200.dp),
-//                .fillMaxWidth(200 / 360f)
-//                .padding(16.dp)
-//                .height(48.dp)
+                .padding(16.dp)
+                .height(48.dp),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Color(0xFF339CEC),
                 contentColor = Color(0xFFFFFFFF),
@@ -92,12 +90,12 @@ fun StartPage(
         ) {
             Row(
                 Modifier
-//                    .fillMaxWidth()
+                    .fillMaxWidth(240 / 360f)
                     .height(20.dp),
                 Arrangement.SpaceEvenly,
                 Alignment.CenterVertically,
             ) {
-                Spacer(Modifier.width(28.dp))
+                Spacer(Modifier.width(20.dp))
                 Text(
                     stringResource(R.string.create_my_wallet),
                     Modifier.height(20.dp),
@@ -110,14 +108,13 @@ fun StartPage(
                     textAlign = TextAlign.Center,
                 )
                 if (isCreating) {
-                    Spacer(Modifier.width(8.dp))
                     CircularProgressIndicator(
                         Modifier.size(20.dp),
                         Color.White,
                         strokeWidth = 2.dp,
                     )
                 } else {
-                    Spacer(Modifier.width(28.dp))
+                    Spacer(Modifier.width(20.dp))
                 }
             }
         } // button

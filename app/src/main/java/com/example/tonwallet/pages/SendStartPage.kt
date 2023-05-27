@@ -173,7 +173,7 @@ fun SendStartPage(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         label = {},
                         placeholder = {
-                            Text( stringResource(R.string.enter_wallet_address_or_domain))
+                            Text(stringResource(R.string.enter_wallet_address_or_domain))
                             Modifier
                                 .offset(x = 30.dp)
                         },
@@ -272,7 +272,6 @@ fun SendStartPage(
                     isChecking = !isChecking
                 },
                 Modifier
-                    .fillMaxWidth()
                     .padding(16.dp)
                     .height(48.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -284,12 +283,12 @@ fun SendStartPage(
             ) {
                 Row(
                     Modifier
-//                        .fillMaxWidth()
+                        .fillMaxWidth()
                         .height(20.dp),
                     Arrangement.SpaceBetween,
                     Alignment.CenterVertically,
                 ) {
-                    Spacer(Modifier.width(28.dp))
+                    Spacer(Modifier.width(20.dp))
                     Text(
                         stringResource(R.string.continu_),
                         Modifier.height(20.dp),
@@ -302,14 +301,13 @@ fun SendStartPage(
                         textAlign = TextAlign.Center,
                     )
                     if (isChecking) {
-                        Spacer(Modifier.width(8.dp))
                         CircularProgressIndicator(
                             Modifier.size(20.dp),
                             Color.White,
                             strokeWidth = 2.dp,
                         )
                     } else {
-                        Spacer(Modifier.width(28.dp))
+                        Spacer(Modifier.width(20.dp))
                     }
                 }
             } // button
