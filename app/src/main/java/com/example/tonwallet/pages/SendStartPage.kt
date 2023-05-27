@@ -178,7 +178,7 @@ fun SendStartPage(
                                 .offset(x = 30.dp)
                         },
                         leadingIcon = {
-                            modifier
+                            Modifier
                                 .width(1.dp)
                                 .offset(30.dp)
                         },
@@ -217,7 +217,7 @@ fun SendStartPage(
             {
                 Row() {
                     Row(
-                        modifier
+                        Modifier
                             .padding(end = 24.dp)
                             .clickable {
                                 clipboardManager
@@ -271,7 +271,7 @@ fun SendStartPage(
                     if (isChecking) goForth()
                     isChecking = !isChecking
                 },
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
                     .height(48.dp),
@@ -284,27 +284,32 @@ fun SendStartPage(
             ) {
                 Row(
                     Modifier
-                        .fillMaxWidth()
+//                        .fillMaxWidth()
                         .height(20.dp),
                     Arrangement.SpaceBetween,
+                    Alignment.CenterVertically,
                 ) {
-                    Spacer(Modifier.width(20.dp))
+                    Spacer(Modifier.width(28.dp))
                     Text(
                         stringResource(R.string.continu_),
-                        color = Color.White,
+                        Modifier.height(20.dp),
+                        Color.White,
+                        fontFamily = Roboto,
+                        fontWeight = FontWeight.W500,
                         fontSize = 15.sp,
                         lineHeight = 20.sp,
-                        fontWeight = FontWeight.W500,
-                        letterSpacing = 0.1.sp
+                        letterSpacing = 0.1.sp,
+                        textAlign = TextAlign.Center,
                     )
                     if (isChecking) {
+                        Spacer(Modifier.width(8.dp))
                         CircularProgressIndicator(
                             Modifier.size(20.dp),
                             Color.White,
                             strokeWidth = 2.dp,
                         )
                     } else {
-                        Spacer(Modifier.width(20.dp))
+                        Spacer(Modifier.width(28.dp))
                     }
                 }
             } // button
