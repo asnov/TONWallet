@@ -77,11 +77,7 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
     }),
 
     CONGRATULATION({
-        if (!isCreatingWallet) {
-            val walletModel: TonViewModel = viewModel()
-            walletModel.generateSeed()
-            isCreatingWallet = true
-        }
+        isCreatingWallet = true
         Log.v(TAG, "before CongratulationsPage")
         val goBack = { it.setValue(it, it::value, START) }
         BackHandler(onBack = goBack)
