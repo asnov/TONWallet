@@ -93,7 +93,7 @@
     <string name="amount">Importe</string>
     <string name="confirm_and_send">Confirmar y enviar</string>
     <string name="wallet_address_or_domain">Dirección de la Billetera o Dominio</string>
-    <string name="paste_wallet_address_dns">Pegue aquí la dirección del billetera de 24 letras del destinatario o TON DNS.</string>
+    <string name="paste_wallet_address_dns">Pegue aquí la dirección del billetera de 48 letras del destinatario o TON DNS.</string>
     <string name="paste">Pegar</string>
     <string name="scan">Escanear</string>
     <string name="invalid_address">Dirección inválida</string>

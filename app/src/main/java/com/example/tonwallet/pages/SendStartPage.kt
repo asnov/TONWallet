@@ -28,12 +28,15 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.ClipboardManager
@@ -69,6 +72,11 @@ fun SendStartPage(
     var enteredAddress by remember { mutableStateOf("") }
     var isChecking by remember { mutableStateOf(false) }
     var isInvalidAddress: Boolean by remember { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(true) {
+        focusRequester.requestFocus()
+    }
 
 
     Column(
@@ -169,6 +177,7 @@ fun SendStartPage(
                         },
                         Modifier
                             .fillMaxWidth()
+                            .focusRequester(focusRequester)
                             .padding(horizontal = 20.dp)
                             // .offset(-30.dp)
                             .height(88.dp),
@@ -235,6 +244,7 @@ fun SendStartPage(
                                         Log.v(TAG, "clipboardManager.getText() = $it")
                                         enteredAddress = it.text
                                     }
+                                isInvalidAddress = false
                             }
                     ) {
                         Image(

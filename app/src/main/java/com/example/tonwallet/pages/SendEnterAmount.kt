@@ -5,10 +5,7 @@ import android.os.SystemClock.sleep
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.DragInteraction
-import androidx.compose.foundation.interaction.Interaction
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,14 +23,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -73,38 +68,15 @@ fun SendEnterAmount(
 ) {
     Log.v(TAG, "started")
 
-    var enteredAmount: Long by remember { mutableStateOf(0) }
     var enteredInteger: String by remember { mutableStateOf("0") }
     var enteredFractional: String by remember { mutableStateOf("") }
     var selectionFractional: TextRange by remember { mutableStateOf(TextRange(0, 0)) }
     val focusRequesterInteger = remember { FocusRequester() }
     val focusRequesterFractional = remember { FocusRequester() }
-    val isSendAllChecked: Boolean by remember { mutableStateOf(false) }
-    Log.v(
-        TAG, ">>>>> enteredAmount: $enteredAmount: ${walletModel.balanceInteger(enteredAmount)}.${
-            walletModel.balanceFractional(
-                enteredAmount
-            )
-        };"
-    )
+    var isSendAllChecked: Boolean by remember { mutableStateOf(false) }
 
-    // TODO: remove
-    val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
-    val interactions = remember { mutableStateListOf<Interaction>() }
-
-    LaunchedEffect(interactionSource) {
-        interactionSource.interactions.collect { interaction ->
-            Log.v(TAG, ">>>>> interaction: $interaction")
-            when (interaction) {
-                is PressInteraction.Press -> {
-                    interactions.add(interaction)
-                }
-
-                is DragInteraction.Start -> {
-                    interactions.add(interaction)
-                }
-            }
-        }
+    LaunchedEffect(true) {
+        focusRequesterInteger.requestFocus()
     }
 
 
@@ -190,7 +162,7 @@ fun SendEnterAmount(
                             fontWeight = FontWeight.W400,
                         )
                         Text(
-                            "EQCc...9ZLD",
+                            walletModel.addressShort(walletModel.destinationAddress),
                             Modifier.padding(start = 4.dp),
                             color = Color.Black,
                             fontFamily = Roboto, // should be Inter
@@ -202,6 +174,7 @@ fun SendEnterAmount(
                     }//row left
                     Text(
                         stringResource(R.string.edit),
+                        Modifier.clickable(onClick = goBack),
                         color = Color(0xFF339CEC),
                         fontFamily = Roboto, // should be Inter
                         textAlign = TextAlign.Right,
@@ -230,14 +203,17 @@ fun SendEnterAmount(
                     BasicTextField(
                         value = enteredInteger,
                         onValueChange = {
+                            isSendAllChecked = false
+                            Log.v(TAG, ">>>>> onValueChange integer: <$enteredInteger> -> <$it>")
                             var newInteger = ""
                             val position = it.indexOfAny(".,".toCharArray())
                             if (position >= 0) {
+                                // user pressed point
                                 newInteger = it.take(position).ifBlank { "0" }
                                 enteredFractional = if (position == it.length - 1) {
                                     "."
                                 } else {
-                                    "." + it.substring(position + 1)
+                                    "." + it.substring(position + 1).trimEnd('0')
                                 }
                                 selectionFractional =
                                     TextRange(enteredFractional.length, enteredFractional.length)
@@ -261,34 +237,38 @@ fun SendEnterAmount(
                             fontWeight = FontWeight.W400,
                             fontSize = 44.sp,
                             lineHeight = 56.sp,
-//                            textAlign = TextAlign.Left,
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         maxLines = 1,
-                        interactionSource = interactionSource,
                         cursorBrush = SolidColor(Color(0xFF339CEC)),
                     )
 
                     BasicTextField(
                         value = TextFieldValue(enteredFractional, selectionFractional),
                         onValueChange = {
-                            val newFractional = it.text.take(10)
+                            isSendAllChecked = false
+                            Log.v(
+                                TAG,
+                                ">>>>> onValueChange fractional: <$enteredFractional> -> <${it.text}>"
+                            )
+                            val newFractional = it.text.take(10).replace(',', '.')
                             if (newFractional.isEmpty()) {
-                                repeat(1) {
-                                    try {
-                                        Log.v(">>>>> BasicTextField", "requesting focus")
-                                        focusRequesterInteger.requestFocus()
-                                        Log.v(">>>>> BasicTextField", "requested focus succeeded!")
-                                        return@repeat
-                                    } catch (e: Exception) {
-                                        Log.v(">>>>> BasicTextField", "requesting focus error")
-                                        e.printStackTrace()
-                                        sleep(50L)
-                                    }
+                                try {
+                                    Log.v(">>>>> BasicTextField", "requesting focus")
+                                    focusRequesterInteger.requestFocus()
+                                    Log.v(">>>>> BasicTextField", "requested focus succeeded!")
+                                } catch (e: Exception) {
+                                    Log.v(">>>>> BasicTextField", "requesting focus error")
+                                    sleep(50L)
+                                }
+                                enteredFractional = newFractional
+                                selectionFractional = it.selection
+                            } else {
+                                if (newFractional.matches(Regex("^\\.\\d{0,9}$"))) {
+                                    enteredFractional = newFractional
+                                    selectionFractional = it.selection
                                 }
                             }
-                            enteredFractional = newFractional
-                            selectionFractional = it.selection
                         },
                         modifier = Modifier
                             .focusRequester(focusRequesterFractional)
@@ -318,7 +298,11 @@ fun SendEnterAmount(
                     modifier.padding(vertical = 14.dp, horizontal = 20.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Row() {
+                    Row(Modifier.clickable(onClick = {
+                        enteredInteger = walletModel.balanceInteger()
+                        enteredFractional = ".${walletModel.balanceFractional()}".trimEnd('0')
+                        isSendAllChecked = true
+                    })) {
                         Text(
                             stringResource(R.string.send_all),
                             color = Color.Black,
@@ -336,7 +320,8 @@ fun SendEnterAmount(
                                 .padding(horizontal = 7.dp)
                         )
                         Text(
-                            "56.2322",
+                            "${walletModel.balanceInteger()}.${walletModel.balanceFractional()}"
+                                .trimEnd('0'),
                             color = Color.Black,
                             fontFamily = Roboto, // should be Inter
                             textAlign = TextAlign.Right,
@@ -358,7 +343,13 @@ fun SendEnterAmount(
                 }
             } // column with send all and switch
             Button(
-                goForth,
+                {
+                    val enteredAmountString = "${enteredInteger}${enteredFractional}"
+                    val enteredAmount = enteredAmountString.toDoubleOrNull() ?: 0.0
+                    Log.v(TAG, ">>>>> enteredAmount: \"$enteredAmountString\" <${enteredAmount}>")
+                    walletModel.enteredAmount = (enteredAmount * 1_000_000_000L).toLong()
+                    goForth()
+                },
                 modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
@@ -384,14 +375,6 @@ fun SendEnterAmount(
     } // main column
 }
 
-private fun onValueChange(it: String, enteredAmount: Long) {
-    var enteredAmount1 = enteredAmount
-    it.replace(enteredAmount1.toString(), "")
-    Log.v(TAG, ">>>>> onValueChange: $it")
-    enteredAmount1 = ((it.replace(',', '.')
-        .toDoubleOrNull() ?: 0.0) * 1_000_000_000).toLong()
-}
-
 
 @Preview(
     name = "Day Mode",
@@ -401,6 +384,8 @@ private fun onValueChange(it: String, enteredAmount: Long) {
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SendEnterAmount({}, {}, Modifier, TonViewModel(true))
+        SendEnterAmount({}, {}, Modifier, TonViewModel(true).also { walletModel ->
+            walletModel.balance = (56.2322 * 1_000_000_000L).toLong()
+        })
     }
 }

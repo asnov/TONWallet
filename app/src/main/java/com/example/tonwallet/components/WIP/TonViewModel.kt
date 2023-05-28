@@ -90,6 +90,9 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
 
     protected var isLoading = true
 
+    var destinationAddress: String = ""
+    var enteredAmount: Long = 0
+
 
     fun addressShort(
         addrString: String = AddrStd(0, address).toString(true)
@@ -139,6 +142,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
             address = AddrStd.parse("EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N").address
             balance = 56_232_200_000
             isLoading = false
+            destinationAddress = "EQCc39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8x9ZLD"
         } else {
             Log.v(TAG, "init")
 
@@ -497,16 +501,18 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
     }
 
     fun checkIfAddressIsValid(enteredAddress: String, yes: () -> Unit, no: () -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) {
-            delay(1000L)
-            if (enteredAddress.isEmpty()) {
-                no()
-                return@launch
-            } else {
-                yes()
-                return@launch
+        viewModelScope.launch(context = Dispatchers.Default) {
+            delay(500L)
+            val timeInMillis = measureTimeMillis {
+                try {
+                    AddrStd(enteredAddress)
+                    destinationAddress = enteredAddress
+                    yes()
+                } catch (e: Exception) {
+                    no()
+                }
             }
-            TODO("Not yet implemented")
+            Log.v(TAG, "address validation took ${timeInMillis}ms")
         }
     }
 

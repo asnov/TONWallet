@@ -93,7 +93,7 @@
     <string name="amount">Сумма</string>
     <string name="confirm_and_send">Подтвердить и отправить</string>
     <string name="wallet_address_or_domain">Адрес или домен кошелька</string>
-    <string name="paste_wallet_address_dns">Вставьте сюда 24-буквенный адрес кошелька получателя или TON DNS.</string>
+    <string name="paste_wallet_address_dns">Вставьте сюда 48-буквенный адрес кошелька получателя или TON DNS.</string>
     <string name="paste">Вставить</string>
     <string name="scan">Сканировать</string>
     <string name="invalid_address">Неверный адрес</string>
