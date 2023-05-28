@@ -21,6 +21,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -46,8 +47,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -57,12 +60,16 @@ private const val TAG = "SendStartPage"
 fun SendStartPage(
     goScan: () -> Unit,
     goForth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
+
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     var enteredAddress by remember { mutableStateOf("") }
     var isChecking by remember { mutableStateOf(false) }
+    var isInvalidAddress: Boolean by remember { mutableStateOf(false) }
+
 
     Column(
         modifier
@@ -156,7 +163,10 @@ fun SendStartPage(
 
                     TextField(
                         enteredAddress,
-                        { enteredAddress = it },
+                        {
+                            enteredAddress = it
+                            isInvalidAddress = false
+                        },
                         Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp)
@@ -213,20 +223,20 @@ fun SendStartPage(
 
             Column(
                 Modifier.padding(top = 12.dp, start = 20.dp, end = 20.dp, bottom = 102.dp)
-            )
-            {
+            ) {
                 Row() {
                     Row(
                         Modifier
                             .padding(end = 24.dp)
-                            .clickable {
+                            .clickable(enabled = !isChecking) {
                                 clipboardManager
                                     .getText()
                                     ?.let {
                                         Log.v(TAG, "clipboardManager.getText() = $it")
                                         enteredAddress = it.text
                                     }
-                            }) {
+                            }
+                    ) {
                         Image(
                             painterResource(R.drawable.icon_paste),
                             null,
@@ -244,7 +254,7 @@ fun SendStartPage(
                         )
                     }
                     Row(
-                        Modifier.clickable(onClick = goScan)
+                        Modifier.clickable(enabled = !isChecking, onClick = goScan)
                     ) {
                         Image(
                             painterResource(R.drawable.icon_scan2),
@@ -266,53 +276,120 @@ fun SendStartPage(
 
             } // column with icons
 
-            Button(
-                {
-                    if (isChecking) goForth()
-                    isChecking = !isChecking
-                },
-                Modifier
-                    .padding(16.dp)
-                    .height(48.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFF339CEC),
-                    contentColor = Color(0xFFFFFFFF),
-                ),
-                shape = RoundedCornerShape(8.dp),
-                contentPadding = PaddingValues(14.dp),
-            ) {
-                Row(
+
+            if (isInvalidAddress) {
+
+                Card(
                     Modifier
+                        // .height(56.dp)
                         .fillMaxWidth()
-                        .height(20.dp),
-                    Arrangement.SpaceBetween,
-                    Alignment.CenterVertically,
+                        .padding(8.dp),
+                    elevation = 0.dp,
+                    shape = RoundedCornerShape(
+                        topStart = 6.dp,
+                        topEnd = 6.dp,
+                        bottomStart = 6.dp,
+                        bottomEnd = 6.dp
+                    ),
+                    backgroundColor = Color(0xEB2F373F),
+                    contentColor = Color.White,
                 ) {
-                    Spacer(Modifier.width(20.dp))
-                    Text(
-                        stringResource(R.string.continu_),
-                        Modifier.height(20.dp),
-                        Color.White,
-                        fontFamily = Roboto,
-                        fontWeight = FontWeight.W500,
-                        fontSize = 15.sp,
-                        lineHeight = 20.sp,
-                        letterSpacing = 0.1.sp,
-                        textAlign = TextAlign.Center,
+                    Row(
+                        Modifier.padding(10.dp),
+                        // horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
                     )
-                    if (isChecking) {
-                        CircularProgressIndicator(
-                            Modifier.size(20.dp),
-                            Color.White,
-                            strokeWidth = 2.dp,
+                    {
+                        Image(
+                            painterResource(R.drawable.icon_invalid),
+                            null,
+                            Modifier
+                                .size(32.dp),
+                            Alignment.CenterStart,
                         )
-                    } else {
-                        Spacer(Modifier.width(20.dp))
+                        Column(Modifier.padding(start = 10.dp)) {
+                            Text(
+                                stringResource(R.string.invalid_address),
+                                Modifier,
+                                color = Color.White,
+                                textAlign = TextAlign.Left,
+                                fontSize = 14.sp,
+                                lineHeight = 18.sp,
+                                fontWeight = FontWeight.W500,
+                            )
+                            Text(
+                                stringResource(R.string.address_dnot_belong_ton),
+                                Modifier,
+                                color = Color.White,
+                                textAlign = TextAlign.Left,
+                                fontSize = 14.sp,
+                                lineHeight = 18.sp,
+                                fontWeight = FontWeight.W400,
+                            )
+                        }
                     }
                 }
-            } // button
-        }
 
+            } else {
+
+                Button(
+                    {
+                        if (isChecking) return@Button
+                        walletModel.checkIfAddressIsValid(
+                            enteredAddress,
+                            yes = goForth,
+                            no = {
+                                isChecking = false
+                                isInvalidAddress = true
+                            }
+                        )
+                        isChecking = true
+                    },
+                    Modifier
+                        .padding(16.dp)
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xFF339CEC),
+                        contentColor = Color(0xFFFFFFFF),
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    contentPadding = PaddingValues(14.dp),
+                ) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(20.dp),
+                        Arrangement.SpaceBetween,
+                        Alignment.CenterVertically,
+                    ) {
+                        Spacer(Modifier.width(20.dp))
+                        Text(
+                            stringResource(R.string.continu_),
+                            Modifier.height(20.dp),
+                            Color.White,
+                            fontFamily = Roboto,
+                            fontWeight = FontWeight.W500,
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            letterSpacing = 0.1.sp,
+                            textAlign = TextAlign.Center,
+                        )
+                        if (isChecking) {
+                            CircularProgressIndicator(
+                                Modifier.size(20.dp),
+                                Color.White,
+                                strokeWidth = 2.dp,
+                            )
+                        } else {
+                            Spacer(Modifier.width(20.dp))
+                        }
+                    }
+                } // button
+
+            }
+
+
+        }
     } // column rounded top corners
 } // main column
 
@@ -325,6 +402,6 @@ fun SendStartPage(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SendStartPage({}, {})
+        SendStartPage({}, {}, Modifier, TonViewModel(true))
     }
 }
