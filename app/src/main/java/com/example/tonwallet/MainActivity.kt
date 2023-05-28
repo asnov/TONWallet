@@ -9,6 +9,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.components.WIP.TonViewModel
+import org.ton.bitstring.BitString
+
+//import org.ton.bitstring.BitString
 
 
 private const val TAG = "MainActivity"
@@ -31,6 +34,7 @@ class MainActivity : ComponentActivity() {
 //            val tonModel: TonViewModel = ViewModelProvider().get(TonViewModel::class.java)
             viewModel<TonViewModel>().also { walletModel ->
                 walletModel.window = window
+//                walletModel.address = BitString("0000000")
             }
 
             Navigation()

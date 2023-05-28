@@ -34,7 +34,6 @@ import com.example.tonwallet.pages.SendDNS
 import com.example.tonwallet.pages.SendEnterAmount
 import com.example.tonwallet.pages.SendEnterAmountDNS
 import com.example.tonwallet.pages.SendErrorAmount
-import com.example.tonwallet.pages.SendInvalidAddress
 import com.example.tonwallet.pages.SendPagePending
 import com.example.tonwallet.pages.SendPageSuccess
 import com.example.tonwallet.pages.SendRecents
@@ -294,7 +293,6 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
         Log.v(TAG, "after SendStartPage")
         if (merged) {
             SendRecents({})
-            SendInvalidAddress()
             SendDNS()
         }
     }),
@@ -494,6 +492,8 @@ enum class Pages(val show: @Composable (visiblePage: MutableState<Pages>) -> Uni
 @Composable
 fun Navigation() {
     val visiblePage = rememberSaveable { mutableStateOf(Pages.START) }
+//    val visiblePage = rememberSaveable { mutableStateOf(Pages.SEND) }
+//    val visiblePage = rememberSaveable { mutableStateOf(Pages.SEND_CONFIRM) }
 
     Log.v(TAG, "started")
 
@@ -504,7 +504,12 @@ fun Navigation() {
             color = MaterialTheme.colors.background
         ) {
             visiblePage.value.show(visiblePage)
-//            SendStartPage({}, {})
+//            SendConfirm({}, {}, Modifier, TonViewModel(true).also { walletModel ->
+//                walletModel.enteredAmount = (56.2322 * 1_000_000_000L).toLong()
+//                walletModel.destinationAddress = "EQCc39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8x9ZLD"
+//            })
+
+
         }
     }
 }

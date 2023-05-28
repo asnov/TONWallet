@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
@@ -92,6 +93,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
 
     var destinationAddress: String = ""
     var enteredAmount: Long = 0
+    var enteredDescription: String = ""
 
 
     fun addressShort(
@@ -104,8 +106,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         return AddrStd(0, address).toString(true)
     }
 
-    fun addressFullTwoLines(): String {
-        val addressString = addressFull()
+    fun addressFullTwoLines(addressString: String = addressFull()): String {
         return addressString.substring(0, addressString.length / 2) +
                 "\n" + addressString.substring(addressString.length / 2)
     }
@@ -514,6 +515,18 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
             }
             Log.v(TAG, "address validation took ${timeInMillis}ms")
         }
+    }
+
+    fun sendTransaction() {
+
+        enteredDescription
+
+//        val wallet = getWallet()
+
+        runBlocking {
+//            wallet.transfer(destinationAddress, enteredAmount)
+        }
+
     }
 
 

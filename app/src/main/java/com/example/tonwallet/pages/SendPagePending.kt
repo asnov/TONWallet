@@ -30,10 +30,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.StatusBarHeight
 import com.example.tonwallet.components.StickerBig
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 import kotlinx.coroutines.delay
 
@@ -44,12 +46,14 @@ private const val TAG = "SendPagePending"
 fun SendPagePending(
     goBack: () -> Unit,
     goForth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
 
     LaunchedEffect(true) {
         Log.v(TAG, "delaying")
+        walletModel.sendTransaction()
         delay(5_000)
         Log.v(TAG, "delayed")
         goForth()
@@ -178,6 +182,9 @@ fun SendPagePending(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SendPagePending({}, {})
+        SendPagePending({}, {}, Modifier, TonViewModel(true).also { walletModel ->
+            walletModel.enteredAmount = (56.2322 * 1_000_000_000L).toLong()
+            walletModel.destinationAddress = "EQCc39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8x9ZLD"
+        })
     }
 }

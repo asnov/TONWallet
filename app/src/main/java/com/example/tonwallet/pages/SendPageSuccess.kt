@@ -29,9 +29,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
 import com.example.tonwallet.StatusBarHeight
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -41,7 +43,8 @@ private const val TAG = "SendPageSuccess"
 fun SendPageSuccess(
     goBack: () -> Unit,
     goForth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
 
@@ -95,7 +98,7 @@ fun SendPageSuccess(
         Column(
             Modifier
                 .weight(0.9f)
-                .padding(horizontal=40.dp)
+                .padding(horizontal = 40.dp)
                 .fillMaxWidth(),
             Arrangement.Center,
             Alignment.CenterHorizontally
@@ -114,8 +117,9 @@ fun SendPageSuccess(
                 fontWeight = FontWeight.W500,
             )
             Text(
-                "2.2 " +
-                         stringResource(R.string.toncoin_have_been_sent_to),
+                "${walletModel.balanceInteger(walletModel.enteredAmount)}.${
+                    walletModel.balanceFractional(walletModel.enteredAmount)
+                }".trimEnd('0') + " " + stringResource(R.string.toncoin_have_been_sent_to),
                 modifier.padding(top = 12.dp),
                 color = Color.Black,
                 textAlign = TextAlign.Center,
@@ -125,7 +129,7 @@ fun SendPageSuccess(
                 fontWeight = FontWeight.W400
             )
             Text(
-                "UQBFz01R2CU7YA8pevUaNIYE\n zi1mRo4cX-r3W2Dwx-WEAoKP",
+                walletModel.addressFullTwoLines(walletModel.destinationAddress),
                 modifier.padding(top = 24.dp),
                 color = Color.Black,
                 textAlign = TextAlign.Center,
@@ -179,6 +183,9 @@ fun SendPageSuccess(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SendPageSuccess({}, {})
+        SendPageSuccess({}, {}, Modifier, TonViewModel(true).also { walletModel ->
+            walletModel.enteredAmount = (56.2322 * 1_000_000_000L).toLong()
+            walletModel.destinationAddress = "EQCc39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8x9ZLD"
+        })
     }
 }

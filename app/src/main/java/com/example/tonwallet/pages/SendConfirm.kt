@@ -22,10 +22,15 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,8 +44,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.R
 import com.example.tonwallet.Roboto
+import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
 
 
@@ -50,10 +57,12 @@ private const val TAG = "SendConfirm"
 fun SendConfirm(
     goBack: () -> Unit,
     goForth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    walletModel: TonViewModel = viewModel(),
 ) {
     Log.v(TAG, "started")
 
+    var enteredDescription: String by remember { mutableStateOf("") }
 
 
 
@@ -79,7 +88,7 @@ fun SendConfirm(
         {
             Row(
                 modifier,
-                   // .padding(top = StatusBarHeight),
+                // .padding(top = StatusBarHeight),
                 verticalAlignment = Alignment.CenterVertically,
 
                 ) {
@@ -98,7 +107,8 @@ fun SendConfirm(
                 Box(
                     Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 16.dp))
+                        .padding(horizontal = 20.dp, vertical = 16.dp)
+                )
                 {
                     Text(
                         stringResource(R.string.send_ton),
@@ -112,25 +122,29 @@ fun SendConfirm(
                 }
             }
             Column() {
-                Column( ) {
+                Column() {
                     Text(
                         stringResource(R.string.comment_optional),
-                        Modifier.padding(start=20.dp, bottom=4.dp, top=8.dp),
+                        Modifier.padding(start = 20.dp, bottom = 4.dp, top = 8.dp),
                         color = Color(0xFF339CEC),
                         textAlign = TextAlign.Left,
                         fontSize = 15.sp,
                         lineHeight = 0.sp,
                         fontWeight = FontWeight.W500,
                     )
-                    //down should be good working textfield acording to design
-                    BasicTextField(value = "Description of the payment",
-                        onValueChange = {},
+
+
+                    // down should be good working textfield according to design
+                    BasicTextField(enteredDescription,
+                        onValueChange = {
+                            enteredDescription = it
+                        },
                         Modifier
                             .fillMaxWidth()
                             .padding(start = 20.dp, top = 12.dp, end = 20.dp),
                         // .defaultMinSize(minHeight=44.dp),
                         textStyle = TextStyle(
-                            color = Color(0xFFDBDBDB),
+                            color = Color.Black,
                             fontFamily = Roboto,
                             fontWeight = FontWeight.W400,
                             fontSize = 15.sp,
@@ -145,12 +159,14 @@ fun SendConfirm(
                             Column(
                             ) {
                                 //this should be placeholder
-                                // if (value.isEmpty()) {
-                                //   Text("Enter Wallet Address or Domain...")
-                                // }
+                                if (enteredDescription.isEmpty()) {
+                                    Text(
+                                        "Description of the payment",
+                                        color = Color(0x80000000),
+                                    )
+                                }
                                 innerTextField()
                                 Divider(
-                                    color = Color(0xFFDBDBDB),
                                     modifier = Modifier
                                         .padding(top = 12.dp)
                                         .height(1.dp)
@@ -158,19 +174,27 @@ fun SendConfirm(
                                 )
                             }
                         }
-                    )//basictextfield
+                    ) // BasicTextField
 
-                Column(Modifier.padding(top = 12.dp, start = 20.dp, bottom = 12.dp, end = 20.dp)) {
-                    Text(
-                        stringResource(R.string.comment_send_confirm_page),
 
-                        color = Color(0xFF757575),
-                        textAlign = TextAlign.Left,
-                        fontSize = 13.sp,
-                        lineHeight = 16.sp,
-                        fontWeight = FontWeight.W400,
-                    )
-                    // warning, should appear when some characters left
+                    Column(
+                        Modifier.padding(
+                            top = 12.dp,
+                            start = 20.dp,
+                            bottom = 12.dp,
+                            end = 20.dp
+                        )
+                    ) {
+                        Text(
+                            stringResource(R.string.comment_send_confirm_page),
+
+                            color = Color(0xFF757575),
+                            textAlign = TextAlign.Left,
+                            fontSize = 13.sp,
+                            lineHeight = 16.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+                        // warning, should appear when some characters left
 //                    Text(
 //                        "24 characters left",
 //                        color = Color(0xFFFE9330),
@@ -179,7 +203,7 @@ fun SendConfirm(
 //                        lineHeight = 16.sp,
 //                        fontWeight = FontWeight.W400,
 //                         )
-                    // other warning should appear when exceeded
+                        // other warning should appear when exceeded
 //                    Text(
 //                        "Message size has been exceeded by 6 characters",
 //                        color = Color(0xFFFE483D),
@@ -189,7 +213,7 @@ fun SendConfirm(
 //                        fontWeight = FontWeight.W400,
 //                    )
 
-                     }
+                    }
 
                 }
 
@@ -197,7 +221,7 @@ fun SendConfirm(
                 Column() {
                     Text(
                         stringResource(R.string.details),
-                        Modifier.padding(start=20.dp, bottom=4.dp, top=20.dp),
+                        Modifier.padding(start = 20.dp, bottom = 4.dp, top = 20.dp),
                         color = Color(0xFF339CEC),
                         textAlign = TextAlign.Left,
                         fontSize = 15.sp,
@@ -208,7 +232,7 @@ fun SendConfirm(
                 // item 1
                 Column(
                     Modifier
-                        .padding(vertical=14.dp, horizontal=20.dp)
+                        .padding(vertical = 14.dp, horizontal = 20.dp)
                 ) {
                     Row(
                         Modifier
@@ -226,7 +250,7 @@ fun SendConfirm(
                         )
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                text = "EQCc...9ZLD",
+                                walletModel.addressShort(walletModel.destinationAddress),
                                 color = Color(0xFF000000),
                                 fontFamily = Roboto, // Should be Inter
                                 textAlign = TextAlign.Center,
@@ -246,7 +270,7 @@ fun SendConfirm(
                 // item 2
                 Column(
                     Modifier
-                        .padding(vertical=14.dp, horizontal=20.dp)
+                        .padding(vertical = 14.dp, horizontal = 20.dp)
                 ) {
                     Row(
                         Modifier
@@ -272,7 +296,10 @@ fun SendConfirm(
                                     .padding(end = 8.dp)
                             )
                             Text(
-                                text = "56",
+                                "${walletModel.balanceInteger(walletModel.enteredAmount)}.${
+                                    walletModel.balanceFractional(walletModel.enteredAmount)
+                                }"
+                                    .trimEnd('0'),
                                 color = Color(0xFF000000),
                                 fontFamily = Roboto, // Should be Inter
                                 textAlign = TextAlign.Center,
@@ -292,7 +319,7 @@ fun SendConfirm(
                 // item 3
                 Column(
                     Modifier
-                        .padding(vertical=14.dp, horizontal=20.dp)
+                        .padding(vertical = 14.dp, horizontal = 20.dp)
                 ) {
                     Row(
                         Modifier
@@ -330,11 +357,16 @@ fun SendConfirm(
                     }
                 } //row transaction
 
-           }
-            Column(Modifier.fillMaxHeight(),
-                Arrangement.Bottom,) {
+            }
+            Column(
+                Modifier.fillMaxHeight(),
+                Arrangement.Bottom,
+            ) {
                 Button(
-                    goForth,
+                    {
+                        walletModel.enteredDescription = enteredDescription
+                        goForth()
+                    },
                     modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
@@ -370,6 +402,9 @@ fun SendConfirm(
 @Composable
 private fun DefaultPreview() {
     TONWalletTheme {
-        SendConfirm({}, {})
+        SendConfirm({}, {}, Modifier, TonViewModel(true).also { walletModel ->
+            walletModel.enteredAmount = (56.2322 * 1_000_000_000L).toLong()
+            walletModel.destinationAddress = "EQCc39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8x9ZLD"
+        })
     }
 }
