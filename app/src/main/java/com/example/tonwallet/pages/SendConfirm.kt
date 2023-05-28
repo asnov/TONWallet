@@ -160,7 +160,7 @@ fun SendConfirm(
                         }
                     )//basictextfield
 
-                Column(Modifier.padding(top = 12.dp, start = 20.dp, bottom = 12.dp)) {
+                Column(Modifier.padding(top = 12.dp, start = 20.dp, bottom = 12.dp, end = 20.dp)) {
                     Text(
                         stringResource(R.string.comment_send_confirm_page),
 
