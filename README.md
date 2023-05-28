@@ -1,6 +1,16 @@
-
-## Project Title
+## Project Title  
 "TON forever"  for TON Wallet Challenge  
+  
+## How to start:  
+- load and install APK-file to the mobile device from the link: https://github.com/asnov/TONWallet/blob/main/app/release/app-release.apk  
+### How to create a new wallet:  
+- On a start page press "Create my wallet" button;  
+- Follow instructions  
+### How to import existing wallet:  
+- On a start page press "Import existing wallet" link.  
+- Then on any field make a long press to call context menu and choose "Paste". You don't need to clear fields before. If you have 24 words in the system buffer, they will be placed to the form fields. Press "Continue" button.  
+- Follow instructions.  
+  
   
 ## Project Description  
 "TON forever" is a mobile wallet app for TON cryptocurrency developed as part of the TON Wallet Challenge.  
@@ -31,14 +41,13 @@ Also, in accordance with the design, all animated icons are inserted, which brin
 We also thought about the convenience of users - when importing a seed wallet, the phrase can be inserted completely, or if some of the words have already been entered, you can fill in the missing words from the clipboard.   
 You can copy the wallet number to the clipboard from Main page. 
 
-We're all about security - that's why we've made it so that no one can copy your Sidphrase: neither via screenshot nor via screen recording - it's impossible to do that.
+We're all about security - that's why we've made it so that no one can copy your SeedPhrase: neither via screenshot nor via screen recording - it's impossible to do that.
 
 Multilanguage - currently English, Russian and Spanish are supported.
   
   
 ### Our shortcomings:  
 at the moment of application, not all features have been completed.  
-  
   
 ## How to Install and Run the Project  
 Open the following link: https://github.com/asnov/TONWallet/blob/main/app/release/app-release.apk from the mobile device.    
