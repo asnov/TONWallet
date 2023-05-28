@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -55,7 +56,6 @@ import java.net.URL
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.system.measureTimeMillis
 
 
@@ -494,6 +494,20 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         window.clearFlags(
             WindowManager.LayoutParams.FLAG_SECURE
         )
+    }
+
+    fun checkIfAddressIsValid(enteredAddress: String, yes: () -> Unit, no: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(1000L)
+            if (enteredAddress.isEmpty()) {
+                no()
+                return@launch
+            } else {
+                yes()
+                return@launch
+            }
+            TODO("Not yet implemented")
+        }
     }
 
 

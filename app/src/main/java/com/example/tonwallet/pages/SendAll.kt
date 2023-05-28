@@ -80,7 +80,7 @@ fun SendAll(
                     .padding(top = StatusBarHeight),
                 verticalAlignment = Alignment.CenterVertically,
 
-            ) {
+                ) {
                 IconButton(
                     goBack,
                     Modifier
@@ -96,7 +96,8 @@ fun SendAll(
                 Box(
                     Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 12.dp))
+                        .padding(horizontal = 20.dp, vertical = 12.dp)
+                )
                 {
                     Text(
                         stringResource(R.string.send_ton),
@@ -117,9 +118,12 @@ fun SendAll(
             }
 
             Column() {
-                Row( Modifier
-                    .fillMaxWidth().padding(vertical = 14.dp, horizontal = 20.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 14.dp, horizontal = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
                     Row() {
                         Text(
                             stringResource(R.string.send_to),
@@ -129,10 +133,10 @@ fun SendAll(
                             fontSize = 15.sp,
                             lineHeight = 20.sp,
                             fontWeight = FontWeight.W400,
-                            )
+                        )
                         Text(
                             "EQCc...9ZLD",
-                            Modifier.padding(start=4.dp),
+                            Modifier.padding(start = 4.dp),
                             color = Color.Black,
                             fontFamily = Roboto, // should be Inter
                             textAlign = TextAlign.Center,
@@ -153,11 +157,11 @@ fun SendAll(
                 }
                 Row(
                     Modifier
-                        .fillMaxWidth().padding(top=50.dp, bottom=53.dp),
+                        .fillMaxWidth()
+                        .padding(top = 50.dp, bottom = 53.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.Bottom,
-                )
-                {
+                ) {
                     Image(
                         painterResource(R.drawable.icon_crystal),
                         null,
@@ -165,7 +169,8 @@ fun SendAll(
                             .height(56.dp)
                             .padding(end = 4.dp)
                     )
-                    BasicTextField(value = "56",
+                    BasicTextField(
+                        value = "56",
                         onValueChange = {},
                         Modifier.width(51.dp),
                         textStyle = TextStyle(
@@ -177,14 +182,15 @@ fun SendAll(
                             textAlign = TextAlign.Left,
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                        singleLine = false,
-                        minLines = 1,
+                        singleLine = true,
                         cursorBrush = SolidColor(Color(0xFF339CEC)),
-
-                    )
-                    BasicTextField(value = ".2322",
+                        )
+                    BasicTextField(
+                        value = ".2322",
                         onValueChange = {},
-                        Modifier.width(82.dp).padding(bottom=4.dp),
+                        Modifier
+                            .width((20.5 * 4).dp)
+                            .padding(bottom = 4.dp),
                         textStyle = TextStyle(
                             color = Color(0xB3000000),
                             fontFamily = Roboto,
@@ -202,11 +208,13 @@ fun SendAll(
                 }
             }
             Column(
-                Modifier.padding( bottom = 9.dp)
+                Modifier.padding(bottom = 9.dp)
             )
             {
-                Row( modifier.padding(vertical = 14.dp, horizontal=20.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween) {
+                Row(
+                    modifier.padding(vertical = 14.dp, horizontal = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Row() {
                         Text(
                             stringResource(R.string.send_all),
@@ -250,7 +258,7 @@ fun SendAll(
                 goForth,
                 modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end=16.dp, bottom=16.dp),
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 elevation = null,
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color(0xFF339CEC),
