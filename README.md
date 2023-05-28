@@ -20,6 +20,8 @@ With our app you can:
 * Pixel perfect design  
 * Multiplatform: we're using Kotlin Multiplatform with Compose UI, so IOS, Windows, Linux and even web versions are coming!  
 * User-friendly  
+* We are for safety
+* Multilanguage
   
 We paid a lot of attention to the design and tried to match the markup down to the pixel.  
 We are especially proud of Import Existing Wallet page. Pay attention, please, while scrolling, the title of the page becomes the heading (header) and the header becomes higher than the rest of the page, exactly as required by the design.  
@@ -27,7 +29,11 @@ We are especially proud of Import Existing Wallet page. Pay attention, please, w
 Also, in accordance with the design, all animated icons are inserted, which brings the application to life.  
   
 We also thought about the convenience of users - when importing a seed wallet, the phrase can be inserted completely, or if some of the words have already been entered, you can fill in the missing words from the clipboard.   
-You can copy the wallet number to the clipboard from Main page.  
+You can copy the wallet number to the clipboard from Main page. 
+
+We're all about security - that's why we've made it so that no one can copy your Sidphrase: neither via screenshot nor via screen recording - it's impossible to do that.
+
+Multilanguage - currently English, Russian and Spanish are supported.
   
   
 ### Our shortcomings:  
