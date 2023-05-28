@@ -2,7 +2,7 @@
 "TON forever"  for TON Wallet Challenge  
   
 ## How to start:  
-- load and install APK-file to the mobile device from the link: https://github.com/asnov/TONWallet/blob/main/app/release/app-release.apk  
+- load and install APK-file to the mobile device from the link: https://github.com/asnov/TONWallet/raw/main/app/release/app-release.apk  
 ### How to create a new wallet:  
 - On a start page press "Create my wallet" button;  
 - Follow instructions  
