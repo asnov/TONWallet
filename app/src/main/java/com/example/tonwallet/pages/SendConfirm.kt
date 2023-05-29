@@ -22,7 +22,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -296,10 +295,10 @@ fun SendConfirm(
                                     .padding(end = 8.dp)
                             )
                             Text(
-                                "${walletModel.balanceInteger(walletModel.enteredAmount)}.${
-                                    walletModel.balanceFractional(walletModel.enteredAmount)
-                                }"
-                                    .trimEnd('0'),
+                                "${walletModel.balanceInteger(walletModel.enteredAmount)}." +
+                                        "${walletModel.balanceFractional(walletModel.enteredAmount)}"
+                                            .padStart(9, '0')
+                                            .trimEnd('0'),
                                 color = Color(0xFF000000),
                                 fontFamily = Roboto, // Should be Inter
                                 textAlign = TextAlign.Center,

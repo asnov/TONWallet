@@ -37,7 +37,7 @@ import com.example.tonwallet.StatusBarHeight
 import com.example.tonwallet.components.StickerBig
 import com.example.tonwallet.components.WIP.TonViewModel
 import com.example.tonwallet.ui.theme.TONWalletTheme
-import kotlinx.coroutines.delay
+
 
 
 private const val TAG = "SendPagePending"
@@ -52,12 +52,12 @@ fun SendPagePending(
     Log.v(TAG, "started")
 
     LaunchedEffect(true) {
-        Log.v(TAG, "delaying")
-        walletModel.sendTransaction()
-        delay(5_000)
-        Log.v(TAG, "delayed")
-        goForth()
-        Log.v(TAG, "goForth() called")
+        Log.v(TAG, "calling sendTransaction()")
+        walletModel.sendTransaction {
+            Log.v(TAG, "goForth() called")
+            goForth()
+        }
+        Log.v(TAG, "sendTransaction() was called")
     }
 
     Column(
@@ -111,7 +111,7 @@ fun SendPagePending(
         Column(
             Modifier
                 .weight(0.9f)
-                .padding(horizontal=40.dp)
+                .padding(horizontal = 40.dp)
                 .fillMaxWidth(),
             Arrangement.Center,
             Alignment.CenterHorizontally
@@ -146,7 +146,7 @@ fun SendPagePending(
             Alignment.CenterHorizontally
         ) {
             Button(
-                goBack,
+                goForth,
                 modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),

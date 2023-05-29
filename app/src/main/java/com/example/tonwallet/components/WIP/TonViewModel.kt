@@ -24,7 +24,10 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
+import org.ton.api.liteserver.LiteServerDesc
 import org.ton.api.pk.PrivateKeyEd25519
+import org.ton.api.pub.PublicKey
+import org.ton.api.pub.PublicKeyEd25519
 import org.ton.bitstring.BitString
 import org.ton.block.AccountInfo
 import org.ton.block.AddrStd
@@ -52,6 +55,8 @@ import org.ton.mnemonic.Mnemonic
 import org.ton.tlb.CellRef
 import org.ton.tlb.constructor.tlbCodec
 import org.ton.tlb.storeTlb
+import org.ton.tonkotlinusecase.contracts.wallet.WalletV4R2
+import org.ton.tonkotlinusecase.toKeyPair
 import java.math.BigInteger
 import java.net.URL
 import java.time.LocalDateTime
@@ -163,6 +168,8 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                     val json = Json { ignoreUnknownKeys = true }
                     val config = json.decodeFromString<LiteClientConfigGlobal>(networkConfig)
                     liteClient = LiteClient(viewModelScope.coroutineContext, config)
+//                    liteClient = liteClient()
+
                     liteClient.getServerVersion()
                 }
                 Log.v(TAG, "liteClient ServerVersion: ${serverVersion}")
@@ -173,9 +180,17 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
     }
 
     private fun getTonGlobalConfig(): String {
+
+        var fileContent = ""
+        fileContent =
+            TonViewModel::class.java.getResource("/res/raw/global_config.json")?.readText() ?: ""
+        Log.v(TAG, "fileContent.length: ${fileContent.length}")
+
         // TODO: caching
         val configText: String =
-            URL("https://ton-blockchain.github.io/global.config.json").readText()
+            fileContent.ifBlank {
+                URL("https://ton-blockchain.github.io/global.config.json").readText()
+            }
         Log.v(TAG, "configText.length: ${configText.length}")
 
         return configText
@@ -517,15 +532,50 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         }
     }
 
-    fun sendTransaction() {
 
+    private fun getWallet(): WalletV4R2 {
+        val privateKey = PrivateKeyEd25519(privateKey)
+        return WalletV4R2(0, privateKey, liteClient)
+    }
+
+    fun sendTransaction(callback: () -> Unit) {
         enteredDescription
+        var wallet: WalletV4R2
 
-//        val wallet = getWallet()
-
-        runBlocking {
-//            wallet.transfer(destinationAddress, enteredAmount)
+        val timeInMillis1 = measureTimeMillis {
+            wallet = getWallet()
         }
+        Log.v(TAG, "getWallet() took ${timeInMillis1}ms")
+
+        viewModelScope.launch {
+            val timeInMillis2 = measureTimeMillis {
+                wallet.transfer(destinationAddress, enteredAmount)
+            }
+            Log.v(TAG, "wallet.transfer() took ${timeInMillis2}ms")
+
+            callback()
+        }
+    }
+
+    private fun liteClient(): LiteClient {
+
+        val json = Json { ignoreUnknownKeys = true }
+        val config = json.decodeFromString<LiteClientConfigGlobal>(networkConfig)
+//        liteClient = LiteClient(viewModelScope.coroutineContext, config)
+
+        return LiteClient(
+            coroutineContext = Dispatchers.Default,
+            liteClientConfigGlobal = LiteClientConfigGlobal(
+                liteServers = config.liteServers.map {
+                    val id = it.id as PublicKeyEd25519
+                    LiteServerDesc(
+                        id = PublicKeyEd25519(base64(id.key.toByteArray()).toByteArray()),
+                        ip = it.ip,
+                        port = it.port
+                    )
+                }
+            ),
+        )
 
     }
 
