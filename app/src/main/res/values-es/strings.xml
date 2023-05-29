@@ -114,4 +114,5 @@
     <string name="receive_ton">Recibir TON</string>
     <string name="share_this_address_to_recieve">Comparte esta dirección con otros propietarios de billeteras TON para recibir TON de ellos.</string>
     <string name="share_wallet_address">Compartir dirección de la billetera</string>
+    <string name="copied_to_clipboard">Copiado al portapapeles</string>
 </resources>

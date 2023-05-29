@@ -68,6 +68,7 @@ fun WalletMainTransactionsPage(
 
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     val context: Context = LocalContext.current
+    val message = stringResource(R.string.copied_to_clipboard)
 
     Column(
         modifier
@@ -91,11 +92,7 @@ fun WalletMainTransactionsPage(
                     .clickable {
                         clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
                         Toast
-                            .makeText(
-                                context,
-                                "${walletModel.addressFull()} copied to clipboard",
-                                Toast.LENGTH_SHORT
-                            )
+                            .makeText(context, message, Toast.LENGTH_SHORT)
                             .show()
                     },
                 Color(0xFFFFFFFF),
@@ -357,7 +354,7 @@ fun WalletMainTransactionsPage(
                             "-${walletModel.balanceInteger(transactionView.fee)}." +
                                     walletModel.balanceFractional(transactionView.fee).toString()
                                         .padStart(9, '0').trimEnd('0')
-                        } + " " +  stringResource(R.string.storage_fee),
+                        } + " " + stringResource(R.string.storage_fee),
                         Modifier.padding(bottom = 10.dp),
                         Color(0xFF757575),
                         textAlign = TextAlign.Center,

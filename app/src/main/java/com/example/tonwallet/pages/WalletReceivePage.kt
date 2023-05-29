@@ -54,6 +54,7 @@ fun WalletReceivePage(
 
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     val context: Context = LocalContext.current
+    val message = stringResource(R.string.copied_to_clipboard)
 
     Column(
         // main box
@@ -146,11 +147,7 @@ fun WalletReceivePage(
                     .clickable {
                         clipboardManager.setText(AnnotatedString(walletModel.addressFull()))
                         Toast
-                            .makeText(
-                                context,
-                                "${walletModel.addressFull()} copied to clipboard",
-                                Toast.LENGTH_SHORT
-                            )
+                            .makeText(context, message, Toast.LENGTH_SHORT)
                             .show()
                     },
                 color = Color.Black,
