@@ -116,10 +116,12 @@ fun SendPageSuccess(
                 lineHeight = 28.sp,
                 fontWeight = FontWeight.W500,
             )
+            val sentFractional = walletModel.balanceFractional(walletModel.enteredAmount)
             Text(
-                "${walletModel.balanceInteger(walletModel.enteredAmount)}.${
-                    walletModel.balanceFractional(walletModel.enteredAmount)
-                }".trimEnd('0') + " " + stringResource(R.string.toncoin_have_been_sent_to),
+                walletModel.balanceInteger(walletModel.enteredAmount)
+                        + (if (sentFractional > 0) "." else "")
+                        + "$sentFractional".padStart(9, '0').trimEnd('0')
+                        + " " + stringResource(R.string.toncoin_have_been_sent_to),
                 modifier.padding(top = 12.dp),
                 color = Color.Black,
                 textAlign = TextAlign.Center,

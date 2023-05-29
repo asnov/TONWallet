@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
@@ -26,7 +25,6 @@ import kotlinx.serialization.json.Json
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
 import org.ton.api.liteserver.LiteServerDesc
 import org.ton.api.pk.PrivateKeyEd25519
-import org.ton.api.pub.PublicKey
 import org.ton.api.pub.PublicKeyEd25519
 import org.ton.bitstring.BitString
 import org.ton.block.AccountInfo
@@ -56,7 +54,6 @@ import org.ton.tlb.CellRef
 import org.ton.tlb.constructor.tlbCodec
 import org.ton.tlb.storeTlb
 import org.ton.tonkotlinusecase.contracts.wallet.WalletV4R2
-import org.ton.tonkotlinusecase.toKeyPair
 import java.math.BigInteger
 import java.net.URL
 import java.time.LocalDateTime
@@ -102,7 +99,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
 
 
     fun addressShort(
-        addrString: String = AddrStd(0, address).toString(true)
+        addrString: String = AddrStd(0, address).toString(true),
     ): String {
         return addrString.substring(0, 4) + "…" + addrString.substring(addrString.length - 4)
     }
@@ -165,10 +162,7 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
                 val serverVersion = withContext(Dispatchers.IO) {
                     networkConfig = getTonGlobalConfig()
 
-                    val json = Json { ignoreUnknownKeys = true }
-                    val config = json.decodeFromString<LiteClientConfigGlobal>(networkConfig)
-                    liteClient = LiteClient(viewModelScope.coroutineContext, config)
-//                    liteClient = liteClient()
+                    liteClient = liteClient()
 
                     liteClient.getServerVersion()
                 }
@@ -538,22 +532,30 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         return WalletV4R2(0, privateKey, liteClient)
     }
 
-    fun sendTransaction(callback: () -> Unit) {
-        enteredDescription
-        var wallet: WalletV4R2
-
-        val timeInMillis1 = measureTimeMillis {
-            wallet = getWallet()
-        }
-        Log.v(TAG, "getWallet() took ${timeInMillis1}ms")
+    fun sendTransaction(onError: (message: String) -> Unit, onSuccess: () -> Unit) {
+        Log.v(TAG, "Sending ${enteredAmount} nanotons to ${destinationAddress}.")
 
         viewModelScope.launch {
-            val timeInMillis2 = measureTimeMillis {
-                wallet.transfer(destinationAddress, enteredAmount)
-            }
-            Log.v(TAG, "wallet.transfer() took ${timeInMillis2}ms")
+            var wallet: WalletV4R2
 
-            callback()
+            val timeInMillis1 = measureTimeMillis {
+                wallet = getWallet()
+            }
+            Log.v(TAG, "getWallet() took ${timeInMillis1}ms")
+
+            try {
+                val timeInMillis2 = measureTimeMillis {
+                    // TODO: enteredDescription
+                    wallet.transfer(destinationAddress, enteredAmount)
+                }
+                Log.v(TAG, "wallet.transfer() took ${timeInMillis2}ms")
+                onSuccess()
+
+            } catch (e: Exception) {
+                Log.v(TAG, "Exception: ${e.message}")
+                onError(e.message ?: "Unknown error")
+            }
+
         }
     }
 
@@ -566,12 +568,30 @@ open class TonViewModel(val isPreview: Boolean = false) : ViewModel() {
         return LiteClient(
             coroutineContext = Dispatchers.Default,
             liteClientConfigGlobal = LiteClientConfigGlobal(
-                liteServers = config.liteServers.map {
-                    val id = it.id as PublicKeyEd25519
+                liteServers = config.liteServers.map { (pubKey, ip, port): LiteServerDesc ->
+//                    println("-".repeat(40))
+//                    println(pubKey.toString())
+//                    println(pubKey.toAdnlIdShort())
+//                    println(pubKey.hash().encodeHex())
+//                    println(pubKey.hashCode().toString(16))
+//                    println(pubKey.toByteArray().toString())
+//                    println("-".repeat(40))
+
+                    val pubKeyEd25519 = pubKey as PublicKeyEd25519
+//                    println(pubKeyEd25519.key.toByteArray())
+//                    println(pubKeyEd25519.key.encodeHex())
+//                    println("-".repeat(40))
+
+                    val id = PublicKeyEd25519(base64(pubKeyEd25519.key.toByteArray()).toByteArray())
+
+//                    println(id.key.toByteArray())
+//                    println(id.key.encodeHex())
+//                    println("-".repeat(40))
+
                     LiteServerDesc(
-                        id = PublicKeyEd25519(base64(id.key.toByteArray()).toByteArray()),
-                        ip = it.ip,
-                        port = it.port
+                        id = pubKey,
+                        ip = ip,
+                        port = port
                     )
                 }
             ),

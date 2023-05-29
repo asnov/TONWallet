@@ -294,11 +294,12 @@ fun SendConfirm(
                                     .height(height = 18.dp)
                                     .padding(end = 8.dp)
                             )
+                            val sentFractional =
+                                walletModel.balanceFractional(walletModel.enteredAmount)
                             Text(
-                                "${walletModel.balanceInteger(walletModel.enteredAmount)}." +
-                                        "${walletModel.balanceFractional(walletModel.enteredAmount)}"
-                                            .padStart(9, '0')
-                                            .trimEnd('0'),
+                                walletModel.balanceInteger(walletModel.enteredAmount)
+                                        + (if (sentFractional > 0) "." else "")
+                                        + "$sentFractional".padStart(9, '0').trimEnd('0'),
                                 color = Color(0xFF000000),
                                 fontFamily = Roboto, // Should be Inter
                                 textAlign = TextAlign.Center,
