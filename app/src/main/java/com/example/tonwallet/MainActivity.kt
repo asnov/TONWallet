@@ -1,6 +1,8 @@
 package com.example.tonwallet
 
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,7 +11,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tonwallet.components.WIP.TonViewModel
-import org.ton.bitstring.BitString
+
 
 //import org.ton.bitstring.BitString
 
@@ -27,8 +29,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 //        window.setDecorFitsSystemWindows(false)
 //        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+        val policy = ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+
         setContent {
             Log.v(TAG, "started")
 //            val tonModel: TonViewModel = ViewModelProvider().get(TonViewModel::class.java)
